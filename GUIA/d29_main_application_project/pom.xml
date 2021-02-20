@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application</groupId>
+    <artifactId>d29_main_application_project</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>core</module>
+        <module>catalogs</module>
+        <module>ctg-execution</module>
+        <module>d29_main_application</module>
+        <module>encryption_credential</module>
+        <module>monitorctlig2</module>
+        <module>search_petition</module>
+	<module>wsm2k_monitor</module>
+	<module>soporte_bg</module>
+        <module>monitor_omega</module>
+        <module>agenda_ambienteDesa</module>
+        <module>peticiones_ws</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+
+    <!-- *************************** profiles ******************************  -->
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+
+
+
+</project>
