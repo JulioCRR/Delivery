@@ -1,0 +1,124 @@
+
+    <div class="col-md-12" style="text-align: right;padding-bottom: 10px;">
+        Campos marcados con (<span class="danger_marker">*</span>) son obligatorios.
+    </div>
+     <br>
+
+    <form [formGroup]="formConsulta" id="consultaForm"  (ngSubmit)="validarConsulta()" >
+        <div class="form-group ">
+            <div class="col-md-4">
+                <div class="col-md-9 help" >
+                    <simple-help [ayuda]="telAyuda" ></simple-help>
+                </div>
+                <label class="customLabel"  for="telefono">Teléfono, Imei o Cuenta<span class="danger_marker">*</span></label>
+                <input type="text" class="input focus"  [(ngModel)]="telefono" formControlName="telefono" name="telefono" id="telefono"
+                         placeholder="5555555555..."  (keyup)="desbloqueo($event)" >
+                <!-- Mensaje de Error de Validación-->
+                <div class="alert alert-danger noPadding" *ngIf="formErrors.telefono">{{formErrors.telefono}}</div>
+            </div>
+
+            <div class="col-md-4 ">
+                <div class="col-md-9 help" >
+                    <simple-help [ayuda]="ipAyuda"  ></simple-help>
+                </div>
+                <label class="customLabel" for="ip" >Ip Cliente</label>
+                <input type="text" class="input focus" [(ngModel)]="ip" formControlName="ip" name="ip" id="ip" placeholder="191.3.180..." disabled>
+                <!-- Mensaje de Error de Validación-->
+                <div class="alert alert-danger noPadding" *ngIf="formErrors.ip">{{formErrors.ip}}</div>
+                </div>
+
+            <div class="col-md-2">
+                <div class="col-md-9 help" >
+                    <simple-help [ayuda]="regAyuda"  ></simple-help>
+                </div>
+                <label class="customLabel" for="region" >Región</label>
+                <select id="region" name="region" class="inputselect" [(ngModel)]="region" formControlName="region"disabled >
+                    <option>Seleccionar</option>
+                    <option *ngFor="let region of regionsBack">{{region}}</option>
+                    </select>
+            </div>
+
+            <div class="col-md-2 ">
+                <div class="col-md-9 help" >
+                    <simple-help [ayuda]="usuAyuda" ></simple-help>
+                </div>
+                <label class="customLabel" for="usuario"  >Usuario</label>
+                <select id="usuario" name="usuario" class="inputselect focus"  [(ngModel)]="usuario" formControlName="usuario" disabled>
+                    <option>Seleccionar</option>
+                    <option *ngFor="let x of usersBack" (ngValue)=x>{{x.clave_usuario}}</option>
+                     </select>
+             </div>
+
+             <div class="col-md-3">
+                    <div class="col-md-6 help" >
+                        <simple-help [ayuda]="transAyuda" ></simple-help>
+                    </div>
+                    <label class="customLabel"   for="transaccion"  >Transacción</label>
+                    <select id="transaccion" name="transaccion" class="inputselect" [(ngModel)]="transaccion" formControlName="transaccion" disabled>
+                        <option>Seleccionar</option>
+                        <option *ngFor="let x of transBack" (ngValue)=x>{{x.transaccion}}</option>
+                    </select>
+              </div>
+
+               <div class="col-md-3">
+                    <div class="col-md-7 helpDate" >
+                        <simple-help [ayuda]="fechaInAyuda" ></simple-help>
+                    </div>
+                    <label class="customLabel" for="fechaInicio" >Fecha Inicio<span class="danger_marker">*</span></label>
+                    <p-calendar [(ngModel)]="fechaInicio" id='fechaInicio' name="fechaInicio" dateFormat="yy/mm/dd"
+                                    formControlName="fechaInicio" [minDate]="restricDateMin" [maxDate]="restricDateMax" ></p-calendar>
+                </div>
+
+                <div class="col-md-3 ">
+                    <div class="col-md-7 helpDate" >
+                        <simple-help [ayuda]="horaInAyuda" ></simple-help>
+                    </div>
+                    <label class="customLabel" for="horaInicio">Hora Inicio<span class="danger_marker">*</span></label>
+                    <p-calendar  [(ngModel)]="horaInicio" id='horaInicio' class="inputselect" name="horaInicio"
+                                    [timeOnly]="true" formControlName="horaInicio"  ></p-calendar >
+                </div>
+
+                <div class="col-md-3 ">
+                    <div class="col-md-7 helpDate" >
+                        <simple-help [ayuda]="horaInAyuda" ></simple-help>
+                    </div>
+                    <label class="customLabel"  for="horaFinal">Hora Final<span class="danger_marker">*</span></label>
+                    <p-calendar  [(ngModel)]="horaFinal" id='horaFinal' class="inputselect" name="horaFinal"
+                                [timeOnly]="true" formControlName="horaFinal"  ></p-calendar >
+                </div>
+
+                <div class= "submit" >
+                    <button type="submit" id="enviarFormulario" class="btn btn-primary" [disabled]="!formConsulta.valid" >Enviar</button>
+                    <i class="fa fa-spinner fa-spin "  style="font-size:40px; position: relative; top: 10px;   color:rgb(0, 89, 255);"  *ngIf="spin"></i>
+                </div>
+        </div>
+    </form>
+
+    <div>
+        <p-dialog header="Hola {{name_user}}" [(visible)]="displayConfirmBatch" modal="modal" width="400"
+                  [responsive]="true" [resizable]="false" [draggable]="false" [closable]="false">
+
+            <div class="row">
+                <h4>Tu petición se guardo con Exito!</h4>
+            </div>
+
+            <div class="row">
+                <h4>Folio generado: {{folio}}</h4>
+            </div>
+
+            <p-footer>
+                <button style="float:right" type="button" pButton icon="fa-close" (click)="cancelDialog()" label="Salir" class="ui-button-info"></button>
+            </p-footer>
+        </p-dialog>
+    </div>
+
+
+   <br>
+
+   <div *ngIf="tableView">
+      <button style="float:right" type="button" pButton icon="fa-refresh" (click)="cancelDialog()" label="refresh" class="ui-button-info"></button>
+      <app-search-status-detail  [infoEstatus]="infoEstatus"></app-search-status-detail>
+   </div>
+
+
+

@@ -1,0 +1,91 @@
+<div class="page-header">
+  <h1>Solicitud de Usuario Corporativo</h1>
+  <p>Solicita permisos para el uso de un Usuario Corporativo</p>
+</div>
+
+<div class="row">
+  <div class="col-md-3 form-group">
+    <label for="usuarioCorp">Usuario Corporativo</label>
+    <simple-help [ayuda]="ayuda.usuarioCorp"></simple-help>
+    <input type="text" id="usuarioCorp" name="usuarioCorp" style="text-transform: uppercase;" #formUsuarioCorp="ngModel" class="form-control" [(ngModel)]="solicitud.usuarioCorp" placeholder="VI9..." />
+    <div class="alert alert-danger noPadding" *ngIf="formErrors.usuarioCorp"><i class="fa fa-close"></i> {{formErrors.usuarioCorp}}</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-1 form-group">
+    <button type="button" class="btn btn-primary" (click)="buscarResponsableUsuarioCorp()">Buscar</button>
+  </div>
+</div>
+
+<div *ngIf="respUsuCorp" class="row" style="padding-top: 25px; width: 50%;">
+  <p-panel>
+    <p-header style="font-size:16px;display:inline-block;font-weight:bold">Usuario {{respUsuCorp.usuarioCorp}}</p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Nombre del Responsable</label>
+        <p>{{respUsuCorp.responsable.nombre}} {{respUsuCorp.responsable.apaterno}} {{respUsuCorp.responsable.amaterno}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Correo</label>
+        <p>{{respUsuCorp.responsable.correo}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Extensión</label>
+        <p>{{respUsuCorp.responsable.extension}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Estatus</label>
+        <p *ngIf="!isResponsable">Sin autoridad para requerir permisos de ejecuci&oacute;n</p>
+        <p *ngIf="isResponsable">Ya cuenta con autoridad para solicitar permisos de ejecuci&oacute;n</p>
+      </div>
+    </div>
+    <p-footer>
+      <div class="row">
+        <div class="col-lg-12">
+          <button type="button" [disabled]="isResponsable" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#modalSolicitudForm">Solicitar Permiso</button>
+        </div>
+      </div>
+    </p-footer>
+  </p-panel>
+</div>
+
+<!-- MODAL DE SOLICITUD CON COMENTARIO -->
+<div class="modal fade" id="modalSolicitudForm" tabindex="-1" role="dialog" aria-labelledby="modalSolicitudFormLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalSolicitudFormLabel">{{modalData.title}}</h4>
+      </div>
+      <form id="formSolicitud" #formSolicitud="ngForm" (ngSubmit)="generarSolicitud()" class="form-horizontal">
+        <div class="modal-body">
+          <div class="row">
+            <div *ngIf="!modalData.disabled" class="col-md-6 form-group">
+              <label for="justificacion">Escribe una justificacion explicando la solicitud (m&iacute;nimo 10 caracteres)</label>
+              <textarea type="text" id="justificacion" name="justificacion" #formJustificacion="ngModel" class="form-control" [ngModel]="solicitud.justificacion" (ngModelChange)="validateJustificacion($event)" autoResize="autoResize" style="width: 100%;"></textarea>
+              <div class="alert alert-danger noPadding" *ngIf="formJustificacion.dirty && formErrors.justificacion"><i class="fa fa-close"></i> {{formErrors.justificacion}}</div>
+            </div>
+            <div *ngIf="modalData.disabled">
+              <p>El usuario corporativo no tiene un responsable asignado</p>
+              <p>&iquest;Desea enviar un reporte al equipo de soporte?</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" [disabled]="!isValidSolicitud">Enviar {{modalData.label}}</button>
+            <button type="button" class="btn btn-warning" (click)="onClickModalCancel()">Cancelar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

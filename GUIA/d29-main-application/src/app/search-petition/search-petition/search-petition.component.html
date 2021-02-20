@@ -1,0 +1,48 @@
+
+
+
+<h2 class="control-label">Consulta SW</h2>
+
+<p-panel header="La búsqueda en bitácora se realiza por  el Idpetición o por Consulta Abierta.">
+    <div class="col-md-2" >
+        <label>Selecciona la consulta</label>
+        <simple-help  [ayuda]="seleCons" style="float:right;" ></simple-help >
+    </div>
+    <button pButton  type="button" icon="fa-floppy-o" label="Clean" style="float:right;" class="ui-button-info rg-button" (click)="cleanScreen()"></button>
+
+    <br>
+    <div class="container">
+        <ul class=" nav nav-tabs h1" >
+          <li class="active" style="font-size: 16px"><a data-toggle="tab" href="#Id" >IdPetición</a></li>
+          <li style="font-size: 16px"><a data-toggle="tab" href="#Peticion" (click)="detallePeticion()" >Consulta Abierta</a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="Id" class="tab-pane fade in active" >
+            <form [formGroup]="formId"  class="form-horizontal"  (ngSubmit)="searchPetition()" >
+                <div class="col-md-8 "  style="margin-top: 40px">
+                     <simple-help [ayuda]="idAyuda" ></simple-help>
+                     <label  for="idpeticion"  style="top: 140px">Ingresa el Id</label>
+                     <input type="text" class="inpuId" [(ngModel)]="idpeticion" formControlName="idpeticion"  name="idpeticion" id="idpeticion"
+                                                                placeholder="5b5c11d5-2abc...">
+                    <!-- Mensaje de Error de Validación-->
+                    <div class="alert alert-danger noPaddingId"   *ngIf="formErrors.idpeticion">{{formErrors.idpeticion}}</div>
+
+                <button type="submit" class="btn btn-primary submit "  id="enviarId"  [disabled]="!formId.valid">Buscar</button>
+                <i class="fa fa-spinner fa-spin "  style="font-size:40px; position: relative; top: 60px;   color:rgb(0, 89, 255);"  *ngIf="spin"></i>
+                </div>
+            </form>
+        </div>
+
+        <div id="Peticion" class="tab-pane fade" style="overflow-x:hidden" >
+            <app-search-petition-consulta-abierta></app-search-petition-consulta-abierta>
+        </div>
+        </div>
+    </div>
+</p-panel>
+
+<div *ngIf="!showPetition">
+    <app-search-petition-detail *ngIf="infoRegistro" [infoRegistro]="infoRegistro" ></app-search-petition-detail>
+</div>
+
+
+

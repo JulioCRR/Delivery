@@ -1,0 +1,12 @@
+.col-history-table {
+    text-align:center;
+}
+.col-id {
+    width: 44px;
+}
+.col-estatus {
+    width: 80px;
+}
+.col-region {
+    width: 80px;
+}

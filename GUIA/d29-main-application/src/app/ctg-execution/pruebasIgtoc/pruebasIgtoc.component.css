@@ -1,0 +1,16 @@
+.noPadding {
+    padding: 0px;
+}
+
+.danger_marker {
+    color:red;
+    font-weight: bold;
+}
+
+p-dropdown#codigoProdInput {
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  width: fit-content;
+}

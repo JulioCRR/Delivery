@@ -1,0 +1,32 @@
+<div class="row" style="margin-top: 25px;">
+    <div class="col-md-4">
+        <h2>Detalle por región</h2>
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+        <div class="input-group input-group-md">
+            <span class="input-group-addon" id="sizing-addon1"><i class="fa fa-search"></i></span>
+            <input #gbDetail type="search" pInputText class="form-control" placeholder="Buscar en todos los campos..." />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <p-dataTable selectionMode="single" [responsive]="true" [value]="processDetailList" [rows]="10" [globalFilter]="gbDetail" (onRowSelect)="onProcessDetailSelected($event)">
+        <p-column field="region" header="Región" styleClass="col-region col-history-table"></p-column>
+
+        <p-column field="start" header="Fecha de ejecución" styleClass="col-history-table">
+            <ng-template let-col let-process="rowData" pTemplate="body">
+                {{process[col.field] | date: 'dd/MM/yyyy HH:mm'}}
+            </ng-template>
+        </p-column>
+
+        <p-column field="status" header="Estatus" styleClass="col-estatus col-history-table">
+            <ng-template let-col let-process="rowData" pTemplate="body" style="text-align:center">
+                <i *ngIf="process[col.field] == 0" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                <i *ngIf="process[col.field] == 1" class="fa fa-check-circle fa-2x"></i>
+                <i *ngIf="process[col.field] == 2" class="fa fa-times fa-2x"></i>
+            </ng-template>
+        </p-column>
+
+        <p-column field="description" header="Descripción"></p-column>
+    </p-dataTable>
+</div>

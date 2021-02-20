@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="scrapyConectorOmega" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.util.ScrapyConector">
+        <property name="host" value="192.9.198.65" />
+        <property name="puerto" value="23" />
+        <property name="cics" value="omdb2" />
+        <property name="cmdLogin" value="DB21" />
+        <property name="usuario" value="" />
+        <property name="clave" value="" />
+        <property name="transaccion" value="T.C" />
+        <property name="region" value="" />
+        <property name="timeOut">
+            <bean class="java.lang.Long">
+                <constructor-arg value="5000" />
+            </bean>
+        </property>
+        <property name="sLogin" value="loginOmega" />
+    </bean>
+
+</beans>

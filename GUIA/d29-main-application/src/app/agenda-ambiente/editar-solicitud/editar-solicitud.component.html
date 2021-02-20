@@ -1,0 +1,118 @@
+
+
+<div class="page-header">
+  <h1>MODIFICAR SOLICITUD</h1>
+  <h2>En esta sección puedes agregar Ip's, transaciones y eliminar la solicitud.</h2>
+  <a [routerLink]="['/admin/agenda-ambiente']" id="btnEdit" class="btn btn-link" style="float: right">Regresar al calendario</a>
+</div>
+
+
+<div class="spinFa" *ngIf="spin">
+  <i class="fa fa-spinner fa-spin " style="font-size:200px;  color:rgb(0, 89, 255);"></i>
+</div>
+
+<p-dialog [(visible)]="spin" modal="modal" width="2" height="2" class="spinFa" [responsive]="true" [showHeader]="false" [resizable]="false"  [draggable]="false" [closable]="false"></p-dialog>
+
+
+
+<div style="padding-top: 70px;" style="align-content: center;">
+  <p-panel class="col-md-10">
+      <p-dataTable id="tableSolictud" [value]="tablaSolicitudes" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [immutable]="false">
+          <p-column field="folio" header="Folio" [filter]="true" styleClass="text-left"></p-column>
+          <p-column field="nomProyect" header="Proyecto"></p-column>
+          <p-column field="periodoPrueba" header="Periodo de pruebas"></p-column>
+          <p-column header="Horario de ejecución" >
+            <ng-template let-turno="rowData" pTemplate="body">
+              <div *ngIf="turno.turno==1">
+                <p style="text-align: center;">09:00 hrs - 12:00 hrs</p>
+              </div>
+              <div *ngIf="turno.turno==2">
+                <p style="text-align: center;">12:00 hrs - 15:00 hrs</p>
+              </div>
+              <div *ngIf="turno.turno==3">
+                <p style="text-align: center;">15:00 hrs - 18:00 hrs </p>
+              </div>
+            </ng-template>
+          </p-column>
+          <p-column>
+              <ng-template let-folio="rowData" pTemplate="body" >
+                <button id="btn2" type="button" class="btn btn-info  btn-ms " (click)="getModify(folio)" style=" margin-left:10px" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                <button id="btn3" type="button" class="btn btn-danger btn-ms " (click)="openDelete(folio)"  style=" margin-left:25px" ><i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </ng-template>
+          </p-column>
+      </p-dataTable>
+  </p-panel>
+</div>
+
+<div>
+  <p-dialog [(visible)]="displayEdit" modal="modal" width="400" [contentStyle]="{'height': '700px'}" [responsive]="true" [closeOnEscape]="false" [resizable]="false" [draggable]="false" [closable]="true">
+    <p-header>Modificar Solicitud</p-header>
+    <br>
+    <form (ngSubmit)="modificarSolicitud()">
+      <label class="customLabel">Agregar Ip</label>
+
+      <div class="row" style="margin-left: 1%;">
+        <table class="table">
+          <tr *ngFor="let ip of existedIps">
+            <th class="trEdit"><b>{{ip}}</b></th>
+          </tr>
+        </table>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="ipDesa" [(ngModel)]="ipDesa" name="ipDesa" pattern="{{ipPattern}}" maxlength="{{ipMax}}">
+      </div>
+      <div class="row">
+        <button type="button" id="btnAddIp" class="btn btn-info" style=" margin-left:3%" (click)="agregaIp()" >Agregar Ip</button>
+      </div>
+      <div class="row" style="margin-left: 1%;">
+        <label>Ip agregada</label>
+        <table>
+          <tr *ngFor="let ipl of ipList">
+            <th class="trEdit">{{ipl}}</th>
+          </tr>
+        </table>
+      </div>
+      <br>
+
+      <label class="customLabel">Agregar Transacciones</label>
+
+      <div class="form-group">
+
+        <div class="row" style="margin-left: 1%;">
+          <table class="table"  style="border:none !important">
+            <tr *ngFor="let trn of existedTrans">
+              <th class="trEdit"><b>- {{trn}}</b></th>
+            </tr>
+          </table>
+        </div>
+
+        <div class="form-group">
+            <!--<p-listbox [options]="transactLis" [style]="{'width':'100%','max-height':'170px'}" style="border: none !important;" [(ngModel)]="trans" filter="filter" checkbox="checkbox" multiple="multiple" class="form-control" name="trans" required ></p-listbox>-->
+          <p-multiSelect id="multiSelectTrans" [options]="transactLis" [(ngModel)]="trans"defaultLabel="TRANSACCIONES DISPONIBLES" [style]="{'width':'78%'}" style="border: none !important;" scrollHeight="150px" class="form-control" name="trans" required (onChange)="onChange($event)"></p-multiSelect>
+        </div>
+
+        <div style="margin-top: 70%;">
+          <button type="submit" style="margin-left: 18%; width: 70%; margin-top: 5%;" class="btn btn-primary">Enviar</button>
+        </div>
+        <br>
+      </div>
+
+    </form>
+    <!--<button type="text" (click)="cancelModal()" style="float:left;margin-top: -35px;" class="ui-button-info ">Cerrar</button>-->
+  </p-dialog>
+</div>
+
+<div>
+  <p-dialog [(visible)]="displayDelete" modal="modal" width="400" [responsive]="true" [resizable]="false" [draggable]="false" [closable]="false">
+    <p-header>Eliminar Solicitud</p-header>
+    <div>
+      <label>Estás seguro de eliminar esta solicitud ? </label>
+    </div>
+    <br>
+    <div>
+      <button type="button" class="btn btn-info  btn-ms " (click)="cancelDelete()" style=" margin-left:13%" >Cancelar</button>
+      <button type="button" class="btn btn-danger btn-ms " (click)="eliminarSolicitud()"  style=" margin-left:27%" >Aceptar</button>
+    </div>
+  </p-dialog>
+</div>

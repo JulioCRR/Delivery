@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor</groupId>
+        <artifactId>wsm2k_monitor</artifactId>
+        <version>1.0</version>
+        <relativePath>../</relativePath>
+    </parent> 
+    
+    <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor</groupId>
+    <artifactId>wsm2k_monitor-business</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+    
+    <dependencies>
+        
+          
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>1.2.6.RELEASE</version>
+        </dependency>
+        
+        
+        <!--         
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
+            <version>1.4.2.RELEASE</version>
+        </dependency>
+        -->
+        
+
+        
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <scope>provided</scope>
+            <version>1.4.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
+            <version>1.4.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+            <scope>provided</scope>
+            <version>1.4.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>provided</scope>
+            <version>1.4.193</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <scope>provided</scope>
+            <version>2.9.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc</groupId>
+            <artifactId>xmp</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>springframework</groupId>
+            <artifactId>spring-support</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+        
+                <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>  
+
+
+        <!-- Local dependencies -->
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core</groupId>
+            <artifactId>core-db</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core</groupId>
+            <artifactId>core-business</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core</groupId>
+            <artifactId>core-util</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor</groupId>
+            <artifactId>wsm2k_monitor-db</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+         <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition</groupId>
+            <artifactId>search_petition-db</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition</groupId>
+            <artifactId>search_petition-business</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+       
+        
+         <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+            <version>5.13.4</version>
+        </dependency>
+        
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>3.1.0.M2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.ibm</groupId>
+            <artifactId>com.ibm.mqjms</artifactId>
+            <version>7.1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.ibm</groupId>
+            <artifactId>com.ibm.mq.jmqi</artifactId>
+            <version>7.1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.ibm</groupId>
+            <artifactId>com.ibm.disthub2.dhbcore</artifactId>
+            <version>7.1.0.3</version>
+        </dependency>
+        
+        <!-- 
+       
+        -->
+        
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5.6</version>
+		</dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.1.1</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+    
+    
+    
+</project>

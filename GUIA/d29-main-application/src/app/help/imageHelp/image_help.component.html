@@ -1,0 +1,18 @@
+<p-dialog header="Ayuda!" [(visible)]="displayFormHelp" modal="modal"
+         [responsive]="true" [resizable]="false" [draggable]="false" [closable]="true">
+        
+         <span style="max-width: 50px;color:red;"><i class="fa fa-file-image-o" aria-hidden="true"></i></span>
+         <label>Navega sobre las imagenes que pueden ayudarte a utilizar la pantalla.</label>   
+         <br/>
+         <br/>
+         
+        <p-galleria [images]="imagenes" [showCaption]="false" [autoPlay]="false"></p-galleria>
+         
+        <p-footer>
+            <button style="float:right" type="button" pButton icon="fa-close" (click)="cancelDialog()" label="Salir" class="ui-button-info"></button>
+        </p-footer>
+</p-dialog>
+<span style="color:red;float: right;">
+<i class="fa fa-file-image-o" aria-hidden="true"
+          style="cursor:pointer;" (click)="cargarAyuda()" pTooltip="Imagen para Ayuda" tooltipPosition="top"></i>
+</span>

@@ -1,0 +1,201 @@
+<div class="page-header">
+  <h1>Solicitud de Peticiones WS-M2k</h1>
+  <p>Solicita permisos para el consumo de servicios web de M2k</p>
+</div>
+
+<p-dialog [(visible)]="isUIBlocked" modal="modal" width="0" height="0" [contentStyle]="{'width': '300px', 'height': '300px'}" class="spinFa" [responsive]="true" [showHeader]="false" [resizable]="false" [draggable]="false" [closable]="false">
+  <i class="fa fa-spinner fa-spin" style="font-size: 200px; text-align: center; color:rgb(0, 89, 255);"></i>
+</p-dialog>
+
+<div *ngIf="!isComponentEnabled">
+  <h1>No tienes permisos sobre este m&oacute;dulo</h1>
+</div>
+
+<div *ngIf="isComponentEnabled">
+
+  <div class="row" style="text-align: left; padding-top: 25px;">
+    <p>Campos marcados con <span class="danger_marker">*</span> son obligatorios</p>
+  </div>
+  <h2>Datos de la Solicitud</h2>
+
+  <div *ngIf="isAdmin" class="row">
+    <div class="col-md-2 form-group">
+      <label for="urgente">Solicitud Urgente</label>
+      <simple-help [ayuda]="ayuda.urgente"></simple-help>
+      <div>
+        <p-checkbox id="urgente" [(ngModel)]="isUrgente" label="Urgente" binary="true" [disabled]="!isAdmin" (onChange)="onChangeUrgente($event)"></p-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <form id="formSolicitud" [formGroup]="formSolicitud" (ngSubmit)="sendSolicitud()" class="form-horizontal">
+    <div class="row" formGroupName="solicitudData">
+      <div class="col-md-6 form-group">
+        <label class="control-label" for="aplicativo">Aplicativo Telcel</label>
+        <span *ngIf="!isUrgente" class="danger_marker">*</span>
+        <simple-help [ayuda]="ayuda.aplicativo"></simple-help>
+        <p-dropdown id="aplicativo" formControlName="aplicativo" [options]="dataSelector.aplicativo" placeholder="--SELECCIONAR UN APLICATIVO--" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.aplicativo"><i class="fa fa-close"></i> {{formErrors.aplicativo}}</div>
+      </div>
+      <div class="col-md-2 form-group">
+        <label class="control-label" for="ambiente">Ambiente de Ejecuci&oacute;n</label>
+        <span class="danger_marker">*</span>
+        <simple-help [ayuda]="ayuda.ambiente"></simple-help>
+        <p-dropdown id="ambiente" formControlName="ambiente" [options]="dataSelector.ambiente" placeholder="--SELECCIONAR AMBIENTE EJECUCIÓN--" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}" (onChange)="onChangeAmbiente($event)"></p-dropdown>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.ambiente"><i class="fa fa-close"></i> {{formErrors.ambiente}}</div>
+      </div>
+      <div class="col-md-2 form-group" *ngIf="isFechaEnabled">
+        <label class="control-label" for="fechaCaducidad">Fecha Caducidad</label>
+        <span *ngIf="isUrgente" class="danger_marker">*</span>
+        <simple-help [ayuda]="ayuda.fechaCaducidad"></simple-help>
+        <p-calendar id="fechaCaducidad" formControlName="fechaCaducidad" dateFormat="dd/mm/yy" [minDate]="minDate" [readonlyInput]="true" [style]="{'width':'100%'}"></p-calendar>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.fechaCaducidad"><i class="fa fa-close"></i> {{formErrors.fechaCaducidad}}</div>
+      </div>
+    </div>
+
+    <h2 style="padding-top: 25px;">Datos de la Petici&oacute;n</h2>
+    <div class="row" formGroupName="peticionData">
+      <div class="col-md-2 form-group">
+        <label class="control-label" for="usuarioCorp">Usuario Corporativo</label>
+        <simple-help [ayuda]="ayuda.usuarioCorp"></simple-help>
+        <p-dropdown id="usuarioCorp" formControlName="usuarioCorp" [options]="dataSelector.usuarioCorp" placeholder="--SELECCIONAR USUARIO--" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.usuarioCorp"><i class="fa fa-close"></i> {{formErrors.usuarioCorp}}</div>
+      </div>
+      <div class="col-md-3 form-group">
+        <label class="control-label" for="ip">IP Ejecuci&oacute;n</label>
+        <simple-help [ayuda]="ayuda.ip"></simple-help>
+        <div>
+          <input type="text" id="ip" [(ngModel)]="peticionData.ip" [ngModelOptions]="{'standalone': true}" placeholder="--INGRESSAR IP--" style="width: 85%;" />
+          <button type="button" pButton class="btn btn-primary" icon="fa fa-plus" style="float: right;" pTooltip="Agregar IP" tooltipPosition="top" (click)="onClickAddIP()"></button>
+        </div>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.ip"><i class="fa fa-close"></i> {{formErrors.ip}}</div>
+      </div>
+      <div class="col-md-2 form-group">
+        <label class="control-label" for="region">Regi&oacute;n</label>
+        <simple-help [ayuda]="ayuda.region"></simple-help>
+        <div>
+          <p-multiSelect id="region" formControlName="region" [style]="{'width': '100%'}" [options]="dataSelector.region" defaultLabel="--SELECCIONAR REGIÓN--" (onChange)="onChangeRegion($event)"></p-multiSelect>
+        </div>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.region"><i class="fa fa-close"></i> {{formErrors.region}}</div>
+      </div>
+      <div class="col-md-2 form-group">
+        <label class="control-label" for="transaccion">Transacci&oacute;n</label>
+        <simple-help [ayuda]="ayuda.transaccion"></simple-help>
+        <p-multiSelect id="transaccion" formControlName="transaccion" [style]="{'width': '100%'}" [options]="dataSelector.transaccion" defaultLabel="--SELECCIONAR TRANSACCIÓN--" (onChange)="onChangeTransaccion($event)"></p-multiSelect>
+        <!-- <p-dropdown id="transaccion" formControlName="transaccion" [options]="dataSelector.transaccion" placeholder="--SELECCIONAR TRANSACCIÓN--" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown> -->
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.transaccion"><i class="fa fa-close"></i> {{formErrors.transaccion}}</div>
+      </div>
+      <div class="col-md-2 form-group">
+        <label class="control-label" for="ppm">Peticiones Por Minuto</label>
+        <simple-help [ayuda]="ayuda.ppm"></simple-help>
+        <p-spinner id="ppm" formControlName="ppm" [min]="MIN_PPM" [max]="MAX_PPM" maxlength="3" [formatInput]="false" placeholder="--INGRESAR CANTIDAD--"></p-spinner>
+        <div class="alert alert-danger noPadding" *ngIf="formErrors.ppm"><i class="fa fa-close"></i> {{formErrors.ppm}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">&nbsp;&nbsp;</div>
+      <div class="col-md-3">
+        <p-dataTable id="dtIP" [value]="peticionData.listIP" scrollable="true" [scrollHeight]="DT_SCROLL" emptyMessage="Sin IPs" [immutable]="false">
+          <p-column field="ip" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" (click)="onClickDeleteIP(row['ip'])"></button>
+            </ng-template>
+          </p-column>
+          <p-footer>Total: {{peticionData.listIP.length}}</p-footer>
+        </p-dataTable>
+      </div>
+      <div class="col-md-2">
+        <p-dataTable id="dtRegion" [value]="peticionData.region" scrollable="true" [scrollHeight]="DT_SCROLL" emptyMessage="Sin Regiones" [immutable]="false">
+          <p-column field="region" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" (click)="onClickDeleteRegion(row['region'])"></button>
+            </ng-template>
+          </p-column>
+          <p-footer>Total: {{peticionData.region.length}}</p-footer>
+        </p-dataTable>
+      </div>
+      <div class="col-md-2">
+        <p-dataTable id="dtTransaccion" [value]="peticionData.transaccion" scrollable="true" [scrollHeight]="DT_SCROLL" emptyMessage="Sin Transacciones" [immutable]="false">
+          <p-column field="transaccionPantallaTransient" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" (click)="onClickDeleteTransaccion(row['transaccion'])"></button>
+            </ng-template>
+          </p-column>
+          <p-footer>Total: {{peticionData.transaccion.length}}</p-footer>
+        </p-dataTable>
+      </div>
+      <div class="col-md-2">&nbsp;&nbsp;</div>
+    </div>
+    <div clas="row" style="padding-top: 25px;">
+      <div class="col-md-1 form-group">
+        <button type="button" class="btn btn-primary" (click)="addPeticion()">Agregar Peticiones</button>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 50px;">
+      <p-dataTable id="dtPeticiones" #dtPeticiones [value]="listPeticion" [(selection)]="listSelPeticion" dataKey="id" [responsive]="true" [paginator]="true" [rows]="9" emptyMessage="Sin Peticiones" [immutable]="false">
+        <p-header>Lista de Peticiones</p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column header="Usuario Corporativo" field="usuarioCorp" sortable="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+        <p-column header="IP" field="ip" sortable="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+        <p-column header="Regi&oacute;n" field="region" sortable="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+        <p-column header="transacci&oacute;n" field="transaccion" sortable="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+        <p-column header="Peticiones por Minuto" field="peticionesPorMinuto" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+        <p-column *ngIf="isResponse" header="Repetida" field="repetida" sortable="true" styleClass="col-button" [style]="{'width':'70px', 'text-align':'center'}">
+          <ng-template let-col let-row="rowData" pTemplate="body">
+            <i *ngIf="row[col.field]" class="fa fa-check"></i>
+          </ng-template>
+        </p-column>
+        <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align':'center'}">
+          <ng-template let-row="rowData" pTemplate="body">
+            <button type="button" pButton class="ui-button-danger" pTooltip="Eliminar" tooltipPosition="left" icon="fa fa-trash-o" (click)="onClickRowDelete(row['id'])"></button>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="row">
+            <button type="button" pButton icon="fa fa-trash" label="Borrar Todas" class="ui-button-danger" style="float: right;" (click)="onClickDeleteAll()"></button>
+            <button type="button" pButton icon="fa fa-ban" label="Borrar Seleccionadas" class="ui-button-warning" style="float: right;" (click)="onClickDeleteSelected()"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+
+    <div clas="row" style="padding-top: 25px;">
+      <div class="col-md-1 form-group">
+        <button type="button" class="btn btn-primary" (click)="onClickModal()">Generar Solicitud</button>
+      </div>
+    </div>
+
+    <!-- MODAL SOLICITUD -->
+    <div class="modal fade" id="modalSolicitud" tabindex="-1" role="dialog" aria-labelledby="modalSolicitudLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="modalSolicitudLabel">Solicitud de Peticiones WS-M2k</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row" formGroupName="solicitudData">
+              <div class="col-md-6 form-group">
+                <label for="justificacion">Escribe una justificaci&oacute;n explicando la solicitud</label>
+                <textarea id="justificacion" formControlName="justificacion" class="form-control" autoResize="autoResize" style="width: 100%;"></textarea>
+                <div class="alert alert-danger noPadding" *ngIf="formErrors.justificacion"><i class="fa fa-close"></i> {{formErrors.justificacion}}</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" [disabled]="!isValidSolicitud">Enviar Solicitud <i class="fa fa-paper-plane-o ml-1"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

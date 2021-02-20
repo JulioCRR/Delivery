@@ -1,0 +1,14 @@
+.listWidth {
+    width: 13em;
+}
+
+.tabReq {
+    border-color: #d6e9c6;
+    background-color: rosybrown;
+    color:#3c763d; 
+    
+}
+
+.rg-button {
+    float:right;
+}

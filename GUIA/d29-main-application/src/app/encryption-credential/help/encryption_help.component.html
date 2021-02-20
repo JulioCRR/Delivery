@@ -1,0 +1,20 @@
+<p-dialog header="Ayuda!" [(visible)]="displayFormHelp" modal="modal" width="400"
+         [responsive]="true" [resizable]="false" [draggable]="false" [closable]="true">
+
+         <h2>Diccionario de Ayuda</h2>
+         <span style="max-width: 50px;color:blue;"><i class="fa fa-question-circle-o" aria-hidden="true"></i></span>
+         <label>Definición del significado de los campos de la pantalla.</label>
+         <br/>
+         <br/>
+         <ul>
+            <li *ngFor="let help of valoresAyuda" style="text-align: left"><b>{{help.clave}}:</b> {{help.valor}}</li>
+         </ul>
+
+        <p-footer>
+            <button style="float:right" type="button" pButton icon="fa-close" (click)="cancelDialog()" label="Salir" class="ui-button-info"></button>
+        </p-footer>
+</p-dialog>
+<span style="color:blue;float: right;">
+<i class="fa fa-question-circle-o" aria-hidden="true"
+          style="cursor:pointer;" (click)="cargarAyuda()" pTooltip="Ayuda" tooltipPosition="top"></i>
+</span>

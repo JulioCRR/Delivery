@@ -1,0 +1,51 @@
+
+<!--SECCIÓN DE HISTORICO SERVICIO MIGRA-->
+<div *ngIf="url == '/admin/monitor-ctlig2/cronCtlig2'">
+  <p-dataTable [value]="processPaginator.processes" selectionMode="single" [responsive]="true" [paginator]="true"
+    [rows]="5" (onRowSelect)="onProcessSelected($event)" [lazy]="true" (onLazyLoad)="loadHistMig($event)"
+    [totalRecords]="processPaginator.totalElements">
+    <p-row>
+
+    </p-row>
+    <p-column field="id" header="ID" styleClass="col-id col-history-table" [style]="{'width':'150px'}"></p-column>
+    <p-column field="start" header="Fecha de ejecución" styleClass="col-history-table">
+      <ng-template let-col let-process="rowData" pTemplate="body">
+        {{process[col.field] | date: 'dd/MM/yyyy HH:mm'}}
+      </ng-template>
+    </p-column>
+    <p-column field="status" header="Estatus" styleClass="col-estatus col-history-table"
+      [style]="{'width':'150px', 'text-align':'center'}">
+      <ng-template let-col let-process="rowData" pTemplate="body" style="text-align:center" width="10">
+        <i *ngIf="process[col.field] == 0" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        <i *ngIf="process[col.field] == 1" class="fa fa-check-circle fa-2x"></i>
+        <i *ngIf="process[col.field] == 2" class="fa fa-times fa-2x"></i>
+      </ng-template>
+    </p-column>
+    <p-column field="description" header="Descripción"></p-column>
+  </p-dataTable>
+</div>
+
+
+<!--SECCION DE LISTA DE HISTORICO GENERÁL -->
+
+<div *ngIf="url == '/admin/monitor-ctlig2/historic'">
+  <p-dataTable [value]="processPaginator.processes" selectionMode="single" [responsive]="true" [paginator]="true"
+    [rows]="5" (onRowSelect)="onProcessSelected($event)" [lazy]="true" (onLazyLoad)="loadDataProcess($event)"
+    [totalRecords]="processPaginator.totalElements">
+    <p-column field="id" header="ID" styleClass="col-id col-history-table" [style]="{'width':'150px'}"></p-column>
+    <p-column field="start" header="Fecha de ejecución" styleClass="col-history-table">
+      <ng-template let-col let-process="rowData" pTemplate="body">
+        {{process[col.field] | date: 'dd/MM/yyyy HH:mm'}}
+      </ng-template>
+    </p-column>
+    <p-column field="status" header="Estatus" styleClass="col-estatus col-history-table"
+      [style]="{'width':'150px', 'text-align':'center'}">
+      <ng-template let-col let-process="rowData" pTemplate="body" style="text-align:center" width="10">
+        <i *ngIf="process[col.field] == 0" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        <i *ngIf="process[col.field] == 1" class="fa fa-check-circle fa-2x"></i>
+        <i *ngIf="process[col.field] == 2" class="fa fa-times fa-2x"></i>
+      </ng-template>
+    </p-column>
+    <p-column field="description" header="Descripción"></p-column>
+  </p-dataTable>
+</div>

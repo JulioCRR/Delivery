@@ -1,0 +1,359 @@
+<div class="container">
+  <h1>Detalle movimiento Equipo Ilimitado</h1>
+  <form>
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input type="text" class="form-control" name="telefono" required [(ngModel)]="telefono" maxlength="10" size="10">
+    </div>
+    <!--  
+    <div class="form-group">
+      <label for="fechaTramite">Fecha de támite</label>
+      <input type="date" class="form-control" id="fechaTramite" [ngModel]="fechaTramite | date:'y-MM-dd'" (ngModelChange)="fechaTramite = $event"
+        name="fechaTramite">
+    </div>
+    -->
+    <!-- 
+    <button type="button" class="btn btn-primary" (click)="consultaMovimiento()" [disabled]="!form.valid" data-toggle="modal">Buscar</button>
+    -->
+    <button type="button" class="btn btn-primary" (click)="consultaMovimiento()">Buscar</button>
+
+
+  </form>
+</div>
+
+<div class="row" *ngIf="showResults">
+
+<div class="row">
+  <div class="col-md-12">
+    <p-dataTable [value]="solicitudesEI" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+      <p-column field="idSolicitud" header="Id solicitud"></p-column>
+      
+      <p-column field="grupoNacional" header="Grupo nacional"></p-column>
+      <p-column field="tipo" header="Tipo"></p-column>
+      <p-column field="fechaIngreso" header="Fecha ingreso"></p-column>
+      <p-column styleClass="col-button" [style]="{'width':'35px'}">
+        <ng-template let-solicitud="rowData" pTemplate="body">
+          <button type="button" class="ui-button-success" (click)="selectSolicitud(solicitud)"
+            tooltipPosition="left" pButton icon="fa-search-plus"></button>
+        </ng-template>
+      </p-column>
+
+    </p-dataTable>
+  </div>
+</div>
+
+</div>
+
+<div class="row" *ngIf="showDetail">
+      <table>
+          <tr class="col-md-12">
+
+          <td>
+          <div class="row">
+            <h3>Datos de solicitud</h3>
+          </div>
+          <div class="row">
+            <table>
+              <tr>
+                <td> <b>Id solicitud :</b> {{ solicitudEI.idSolicitud }} </td>
+                <td>&nbsp;&nbsp;</td>
+                <td> <b>Tramite :</b> {{ solicitudEI.tramite }} </td>
+                <td> <b>Grupo nacional :</b> {{ solicitudEI.grupoNacional }}</td>
+                <td>&nbsp;&nbsp;</td>
+                <td><b>Tipo de movimiento :</b> {{ solicitudEI.tipo }} </td>
+              </tr>
+              <tr>
+                
+              </tr>
+              <tr>
+                <td><b>Estatus solicitud :</b> {{ solicitudEI.estatus }}</td>
+                <td>&nbsp;&nbsp;</td>
+                <td><b>Mensaje :</b> {{ solicitudEI.mensaje }} </td>
+                <td><b>Fecha ingreso :</b> {{ solicitudEI.fechaIngreso }} </td>
+                <td>&nbsp;&nbsp;</td>
+                <td><b>Fecha de ejecución :</b> {{ solicitudEI.fechaIngreso }}</td>
+              </tr>
+              <tr>
+                
+              </tr>
+              <tr>
+                <td><b>Envío de respuesta :</b> {{ solicitudEI.envioRespuesta }}</td>
+                <td>&nbsp;&nbsp;</td>
+                <td><b>Id comunidad :</b> {{ solicitudEI.idComudidad }}</td>
+                <td><b>Usuario :</b>{{ detalleSolicitud.usuario }}</td>
+                <td>&nbsp;&nbsp;</td>
+                <td><b>Tipo de grupo :</b> {{ detalleSolicitud.tipoGrupo }} </td>
+              </tr>
+              <tr>
+                
+              </tr>
+
+              <tr>
+                <td><b>Número pivote :</b> {{ detalleSolicitud.pivote }}</td>
+                
+                <td></td>
+                <td><b> Aplicación: </b>{{ solicitudEI.aplicacion }}</td>
+              </tr>
+
+            </table>
+          </div>
+        </td>  
+        </tr>  
+        
+        <tr class="col-md-12">
+            
+            <td>
+          <div class="row">
+            <h3>Detalle de línea</h3>
+            <div>
+              <table>
+                <tr><td><b>Teléfono:</b> {{ detalleSolicitud.telefono }}</td></tr>
+                <tr>  <td><b>Región:</b> {{ detalleSolicitud.region }}</td></tr>
+                <tr>  <td><b>Fecha ejecución:</b> {{ detalleSolicitud.fechaEjecucionDetalle }}</td></tr>
+                <tr>  <td><b>Estatus:</b> {{ detalleSolicitud.estatusDetalle }}</td></tr>   
+                <tr>  <td><b>Código:</b> {{ detalleSolicitud.codigoDetalle }}</td></tr>
+                <tr>  <td><b>Mensaje:</b> {{ detalleSolicitud.mensajeDetalle }}</td></tr>
+                <tr>  <td><b>Producto:</b> {{ detalleSolicitud.productoDetalle }}</td></tr>
+              </table>
+            </div>
+          </div>
+        </td>  
+      </tr>
+      
+      <tr class="col-md-12">
+          
+          <td>
+      
+          <div class="row">
+            <h3>Detalle de productos</h3>
+          </div>
+          
+          <div class="row">
+            <table border="1">
+              <tr>
+                <th>Producto</th>
+                <th>Tipo producto</th>
+                <th>Estatus</th>
+              </tr>
+              <tr>
+                <td>{{ detalleSolicitud.productoLocal }}</td>
+                <td>Producto local</td>
+                <td>{{ detalleSolicitud.estatusProductoLocal }}</td>
+              </tr>
+              <tr>
+                  <td>{{ detalleSolicitud.productoNacional }}</td>
+                  <td>Producto nacional</td>
+                  <td>{{ detalleSolicitud.estatusProductoNacional }}</td>
+              </tr>
+              <tr>
+                  <td>{{ detalleSolicitud.productoExt }}</td>
+                  <td>Producto extensión</td>
+                  <td>{{ detalleSolicitud.estatusProductoExt }}</td>
+              </tr>
+            </table>
+
+          </div>
+        
+        </td>  
+      </tr>
+      
+      <tr class="col-md-12">
+          
+          <td>
+          <div class="row">
+            <h3>Detalle respuesta WS-M2K</h3>
+          </div>
+          
+          <div class="row">
+              <div class="col-md-11">
+                <p-dataTable [value]="movimientosEI" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10]">
+                  <p-column field="consecutivo" header="Intento"></p-column>
+                  <p-column field="estatus" header="Estatus"></p-column>
+                  <p-column field="mensaje" header="Mensaje"></p-column>
+                  <p-column field="fechaEjecucion" header="Fecha ejecución"></p-column>
+                  <p-column field="producto" header="Producto"></p-column>
+                  <p-column field="pivote" header="Pivote"></p-column>
+                  <p-column styleClass="col-button" [style]="{'width':'35px'}">
+                    <ng-template let-movimiento="rowData" pTemplate="body">
+                      <button type="button" class="ui-button-success" pTooltip="Editar" data-toggle="modal" data-target="#agregarModal1" (click)="searchPetition(movimiento)"
+                        tooltipPosition="left" pButton icon="fa-search-plus"></button>
+                    </ng-template>
+                  </p-column>
+            
+                </p-dataTable>
+              </div>
+            </div>
+          </td>  
+        </tr>
+        <tr class="col-md-12">
+              <td>
+                  <div class="row">
+                      <h3>Operaciones de soporte</h3>
+                    </div>
+                <table>
+                  <tr>
+                    <td>
+                      <button type="button" class="btn btn-primary" (click)="activarTimer()">Activar timer envio de respuesta</button>
+                    </td>
+                    <td>
+                      <div *ngIf="showBotonReproceso">  
+                        <button type="button" class="btn btn-primary" (click)="actualizaEstatusSolicitud()">Reprocesar solicitud</button> 
+                      </div>  
+                    </td> 
+                     </tr>
+                     <tr>
+                      <td>
+                       <b> {{mensajeSoporte}} </b>
+                      </td>
+                    </tr>
+                  </table>
+                
+              
+              </td>
+             
+        </tr>
+
+      </table>      
+    </div>      
+
+
+
+    <div class="row" *ngIf="showNoResults">
+        No se encontraron datos 
+    </div> 
+
+    <div class="row" *ngIf="showSearching">
+      Buscando solicitud... 
+  </div> 
+
+            <div class="modal fade" id="agregarModal1" tabindex="-1" role="dialog" aria-labelledby="agregarModallLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <form #form="ngForm" novalidate>
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="agregarModalLabel">Detalle invocación servicios WS-M2K</h4>
+                      </div>
+              
+                      <div class="modal-body">
+                          
+                         <div *ngIf="showInfoWSM2K"> 
+
+
+
+                          <p-panel >
+                              <header>
+                                  Request
+                              </header>
+                              <pre lang="xml" >{{xmlRecibido}}</pre>
+                          </p-panel>
+                          <p-panel >
+                              <header>
+                                  Response
+                              </header>
+                              <pre lang="xml" >{{xmlRespuesta}}</pre>
+                          </p-panel>
+
+                          <p-panel >
+                              <header>
+                                  Detalle ejecución
+                              </header>
+                              <form class="form-horizontal">
+                                  <div class="form-group">
+                                      <label class="col-md-4 control-label">ID</label>
+                                      <div class="col-md-4">
+                                          <p class="form-control-static">{{idM2Kinfo}}</p>
+                                      </div>
+                                  </div>
+                          
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Región</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ region}}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Acción</label>
+                                          <div class="col-md-4">
+                                               <p class="form-control-static">{{accion }}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Usuario</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static"> {{usuario }}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Servicio</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ servicio}}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Tipo de conector</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{tipoConector }} </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                          
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Fecha de inicio</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ fechaInicio}}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Tiempo del conector</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{tiempoConector }}  ms</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Tiempo total</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ tiempoTotal }}  ms</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">IP</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ ip }}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Instancia</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ instancia }}</p>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label">Tipo de Respuesta</label>
+                                          <div class="col-md-4">
+                                              <p class="form-control-static">{{ tipoRespuesta }} </p>
+                                          </div>
+                                      </div>              
+                                      
+                                  </div>
+                              </form>
+                          </p-panel>    
+
+                        </div>    
+                        
+                        <div class="row" *ngIf="showNoInfoWSM2K">
+                          No se encontró información en la bitácora WS-M2K
+                        </div>
+
+                        </div>
+
+                      </form>
+                      </div>
+                    </div>
+                  </div>  
+
+                                 

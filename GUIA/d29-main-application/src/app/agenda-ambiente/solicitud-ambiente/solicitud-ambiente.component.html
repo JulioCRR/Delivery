@@ -1,0 +1,154 @@
+<div class="page-header">
+    <h1>Solicitar ambiente WS-M2K desarrollo</h1>
+    <a [routerLink]="['/admin/agenda-ambiente']" class="btn btn-link" style="float: right">Regresar al calendario</a>
+    <p>Ingresa los datos que se piden en el formulario para solicitar el ambiente de desarrollo.</p>
+</div>
+
+<p-panel class="col-md-12">
+    <button pButton type="button" icon="fa-floppy-o" label="Clean" style="float:right;" class="ui-button-info rg-button" (click)="cleanScreen()"></button>
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px;">Formato de Solicitud de Ambiente</span>
+        </div>
+    </p-header>
+    <div class="col-md-12" style="text-align: right;padding-bottom: 10px;">
+        Campos marcados con <span class="danger_marker">*</span> son obligatorios.
+    </div>
+    <form class="form-horizontal" novalidate="" (ngSubmit)="guardarSolicitud()" [formGroup]="formGroup" #form="ngForm">
+
+        <div class="row" style="padding-bottom: 20px; padding-top: 20px">
+
+            <div class="col-md-8" style="margin-top: -15px;">
+                <div>
+                    <simple-help [ayuda]="nProyectoAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="nomProyect">Nombre del Proyecto<span class="danger_marker">*</span></label>
+                <div class="form-group">
+                    <input id="nomProyect" style="height: 30px;" type="text" name="nomProyect" class="col-md-12" formControlName="nomProyect" />
+                    <!-- Mensaje de Error de Validación-->
+                    <div class="alert alert-danger noPadding" *ngIf="formErrors.nomProyect">{{formErrors.nomProyect}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 10px;">
+
+            <div class="col-md-3">
+                <div class="helphd">
+                    <simple-help [ayuda]="inFePruebasAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="fechaInicio">Inicio de pruebas<span class="danger_marker">*</span></label>
+                <div class="form-group">
+                    <p-calendar [(ngModel)]="fechaInicio" [minDate]="restriFechaMin" [maxDate]="restriFechaMax" [readonlyInput]="true" dateFormat="dd/mm/yy" id='horaInicio' class="inputselect" name="fechaInicio" formControlName="fechaInicio"></p-calendar>
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="helphd">
+                    <simple-help [ayuda]="fnFePruebasAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="fechaFinal">Fin de  pruebas<span class="danger_marker">*</span></label>
+                <div class="form-group">
+                    <p-calendar [(ngModel)]="fechaFinal" [minDate]="restriFechaMin" [maxDate]="restriFechaMax" [readonlyInput]="true" dateFormat="dd/mm/yy" id='fechaFinal' class="inputselect" name="fechaFinal" formControlName="fechaFinal"></p-calendar>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div>
+                    <simple-help [ayuda]="usuarioAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="usuario">Usuario<span class="danger_marker">*</span></label>
+                <div class="form-group">
+                    <input id="usuario" style="height: 30px;text-transform:uppercase" type="text" name="usuario" class="col-md-12" formControlName="usuario" />
+                    <!-- Mensaje de Error de Validación-->
+                    <div class="alert alert-danger noPadding" *ngIf="formErrors.usuario">{{formErrors.usuario}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 20px; padding-top: 20px">
+            <div class="col-md-3" style="margin-top: -15px;">
+                <div>
+                    <simple-help [ayuda]="turnoAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="turno">Horarios de Pruebas<span class="danger_marker">*</span></label>
+                <div class="form-group">
+                    <select class="form-control" formControlName="turno" required>
+                    <option  selected disabled>Seleccionar Horario</option>
+                    <option value='1'>{{HORARIO_DIU}}</option>
+                      <option value='2'> {{HORARIO_MEDIODIA}}</option>
+                      <option value='3'> {{HORARIO_VES}}</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="col-md-2" style="margin-top: -15px; margin-left:25%;">
+                <div>
+                    <simple-help [ayuda]="transAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="permisosTrans" style="margin-left: 3%;width: 80%;">Transaciones<span class="danger_marker">*</span></label>
+                <div class="form-group">
+                    <!--<p-listbox [options]="cargarTransa" [style]="{'width':'100%','max-height':'250px'}" style="border: none;" [(ngModel)]="permisosTrans" filter="filter" multiple="multiple" checkbox="checkbox" class="form-control" formControlName="permisosTrans"></p-listbox>-->
+                    <p-multiSelect [options]="cargarTransa" [(ngModel)]="permisosTrans" defaultLabel="SELECCIONAR" [style]="{'width':'100%','margin-left':'5%'}" style="border: none !important;" scrollHeight="150px" class="form-control" formControlName="permisosTrans" required
+                        (onChange)="onChange($event)"></p-multiSelect>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: -5px;">
+            <div class="row">
+                <div class="col-md-3" style="margin-bottom:-20px">
+                    <simple-help [ayuda]="ipAyuda"></simple-help>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-1" style="padding-bottom: 10px;">
+                    <input class="btn btn-info" type="button" id="btnIpAdd" (click)="agregarPermisosIp()" value="Agregar Ip's" />
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <table class="table" style="margin-bottom: 1px;max-width:24.5%;">
+                <thead>
+                    <tr style="background-color:lightsteelblue">
+                        <th style="text-align: center">IP</th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div>
+                <div formArrayName="permisosIp" *ngFor="let permiso of formGroup.get('permisosIp').controls; let i = index;">
+                    <div [formGroupName]="i">
+                        <table class="table" style="max-width:24.5%;    margin-bottom: 1px;border: 1px solid black;">
+                            <tbody>
+                                <tr>
+                                    <td><input class="form-control" [attr.id]="'ip' + i" type="text" pattern="{{ipPattern}}" maxlength="{{ipMax}}" formControlName="ip" required /></td>
+                                    <td><input type="button" (click)="eliminarPermisosIp(i)" class="btn btn-danger" style="margin-left: 35px;" value="Eliminar" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style=" margin-top:80px">
+            <div class="col-md-12">
+                <div style="margin-right:34%;">
+                    <simple-help [ayuda]="comentariosAyuda"></simple-help>
+                </div>
+                <label class="customLabel" for="comentarios">Comentarios<span class="danger_marker">*</span></label>
+                <div class="form-group ">
+                    <textarea pInputTextarea [ngModel]="comentarios" style="width: 66%" formControlName="comentarios" [rows]="3" class="customLabel" autoResize="autoResize" (ngModelChange)="comentarios=$event" placeholder="Si se tiene algún folio SISAP relacionado con las pruebas ingresarlo en está sección..."></textarea>
+                    <!-- Mensaje de Error de Validación-->
+                    <div class="alert alert-warning noPadding" style="width: 66%" *ngIf="formErrors.comentarios">{{formErrors.comentarios}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" id="enviarFormulario" class="btn btn-primary btn-outline-light-blue" [disabled]="!formGroup.valid" style="margin-left: 54%">Generar Solicitud</button>
+        </div>
+    </form>
+</p-panel>

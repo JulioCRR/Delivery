@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        				   http://www.springframework.org/schema/context 
+        				   http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	
+
+
+	<bean id="reseteadorIndicadoresDia" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ReseteadorIndicadoresDia" />
+
+	<bean id="reseteadorIndicadoresHora" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ReseteadorIndicadoresHora" />
+
+	<bean id="reseteadorIndicadores5Minutos" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ReseteadorIndicadores5Minutos" />
+	
+	<bean id="reseteadorIndicadoresMinuto" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ReseteadorIndicadoresMinuto" />
+	
+	<bean id="refrescadorReportes" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.RefrescadorReportes" />
+	
+        <bean id="bitacoraBatch" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.BitacoraBatch" />
+        
+        <bean id="monitoreoDepthQueueLogs" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.MonitoreoDepthQueueLogs" />
+	
+        
+        <!--BEAN MIGRA-->
+        <bean id="reinicioMigraPorHora" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitorctlig2.business.jobs.ReinicioMigraPorHora" />
+        <!--FIN BEAN MIGRA-->
+        
+	<bean id="reporteadorDiarioIncidencias" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ReporteadorDiarioIncidencias">
+		<property name="sender" value="@monitor.alert.mail@"/>
+
+	</bean>
+	
+	<bean id="validadorInstancias" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ValidadorInstancias">
+		<property name="sender" value="@monitor.alert.mail@"/>        
+		<property name="timeOutInstancias">
+			<value>3000</value>
+		</property>
+                <property name="validateProfile" value="@monitor.validacion.instancias@" />	
+	</bean>
+        
+        
+        <bean id="procesoBatch" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition.business.batch.ProcessBatch"/>
+        
+         <bean id="procesoCar" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.business.operation.CargadorPermisosWSM2K"/>
+
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPorDia" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduledJobPerDay" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="reseteadorIndicadoresDia" value-ref="reseteadorIndicadoresDia" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPor5Minutos" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduledJobPer5minutes" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="reseteadorIndicadores5Minutos" value-ref="reseteadorIndicadores5Minutos" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+	
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPorMinuto" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduledJobPerMinute" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="reseteadorIndicadoresMinuto" value-ref="reseteadorIndicadoresMinuto" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+	
+
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPorHora" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduledJobPerHour" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="reseteadorIndicadoresHora" value-ref="reseteadorIndicadoresHora" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPorSegundo" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduledJobPerSecond" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="refrescadorReportes" value-ref="refrescadorReportes" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobReportesDiarios" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduledJobReports" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="reporteadorDiarioIncidencias" value-ref="reporteadorDiarioIncidencias" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+
+	<!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobValidatorInstances" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.SheduledJobInstances" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="validadorInstancias" value-ref="validadorInstancias" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        
+        <!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPersistence" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.SheduledJobPersistence" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="bitacoraBatch" value-ref="bitacoraBatch" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        
+        <!--JOB MIGRA-->
+        <!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobMigra" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitorctlig2.business.jobs.ScheduleJobPerHourMigra" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="reinicioMigraPorHora" value-ref="reinicioMigraPorHora" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        <!--FIN JOB MIGRA-->
+        <!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobStatuPet"  class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition.business.Job.ScheduledJobProcesoBatch" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="procesoBatch" value-ref="procesoBatch" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        
+         <!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobStatuRestart"  class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition.business.Job.ScheduledJobProcesoBatch" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="procesoBatch" value-ref="procesoBatch" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        
+       	<bean name="jobPor10Minutos" 	class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.jobs.ScheduleJobMonitorQueue" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="monitoreoDepthQueueLogs" value-ref="monitoreoDepthQueueLogs" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        
+                <!-- For times when you need more complex processing, passing data to the scheduled job -->
+	<bean name="jobPermisosDesaWS"  class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.business.jobs.ScheduledJobPermisosDesa" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="procesoCar" value-ref="procesoCar" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+        
+       
+	<!-- Corre el primer minuto de cada dia -->
+	<bean id="cronPerDay"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPorDia" />
+		<property name="cronExpression" value="0 0 0 * * ? " />
+	</bean>
+
+	<!-- Corre el primer minuto de cada hora -->
+	<bean id="cronPerHour"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPorHora" />
+		<property name="cronExpression" value="0 0 * * * ? " />
+	</bean>
+	
+	<!-- Corre el primer minuto de cada hora -->
+	<bean id="cronPer5Minutes"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPor5Minutos" />
+		<property name="cronExpression" value="0 0/5 * * * ? " />
+	</bean>
+	
+	<!-- Corre cada minuto -->
+	<bean id="cronPerMinute"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPorMinuto" />
+		<property name="cronExpression" value="0 * * * * ? " />
+	</bean>
+        
+        
+	<bean id="cronPersistence"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPersistence" />
+		<property name="cronExpression" value="* * * * * ? " />
+	</bean>
+        
+
+	<!-- Corre cada segundo -->
+	<bean id="cronPerSecond"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPorSegundo" />
+		<property name="cronExpression" value="* * * * * ? " />
+	</bean>
+
+	<!-- Corre el ultimo minuto de cada hora para contabilizar los mensajes procesados cada hora. 
+	Si es la hora 23 aparte de contabilizar envia correo de comportamiento de wsm2k -->
+	<bean id="cronLastMinute"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobReportesDiarios" />
+		<property name="cronExpression" value="59 59 23 * * ? " />
+	</bean>
+
+	<!-- Corre cada 3 minutos para  monitorear las instancias del WSM2K -->
+	<bean id="cronValidatorInstances"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobValidatorInstances" />
+		<property name="cronExpression" value="0 0/5 1-22 * * ? " />
+	</bean>
+
+        <!-- Corre cada 4 hrs para monitorear el estatus de las peticiones D29_CON_PETITION_BATCH-->
+	<bean id="cronStatuPet"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobStatuPet" />
+		<property name="cronExpression" value="0 0 0/4 * * ?" />
+	</bean>
+	
+	
+        
+        <!-- Corre a la 1 hrs para monitorear el estatus de las peticiones D29_CON_PETITION_BATCH-->
+	<bean id="cronStatuRestart"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobStatuRestart" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+        
+	
+	<!--CRON MIGRA-->
+        <!-- Corre cada hora para disparar el SHELL diariamente a partir de la 1:00 a.m. hasta las 22:00 horas -->
+	<bean id="cronMigraPorHora"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobMigra" />
+		<property name="cronExpression" value="0 0 1-22 ? * * *" />
+	</bean>
+        <!--FIN CRON MIGRA-->   
+	   
+	<!-- Corre cada 10 minutos de cada hora -->
+	<bean id="cronPer10Minutes"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPor10Minutos" />
+		<property name="cronExpression" value="0 0/10 * * * ? " />
+	</bean>
+        
+        <!-- Corre a las 9, 12 y 15  hrs para actualizar el archivo peticiones.properties de la ip 191.9.3.120 -->
+	<bean id="cronPermisosDesaWS"  class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobPermisosDesaWS" />
+		<property name="cronExpression" value="0 0 9,12,15,19 * * ? " />
+	</bean>
+           
+
+	<!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
+	<bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="jobPorDia" />
+				<ref bean="jobPorHora" />
+				<ref bean="jobReportesDiarios" />
+				<ref bean="jobPor5Minutos" />
+				<ref bean="jobPorMinuto" />
+				<ref bean="jobPorSegundo" />
+				<ref bean="jobValidatorInstances" />
+                                <ref bean="jobPersistence" />
+                                <!--JOB MIGRA-->
+                                <ref bean="jobMigra"/>
+                                <!--FIN JOB MIGRA-->
+				<ref bean="jobStatuPet" />
+                                <ref bean="jobStatuRestart" />
+                                <ref bean="jobPor10Minutos" />
+                                 <ref bean="jobPermisosDesaWS" />
+			</list>
+		</property>
+
+		<property name="triggers">
+			<list>
+				<ref bean="cronPerDay" />
+				<ref bean="cronPerHour" />
+				<ref bean="cronLastMinute" />
+				<ref bean="cronPer5Minutes" />
+				<ref bean="cronPerMinute" />
+				<ref bean="cronPerSecond" />
+				<ref bean="cronValidatorInstances" />
+                                <ref bean="cronPersistence" />
+                                <!--CRON MIGRA-->
+                                <ref bean="cronMigraPorHora"/>
+                                <!--FIN CRON MIGRA-->
+                                <ref bean="cronStatuPet" />
+                                <ref bean="cronStatuRestart" />
+                                <ref bean="cronPer10Minutes" />
+                                <ref bean="cronPermisosDesaWS" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

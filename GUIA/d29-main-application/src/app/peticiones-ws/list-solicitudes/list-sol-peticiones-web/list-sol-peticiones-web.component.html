@@ -1,0 +1,76 @@
+<h5>En esta sección encontrar&aacute;s las solicitudes de peticiones WS-M2k</h5>
+<div *ngIf="isTipoSolicitudEnabled" class="row" style="padding-top: 15px;">
+  <div class="col-md-3 form-group">
+    <label for="tipoSolicitud">Tipo Solicitud</label>
+    <simple-help [ayuda]="ayuda.tipoSolicitud"></simple-help>
+    <div>
+      <p-selectButton id="tipoSolicitud" [options]="dataSelector.tipoSolicitud" [(ngModel)]="selTipoSolicitud" (onChange)="onChangeTipoSolicitud()" [disabled]="!isTipoSolicitudEnabled"></p-selectButton>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="padding-top: 25px;">
+  <p-dataTable id="dtSolPeticion" #dtSolPeticion [value]="listSolicitudData" [(selection)]="listSelSolicitudData" dataKey="id" emptyMessage="Sin Solicitudes"
+                [paginator]="true" [responsive]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]">
+    <p-header>Solicitudes de Peticiones WS-M2k</p-header>
+    <p-column *ngIf="isSelectable" [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+    <p-column header="ID" field="id" [style]="{'width':'50px'}" [sortable]="true"></p-column>
+    <p-column header="Fecha Registro" field="fechaRegistro" [sortable]="true"></p-column>
+    <p-column header="Estatus" field="estatus" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+    <p-column header="Ambiente" field="ambiente" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+    <p-column header="Fecha Caducidad" field="fechaCaducidad" [sortable]="true"></p-column>
+    <p-column *ngIf="!isOwner" header="Solicitante" field="solicitante" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+    <p-column header="Fecha Autorizaci&oacute;n" field="fechaAutorizacion" [sortable]="true"></p-column>
+    <p-column header="Autorizador" field="autorizador"></p-column>
+    <p-column header="Comentario Autorizador" field="comentarioAutorizador"></p-column>
+    <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+      <ng-template let-row="rowData" pTemplate="body">
+        <button type="button" pButton class="ui-button-info" pTooltip="Ver Datos Solicitud" tooltipPosition="left" icon="fa fa-search" (click)="onClickSolicitud(row)"></button>
+      </ng-template>
+    </p-column>
+    <p-footer *ngIf="isSelectable">
+      <div class="row">
+        <div *ngIf="isOwner">
+          <button type="button" pButton icon="fa fa-times" label="CANCELAR" class="ui-button-danger" style="float:right;" (click)="onClickAccion(CANCELAR)"></button>
+        </div>
+        <div *ngIf="!isOwner">
+          <button type="button" pButton icon="fa fa-ban" label="REVOCAR" class="ui-button-danger" style="float:right;" (click)="onClickAccion(REVOCAR)"></button>
+          <button type="button" pButton icon="fa fa-times" label="RECHAZAR" class="ui-button-warning" style="float:right;" (click)="onClickAccion(RECHAZAR)"></button>
+          <button type="button" pButton icon="fa fa-check" label="AUTORIZAR" class="ui-button-success" style="float:right;" (click)="onClickAccion(AUTORIZAR)"></button>
+        </div>
+      </div>
+    </p-footer>
+  </p-dataTable>
+</div>
+
+<div *ngIf="isValidListPeticion" style="padding-top: 25px;">
+  <h3>Datos de la Solicitud #{{selIdSolicitud}}</h3>
+  <div *ngIf="solicitudData" class="row">
+    <div class="col-md-2">
+      <label>Aplicativo</label>
+      <p>{{solicitudData.aplicativo}}</p>
+    </div>
+    <div class="col-md-2">
+      <label>Area Responsable</label>
+      <p>{{solicitudData.areaResponsable}}</p>
+    </div>
+    <div class="col-md-2">
+      <label>Justificaci&oacute;n</label>
+      <p>{{solicitudData.justificacion}}</p>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 10px;">
+    <p-dataTable id="dtPeticion" #dtPeticion [value]="listPeticionData" dataKey="id" emptyMessage="Sin Peticiones"
+                  [responsive]="true" [paginator]="true" [rows]="5">
+      <p-header>Peticiones WS-M2k de la Solicitud</p-header>
+      <p-column header="ID" field="id"></p-column>
+      <p-column header="Usuario Corporativo" field="usuarioCorp" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+      <p-column header="IP" field="ip" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+      <p-column header="Regi&oacute;n" field="region" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+      <p-column header="Transacci&oacute;n" field="transaccion" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+      <p-column header="Peticiones por Minuto" field="peticionesPorMinuto"></p-column>
+      <p-column header="Ambiente" field="ambiente" [sortable]="true"></p-column>
+      <p-column header="Estatus" field="estatus" [sortable]="true"></p-column>
+    </p-dataTable>
+  </div>
+</div>

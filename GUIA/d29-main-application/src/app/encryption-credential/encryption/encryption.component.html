@@ -1,0 +1,34 @@
+<h2>Generación de credenciales WS-M2K</h2>
+
+<form [formGroup]="generateForm" class="form-horizontal" (ngSubmit)="generateCredential()">
+    <div class="form-group">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Contraseña M2K</label>
+                <app-encryption-help [ayuda]="ayudaPasswordM2k"></app-encryption-help>
+                <span class="danger_marker">*</span>
+                <input pInputText type="password" onkeypress="mayus(this);" class="form-control" formControlName="password"
+                       maxlength="8"
+                       placeholder="Ingresa contraseña de Mobile 2000" pTooltip="Ingresa contraseña de Mobile 2000"/>
+                <div class="ui-message ui-messages-error ui-corner-all"
+                     *ngIf="!generateForm.controls['password'].valid&&generateForm.controls['password'].dirty">
+                    <i class="fa fa-close"></i>
+                    Debe tener al menos 6 caracteres de la A-Z Mayuscula, incluidos números.
+                </div>
+            </div>
+        </div>
+
+
+        <div class="loading" *ngIf="loading">
+          <img src="../../assets/images/descarga" />
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary" [disabled]="!generateForm.valid">Generar</button>
+            </div>
+        </div>
+    </div>
+</form>
+

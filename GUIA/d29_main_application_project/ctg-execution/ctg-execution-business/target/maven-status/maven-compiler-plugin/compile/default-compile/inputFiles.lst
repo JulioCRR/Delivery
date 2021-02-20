@@ -1,0 +1,16 @@
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\utils\EClaves.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\utils\UtilidadesXMLImp.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\job\JobDepuradorSolicitudesCtg.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\rest\CtgExecutionRest.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\service\ValidationService.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\utils\UtilidadesCTGImp.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\service\NotificationService.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\utils\MailManager.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\exceptions\ReservedWordsException.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\job\ScheduledJobDepuradorSolicitudesCtg.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\exceptions\InvalidCharactersException.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\socket\CtgConector.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\init\CtgExecutionModuleInit.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\utils\XmlUtils.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\exceptions\CTGValidationException.java
+D:\WsToolsMigra\GUIA\d29_main_application_project\ctg-execution\ctg-execution-business\src\main\java\mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\business\dao\CtgExecutionDao.java

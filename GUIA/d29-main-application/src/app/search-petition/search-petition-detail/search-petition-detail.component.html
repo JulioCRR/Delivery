@@ -1,0 +1,99 @@
+
+    <br>
+    <div>
+        <p-panel >
+            <header>
+              Detalle de la Consulta
+            </header>
+            <button pButton  type="button" icon="fa-floppy-o" label="Exportar" style="float:right;" class="ui-button-info rg-button" (click)="downloadPDF()"></button>
+            <form class="form-horizontal"  > 
+                <div class="col-md-12">
+                        <label class="col-md-4 control-label">IdPeticion:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static" > {{infoRegistro.idPeticion}}</p>
+                        </div>
+                    </div>
+                <div class="col-md-6">
+                
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Región:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static" > {{infoRegistro.region}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Acción:</label>
+                        <div class="col-md-4">
+                             <p class="form-control-static" > {{infoRegistro.accion}}</p>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Servicio:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static"  > {{infoRegistro.funcion}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" >Tipo de conector:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static" > {{infoRegistro.tipoConector}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tipo de Respuesta:</label>
+                        <div class="col-md-">
+                            <p class="form-control-static"> {{infoRegistro.tipoRespuesta}}</p>
+                        </div>
+                    </div>    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Usuario:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static"  > {{infoRegistro.usuario}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tiempo del conector:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static" > {{infoRegistro.tiempoTotalConector}} ms</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tiempo total Web:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static" > {{infoRegistro.tiempoTotalWeb}} ms</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Servidor:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static"  > {{infoRegistro.server}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Instancia:</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static"  > {{infoRegistro.instancia}}</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <p-panel >
+                <header>
+                    Request
+                </header>
+                <pre lang="xml">{{infoRegistro.xmlEntrada | xml}}</pre>
+            </p-panel>
+            <p-panel >
+                <header>
+                    Response
+                </header>
+                <pre lang="xml" >{{infoRegistro.xmlRespuesta|xml }}</pre>
+            </p-panel> 
+        </p-panel>
+    </div>
+
+    
+    

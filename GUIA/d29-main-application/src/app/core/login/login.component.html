@@ -1,0 +1,219 @@
+<div class="login-holder">
+    <div class="wrapper" style="margin-bottom: 140px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="form" class="form-signin opaco" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+
+                        <div style="text-align:center;">
+                            <img src="assets/images/delivery-mf.png" style="width: 250px;margin-bottom: 20px;" />
+                        </div>
+                        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                            <label for="username">Usuario</label>
+                            <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+                            <div *ngIf="f.submitted && !username.valid" class="help-block">Usuario requerido</div>
+                        </div>
+                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                            <label for="password">Contraseña</label>
+                            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                            <div *ngIf="f.submitted && !password.valid" class="help-block">Contraseña requerida</div>
+                        </div>
+                        <div class="form-group">
+                            <button [disabled]="loading" class="btn btn-primary">Entrar</button>
+                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                            />
+                        </div>
+                        <div class="form-group">
+                            <a href="#" id=regModal data-toggle="modal" data-target="#agregarModal" (click)="chargeModules()">Registrate</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Registro formulario-->
+<div class="modal" id="agregarModal" tabindex="-1" role="dialog" aria-labelledby="agregarModallLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="registro">
+            <form #form="ngForm" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="agregarModalLabel">Registrarse</h4>
+                </div>
+                <div class="modal-body col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>ID. Usuario</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaNemp"></simple-help>
+                            <input type="text" class="form-control" id="nemp" name="nEmpleado" required [(ngModel)]="modulo.nEmpleado" placeholder="Ej. Elector01" required='true'>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaName"></simple-help>
+                            <input type="text" class="form-control" id="name" name="nombre" required [(ngModel)]="modulo.nombre" placeholder="Ej. Angela" required='true'>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>A. Paterno</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaSurNameP"></simple-help>
+                            <input type="text" class="form-control" id="aP" name="aPaterno" [(ngModel)]="modulo.aPaterno" placeholder="Ej. Tinoco" required='true'>
+                        </div>
+                        <div class="col-md-6">
+                            <label>A. Materno</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaSurNameM"></simple-help>
+                            <input type="text" class="form-control" id="aM" name="aMaterno" [(ngModel)]="modulo.aMaterno" placeholder="Ej. Ramírez" required='true'>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class=" col-md-6">
+                            <label>Correo</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaMail"></simple-help>
+                            <input type="text" class="form-control" id="mail" name="correo" [(ngModel)]="modulo.correo" placeholder="Ej. nombre@hotmail.com" required='true'>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Dirección de Usuario</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaUsuarioRed"></simple-help>
+                            <input type="text" class="form-control" id="usR" name="usuarioRed" [(ngModel)]="modulo.usuarioRed" placeholder="Ej. CLL rosas 23" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Celular</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaExt"></simple-help>
+                            <input type="text" class="form-control" id="ext" name="extension" [(ngModel)]="modulo.extension" placeholder="EJ. 5554123200">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Área</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaArea"></simple-help>
+                            <select class="form-control" id="ar" name="area" [(ngModel)]="modulo.area" required>
+                            <option value="">-SELECCIONA UNA ÁREA</option>
+                            <option *ngFor="let a of areas" [ngValue]="a.id">{{a.nombre}}</option>
+                          </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Ubicación</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaOfice"></simple-help>
+                            <select class="form-control" id="off" name="oficina" [(ngModel)]="modulo.oficina" required>
+                              <option value="">-SELECCIONA UNA UBICACIÓN </option>
+                              <option *ngFor="let o of oficinas" [ngValue]="o.id">{{o.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Puesto</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaPuesto"></simple-help>
+                            <select class="form-control" name="puesto" id="pu" [(ngModel)]="modulo.puesto" required>
+                              <option value="">-SELECCIONA UN PUESTO</option>
+                              <option *ngFor="let p of puestos" [ngValue]="p.id" >{{p.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Contraseña</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaPass"></simple-help>
+                            <input type="password" id="pswd" class="form-control" name="password" [(ngModel)]="modulo.password" placeholder="Clave de Ingreso" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Confirmar contraseña</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaPass2"></simple-help>
+                            <input type="password" id="pswd2" class="form-control" name="password2" [(ngModel)]="user.password" (keyup)="validatePassword()" placeholder="Confirma la contraseña" required autocomplete="off">
+                        </div>
+                    </div>
+                    <br>
+                    <!--<div class="row">
+                        <div class="col-md-12">
+                            <label>Modulo</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaModule"></simple-help>
+                            <div class="col-md-12">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td><b>Modulo</b></td>
+                                            <td><b>Descripción</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        <tr id="trBody" *ngFor="let mod of profiles">
+                                            <td class="col-md-1">
+
+                                                <p-checkbox name="modules" value="{{mod.id}}" [(ngModel)]="modulos"></p-checkbox>
+                                            </td>
+                                            <td>{{mod.nombre}}</td>
+                                            <td>{{mod.descripcion}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <br>-->
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <label>Comentarios</label>
+                            <span class="danger_marker">*</span>
+                            <simple-help [ayuda]="ayudaJustif"></simple-help>
+                            <textarea class="form-control" rows="4" id="just" name="justificacion" [(ngModel)]="modulo.justificacion" placeholder="EJ. La casa está antes de llegar a puente" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearUser()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveUser()" [disabled]="!form.valid">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <!--FORMULARIO EMAIL MODAL-->
+        <div class="modal-content" id="envioEmail" data-backdrop="static">
+            <form #frm="ngForm" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="agregarModalLabel">Registro de responsable</h4>
+                </div>
+                <div class="modal-body col-md-12">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <label>Enviar email a usuario responsable para que realice su registro</label>
+                            <input type="text" class="form-control" name="correoResp" [(ngModel)]="modulo.responsable" required='true'>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearMail()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendMail()">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

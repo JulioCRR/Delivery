@@ -1,0 +1,64 @@
+<div class="row">
+    <label class="col-md-4 control-label" ><h2>Perfiles</h2></label>
+    <div class="col-md-1 col-md-offset-7">
+        <button class="btn btn-primary" pTooltip="Agregar perfil" tooltipPosition="left" style="margin-bottom: 10px; margin-top:10px;"
+                pButton icon="fa-plus" data-toggle="modal" data-target="#agregarPerfilModal" (click)="clearNewProfile()" ></button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p-dataTable [value]="paginator.profiles" [responsive]="true" [paginator]="true" [rows]="5" [lazy]="true"
+            (onLazyLoad)="loadLazyData($event)" [totalRecords]="paginator.totalElements">
+            <p-column field="id" header="ID" styleClass="col-id" [style]="{'width':'35px', 'overflow': 'hidden'}"></p-column>
+            <p-column field="nombre" header="Descripción"></p-column>
+            <p-column styleClass="col-button" [style]="{'width':'35px'}">
+                <ng-template let-user="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-warning" pTooltip="Editar"
+                            data-toggle="modal" data-target="#agregarPerfilModal" (click)="selectProfile(user)" tooltipPosition="left"
+                            pButton icon="fa-pencil" ></button>
+                </ng-template>
+            </p-column>
+            <p-column styleClass="col-button" [style]="{'width':'35px'}">
+                <ng-template let-user="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-success" pTooltip="Permisos"  tooltipPosition="left"
+                            pButton icon="fa-key" (click)="onRowSelected(user['id'])" ></button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="agregarPerfilModal" tabindex="-1" role="dialog" aria-labelledby="agregarPerfilModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form #form="ngForm" novalidate >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="agregarPerfilModalLabel">Agregar perfil</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label for="inputNombre">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" required [(ngModel)]="profile.nombre" placeholder="Nombre del perfil">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="profile.id">
+                        <div class="col-md-12">
+                            <button pButton type="button" class="ui-button-danger" (click)="deleteProfile()" icon="fa-trash-o" label="Eliminar" data-dismiss="modal"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearNewProfile()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="savePerfil()" [disabled]="!form.valid">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

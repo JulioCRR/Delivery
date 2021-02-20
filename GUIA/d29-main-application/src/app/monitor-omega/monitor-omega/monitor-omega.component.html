@@ -1,0 +1,147 @@
+<div class="page-header">
+  <h1>Monitoreo Omegamon II for DB2.</h1>
+  <p>Muestra las transacciones CICS del Omegamon II for DB2.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+      <label>&Uacute;ltima Actualizaci&oacute;n</label>
+      <simple-help [ayuda]="ayudaFecha"></simple-help>
+      <p id="lastUpdate"></p>
+    </div>
+
+    <div class="col-md-2">
+      <label>Estado del Monitor</label>
+      <simple-help [ayuda]="ayudaMonitorOn"></simple-help>
+      <p id="monitorOn"></p>
+    </div>
+
+    <div class="col-md-1">
+      <label>Alertas</label>
+      <simple-help [ayuda]="ayudaAlertas"></simple-help>
+      <p id="alertsCount"></p>
+    </div>
+
+    <div class="col-md-2">
+      <label>Tiempo Refrescado</label>
+      <simple-help [ayuda]="ayudaTiempo"></simple-help>
+      <p id="refreshRate"></p>
+    </div>
+
+    <div class="col-md-2">
+      <label>Umbral Tiempo</label>
+      <simple-help [ayuda]="ayudaUmbral"></simple-help>
+      <p id="alertThreshold"></p>
+    </div>
+
+    <div class="col-md-2">
+      <label>Umbral CPU</label>
+      <simple-help [ayuda]="ayudaMaxCpu"></simple-help>
+      <p id="maxCpu"></p>
+    </div>
+
+    <div class="col-md-1">
+      <button type="button" class="ui-button-warning" pTooltip="Editar Propiedades" data-toggle="modal" data-target="#adminMonitor" (click)="clearPropiedades()" tooltipPosition="left" pButton icon="fa-pencil" ></button>
+      <simple-help [ayuda]="ayudaPropiedades"></simple-help>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-11"></div>
+  <div class="col-md-1">
+    <button type="button" class="ui-button-info" pTooltip="Reordenar Por Alerta" (click)="reordena()" tooltipPosition="left" pButton icon="fa-refresh" ></button>
+    <simple-help [ayuda]="ayudaReordenar"></simple-help>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <label>CICS Omega</label>
+    <image-help [ayuda]="ayudaTabla"></image-help>
+  </div>
+  <div class="col-md-11"></div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table id="omegaTableCics" class="display" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>CICS</th>
+          <th>Total CPU</th>
+          <th></th> <!-- alertRaised -->
+        </tr>
+      </thead>
+    </table>
+
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<div class="row">
+  <div class="col-md-2">
+    <label>Transacciones Omega</label>
+    <image-help [ayuda]="ayudaTabla"></image-help>
+  </div>
+  <div class="col-md-11"></div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table id="omegaTable" class="display" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>CICS</th>
+          <th>Regi&oacute;n</th>
+          <th>Programa</th>
+          <th>Transacci&oacute;n</th>
+          <th>Pantalla M2k</th>
+          <th>Tiempo</th>
+          <th>CPU</th>
+          <th>Estatus</th>
+          <th></th> <!-- threadType -->
+          <th></th> <!-- tiempoNum -->
+        </tr>
+      </thead>
+    </table>
+
+  </div>
+</div>
+
+<!-- Modal Administracion Monitor -->
+<div class="modal fade" id="adminMonitor" tabindex="-1" role="dialog" aria-labelledby="adminMonitorLabel">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <form #form="ngForm" novalidate >
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="adminMonitorLabel">Administrar Monitor</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      <label>Refrescado de Datos (de 3 a 15 minutos)</label>
+                      <p-spinner id="intervaloRefrescado" class="form-control" name="intervaloRefrescado" required [(ngModel)]="propiedadesUser.intervaloRefrescado" [step]="1" [min]="3" [max]="15" placeholder="Ej. 3"></p-spinner>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      <label>Umbral de Tiempo (de 5.0 a 15.0 segundos)</label>
+                      <p-spinner id="umbralAlertas" class="form-control" name="umbralAlertas" required [(ngModel)]="propiedadesUser.umbralAlertas" [step]="0.1" [min]="5.0" [max]="15.0" placeholder="Ej. 5.0"></p-spinner>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      <label>Umbral de CPU (de 30.0 a 95.0 segundos)</label>
+                      <p-spinner id="maximoCpu" class="form-control" name="maximoCpu" required [(ngModel)]="propiedadesUser.maxCpu" [step]="0.1" [min]="30.0" [max]="95.0" placeholder="Ej. 30.0"></p-spinner>
+                    </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearPropiedades()">Cancelar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="savePropiedades()" [disabled]="!form.valid">Guardar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

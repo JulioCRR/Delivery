@@ -1,0 +1,112 @@
+
+<div class="page-header">
+    <h1>AGENDA DE AMBIENTE WS-M2K</h1>
+
+    <div style="float: right">
+      <a [href]="pdfSrc" target="_blank" class="btn btn-link">Manual del Usuario <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+    </div>
+
+    <p>Este módulo le permite agendar el ambiente de desarrollo WS-M2k para realizar pruebas.</p>
+
+</div>
+
+<div>
+    <a [routerLink]="['editarSolicitud']" id="btnEdit" class="btn btn-info" style="float: right; top: 20px;">Mis solicitudes</a>
+</div>
+<div>
+    <a [routerLink]="['solicitud']" class="btn btn-primary">Agendar Ambiente</a>
+</div>
+
+
+<div class="spinFa" *ngIf="spin">
+  <i class="fa fa-spinner fa-spin " style="font-size:200px;  color:rgb(0, 89, 255);"></i>
+</div>
+<p-dialog [(visible)]="spin" modal="modal" width="2" height="2" class="spinFa" [responsive]="true" [showHeader]="false" [resizable]="false"  [draggable]="false" [closable]="false"></p-dialog>
+
+<div>
+    <p-schedule #fc [events]="listCalendarEvent" [header]="calendarHeader" [defaultView]="calendarDefaultView" [businessHours]="false" [allDaySlot]="false" [defaultDate]="calendarDefaultDate" [slotEventOverlap]="false" [options]="calendarOptions" [fixedWeekCount]="false" [nowIndicator]="true"
+     [weekends]="false"  [eventLimit]="9" [editable]="false" (onDayClick)="clickCalendarDay($event , fc) " (onViewRender)="calendarOnViewRender($event , fc) " (onEventClick)="clickCalendarEvent($event, fc) " [dayRender]="dayRender" [eventRender]="eventRender">
+    </p-schedule>
+
+</div>
+
+<div>
+    <p-dialog [(visible)]="displayDetailAgenda" modal="modal" width="400" [responsive]="true" [resizable]="false" [draggable]="false" [closable]="false" [contentStyle]="{'max-height':'400px'}">
+        <p-header>
+            Detalle de Consulta
+        </p-header>
+
+        <div *ngFor="let detalle of detalleSolictud ">
+            <div class="row " style="padding-top:5px;padding-bottom: 10px;margin-left: 1%; ">
+                <div aria-live="polite " class="ui-message ui-widget ui-corner-all ui-messages-success " style="font-size: 20px;width: 100%; text-align: center;">
+                    <span class="ui-message-icon fa fa-info-circle "></span>
+                    <span class="ui-message-text ">FOLIO: {{detalle.folio }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="middleField">PROYECTO: </label> {{detalle.nomProyect}}
+            </div>
+            <div class="row">
+              <label class="middleField">SOLICITANTE: </label>{{detalle.nomUser}}
+          </div>
+            <div class="row">
+                <label class="middleField">CORREO: </label>{{detalle.userMail}}
+            </div>
+            <div class="row">
+                <label class="middleField">USUARIO: </label>{{detalle.usuario}}
+            </div>
+            <div class="row">
+                <label class="middleField">FECHA DE INCIO:</label> {{detalle.fechaInicio}}
+            </div>
+            <div class="row">
+                <label class="middleField">FECHA FINAL:  </label>{{detalle.fechaFinal}}
+            </div>
+            <div class="row">
+                <label class="middleField">HORARIO:</label>
+                <span *ngIf="detalle.turno===1">9:00 hrs a 12:00 hrs.</span>
+                <span *ngIf="detalle.turno===2">12:00 hrs a 15:00 hrs.</span>
+                <span *ngIf="detalle.turno===3">15:00 hrs a 18:00 hrs.</span>
+            </div>
+            <div class="row">
+                <label class="middleField">COMENTARIO: </label>{{detalle.comentarios}}
+            </div>
+            <div class="row">
+              <label class="middleField">PERMISOS: </label>
+          </div>
+            <div>
+                <h5>
+                    <div class="col-md-5 ">
+                        <div class="row ">
+                            <table class="table">
+                                <tr>
+                                    <th>Ip's</th>
+                                </tr>
+                                <tr *ngFor="let i of detalle.permisosIp ">
+                                    <th>{{i.ip}}</th>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="row ">
+                            <table class="table ">
+                                <tr>
+                                    <th>Transacción</th>
+                                </tr>
+                                <tr *ngFor="let i of detalle.permisosTrans ">
+                                    <th>{{i.transaccion}}</th>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </h5>
+            </div>
+        </div>
+        <p-footer>
+            <button style="float:right; margin-right: 40px; " type="button " pButton icon="fa-close " (click)="cancelDetalleAgenda() " label="Salir " class="ui-button-info "></button>
+        </p-footer>
+    </p-dialog>
+</div>

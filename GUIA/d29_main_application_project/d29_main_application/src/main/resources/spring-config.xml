@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:spring-configured/>
+    <context:annotation-config/>
+    <!--<context:component-scan/>-->
+    <context:component-scan base-package="mx.com.telcel.di.sds.gsac.dsc.ws.main_application" />
+
+
+
+    <import resource="db-context.xml"/>
+    <import resource="jms-context.xml"/>
+    <import resource="monitorBeans.xml"/>
+    <import resource="quartz-context.xml"/>
+    <import resource="mail-context.xml"/>
+    <import resource="aop-context.xml"/>
+    <import resource="scrapyConector-context.xml"/>
+    <import resource="ctgConector-context.xml"/>
+    <import resource="agendaBeans.xml"/>
+
+    <bean id="generalProperties" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="targetMapClass">
+            <value>java.util.LinkedHashMap</value>
+        </property>
+        <property name="sourceMap">
+            <map>
+                <entry key="retryDBOperation" value="(ORA-01012|ORA-12519|ORA-02391|ORA-02396|ORA-12505|Could not do a physical-order|Could not update a row in the table|Could not insert new row|Could not position within a table|SQL0104N  An unexpected token|SQL1226N  The maximum number of client connections are already started.)"/>
+                <entry key="retryXMPService" value="(SOCKET|NULL|500|HTML|CONEXION|OBTUVO|404|CONNECTION|GRPCO|503|SQ006|CTG9630E IOEXCEPTION|IOEXCEPTION)" />
+                <entry key="retryErrorRegExp" value="(SOCKET|NULL|500|HTML|CONEXION|OBTUVO|404|CONNECTION|GRPCO|503|SQ006|DB166|DB163|DB116|DB170|DB148|DB140|DB143|DB150|DB149|DB032|DB177|DB141|200 Existe un error de comunicacion con CTG)"/>
+                <entry key="terminalErrorRegExp" value="(DB176|DB012|AS057|AS883|AS040|AS197|ASASF|ASA4A|ASA4B|ASA4C|ASA4D|ASA4E|ASA4F|ASA4G|ASA4H|ASA4I|ASA4J|ASA4K)"/>
+                <entry key="historicoImpl" value="mx.com.telcel.di.sds.gsac.dsc.dispatcher_m2k.datos.impl.jpa.CommonPersistJPA"/>
+                <entry key="maxRetry" 						value="5"/>
+                <entry key="maxRetryXMP" 					value="5"/>
+                <entry key="timeOutErrorText" 				value="Imposible calcular rango debido a que no hay una configuracion de timeout cargada"/>
+
+                <entry key="S_GET_DAEMON_MSG_M2K" 			value="SELECT c FROM SiacMmCodigo c where c.accion>'0'"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="IllegalArgumentException" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="targetMapClass">
+            <value>java.util.LinkedHashMap</value>
+        </property>
+        <property name="sourceMap">
+            <map>
+                <entry key="regionInvalida" value="La region=[?]no tiene el formato requerido(R0X) donde X es un numero de 0 a 9." />
+            </map>
+        </property>
+    </bean>
+
+    
+    <!-- Use the HibernateAware mapper instead of the default -->
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper">
+            <bean class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.d29_main_application.HibernateAwareObjectMapper" />
+        </property>
+    </bean>
+
+    <bean id="mailProperties" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.common.MailProperties">
+        <property name="smtpServer" value="@mail.smtp.server@"/>
+        <property name="smtpPort" value="@mail.smpt.port@"/>
+        <property name="mailUsr" value="@mail.sender.user@"/>
+        <property name="mailPwd" value="@mail.sender.pwd@"/>
+        <property name="mailTemplateRespuestaUrl" value="@mail.template.respuesta.url@"/>
+        <property name="mailTemplateSolicitudUrl" value="@mail.template.solicitud.url@"/>
+        <property name="templateTelcelLogo" value="@mail.telcel.logo.url@"/>
+        <property name="templateBackground" value="@mail.background.url@"/>
+        <property name="templateSolicitudUrl" value="@mail.portal.servicios.url@"/>
+    </bean>
+
+</beans>
+

@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-md-4">
+        <label class="control-label" ><h2>Usuarios</h2></label>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="col-md-10">
+            <input type="search" class="form-control"
+                   required
+                   [(ngModel)]="textSearch" name="textSearch"
+                   (ngModelChange)="filterSearch($event)"
+                   id="textSearch" placeholder="Buscar..." />
+
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" pTooltip="Agregar usuario" tooltipPosition="left" style="margin-bottom: 10px; margin-top:10px;"
+                    pButton icon="fa-plus" data-toggle="modal" data-target="#agregarModal"></button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p-dataTable [value]="paginator.users" [responsive]="true" [paginator]="true" [rows]="10" [lazy]="true"
+            (onLazyLoad)="loadLazyData($event)" [totalRecords]="paginator.totalElements">
+            <p-column field="id" header="ID" styleClass="col-id" [style]="{'width':'35px', 'overflow': 'hidden'}"></p-column>
+            <p-column field="nempleado" header="N. Empleado"></p-column>
+            <p-column field="nombre" header="Nombre">
+                <ng-template let-col let-user="rowData" pTemplate="body">
+                    {{user['nombre']}} {{user['apaterno']}} {{user['amaterno']}}
+                </ng-template>
+            </p-column>
+            <p-column field="extension" header="Extensión" [style]="{'width':'150px'}"></p-column>
+            <p-column field="correo" header="Correo"></p-column>
+            <p-column styleClass="col-button" [style]="{'width':'35px'}">
+                <ng-template let-user="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-warning" pTooltip="Editar"
+                            data-toggle="modal" data-target="#agregarModal" (click)="selectUser(user)" tooltipPosition="left"
+                            pButton icon="fa-pencil" ></button>
+                </ng-template>
+            </p-column>
+            <p-column styleClass="col-button" [style]="{'width':'35px'}">
+                <ng-template let-user="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-success" pTooltip="Permisos"  tooltipPosition="left"
+                            pButton icon="fa-key" (click)="onRowSelected(user['id'])" ></button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="agregarModal" tabindex="-1" role="dialog" aria-labelledby="agregarModallLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form #form="ngForm" novalidate >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="agregarModalLabel">Agregar usuario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>N. Empleado</label>
+                            <input type="text" class="form-control" name="nempleado" required [(ngModel)]="user.nempleado" placeholder="Ej. EX287879">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" name="nombre" required [(ngModel)]="user.nombre" placeholder="Ej. Angel">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>A. Paterno</label>
+                            <input type="text" class="form-control" name="apaterno" [(ngModel)]="user.apaterno" placeholder="Ej. Garcia">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>A. Materno</label>
+                            <input type="text" class="form-control" name="amaterno" [(ngModel)]="user.amaterno" placeholder="Ej. Hernández">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Correo</label>
+                            <input type="text" class="form-control" name="correo" [(ngModel)]="user.correo" placeholder="Ej. alan@mail.telcel.com">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Usuario de Red</label>
+                            <input type="text" class="form-control" name="usuarioRed" [(ngModel)]="user.usuarioRed" placeholder="Ej. VI9XXDF">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Extensión</label>
+                            <input type="text" class="form-control" name="extension" [(ngModel)]="user.extension" placeholder="EJ. 3259">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearUser()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveUser()" [disabled]="!form.valid">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

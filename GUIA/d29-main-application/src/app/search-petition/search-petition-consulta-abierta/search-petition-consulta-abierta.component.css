@@ -1,0 +1,80 @@
+
+.customLabel{
+    width: 100%;
+    position: relative;
+    padding-left: 6px;
+    top:8px;
+}
+
+
+
+.submit{
+    margin-top: 30px;
+    float: left;
+    width: 200%;
+    margin-left: 10px;
+}
+
+
+
+.input{
+    width: 250px;
+    padding-left: 5px;
+}
+
+.help{
+    top:16px;
+    left: 10px;
+    position: relative;
+}
+
+
+
+.helpDate{
+    top:16px;
+    left: 14px;
+    position: relative;
+}
+
+
+.inputHora{
+    width: 180px;
+
+    position: relative;
+}
+
+.inputselect{
+    width: 120px;
+    height: 30px;
+    position: relative;
+}
+
+.focus{
+    color:#2C3077;
+
+}
+
+  .strong{
+    color: #5DADE2
+  }
+
+  .danger_marker {
+    color:red;
+    font-weight: bold;
+}
+
+
+
+.noPadding {
+    padding: 0px;
+    width: 250px;
+    height: 20px;
+    margin-bottom :-15px;
+
+}
+
+.marg{
+
+    margin-bottom: 30px;
+}
+

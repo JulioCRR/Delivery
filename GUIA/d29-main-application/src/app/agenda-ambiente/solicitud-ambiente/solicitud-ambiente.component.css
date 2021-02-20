@@ -1,0 +1,28 @@
+    .customLabel {
+        font-size: 10pt;
+    }
+    
+    input:invalid:required {
+        border: 2px solid red;
+    }
+    
+    select:invalid:required {
+        border: 2px solid red;
+    }
+    
+    .noPadding {
+        height: 50px;
+    }
+    
+    .danger_marker {
+        color: red;
+        font-weight: bold;
+    }
+    
+    .headersTable {
+        width: 25%;
+    }
+    
+    .helphd {
+        margin-right: 40%;
+    }

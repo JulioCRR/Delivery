@@ -1,0 +1,20 @@
+.thread-type-alert {
+  background-color: red !important;
+  color: white !important;
+}
+
+.thread-type-ignore {
+  background-color: darkgray !important;
+  color: black !important;
+}
+
+p-spinner#intervaloRefrescado, #umbralAlertas, #maximoCpu {
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  width: 0px;
+  color: transparent !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+}

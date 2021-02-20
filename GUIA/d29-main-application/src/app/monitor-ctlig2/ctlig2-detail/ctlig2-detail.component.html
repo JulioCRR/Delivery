@@ -1,0 +1,57 @@
+<div *ngIf="!processDetail">
+    Cargando...
+</div>
+<div *ngIf="processDetail">
+    <p-growl [value]="msgs"></p-growl>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Detalle de proceso para la región: {{processDetail.region}}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Inicio del proceso</label> {{processDetail.start | date: 'dd/MM/yyyy HH:mm'}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Fin del proceso</label> {{processDetail.end | date: 'dd/MM/yyyy HH:mm'}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Descripción</label> {{processDetail.description}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Request</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <pre lang="xml" >{{processDetail.request}}</pre>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Response</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <pre lang="xml" >{{processDetail.response}}</pre>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a class="site_title">
+                <button type="button" class="btn btn-link" (click)="backW()">Regresar</button>
+            </a>
+        </div>
+    </div>
+</div>

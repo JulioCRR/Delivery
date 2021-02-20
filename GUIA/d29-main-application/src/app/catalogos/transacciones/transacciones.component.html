@@ -1,0 +1,217 @@
+
+<div class="container theme-showcase" role="main">
+
+  <!--<p-blockUI [blocked]="blockedDocument"></p-blockUI>-->
+
+<div class="page-header">
+  <h1>Catálogo de Transacciones</h1>
+  <p>En esta sección, usted podrá realizar la búsqueda de una transacción a Mobile 2000 y se cargarán las acciones disponibles para dicha transacción, finalmente cuando haya cargado la transacción y la acción, usted podrá buscar las cadenas XML de Request y Response correspondiente.</p>
+</div>
+
+<div *ngIf="transBackEnd == null" class="row">
+  <div aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-error ng-star-inserted biggerMessage">
+              <span class="ui-message-icon fa fa-close"></span>
+              <span class="ui-message-text">No se han cargado TRANSACCIONES debido a que no hay cadenas guardadas.</span>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-2" style="padding-top: 10px;">
+    <label for="lstTransacciones">Seleccione una Transacción</label>
+    <!--<simple-help [ayuda]="help"></simple-help>-->
+    <image-help [ayuda]="img_help"></image-help>
+    <p-listbox id="lstTransacciones"
+    [style]="{'width':'100%', 'overflow': 'auto'}" [listStyle]="{'max-height':'350px'}" filter="filter"
+      [options]="transBackEnd | formatSelectItem:'id':'transaccionPantallaTransient'"
+      [(ngModel)]="selectedTransaccion" (onDblClick)="buscaraccion()">
+      <ng-template let-item pTemplate="item">
+          {{item.label}}
+      </ng-template>
+    </p-listbox>
+
+  </div>
+
+  <div class="col-md-2" style="padding-top: 10px;">
+
+    <label for="selectAccion">Seleccione una Acción</label>
+
+    <select id="selectAccion" name="selectAccion" #selectAccion
+          class="form-control" [disabled]="disableSelect" (change)="validarAccion($event);"
+          [(ngModel)]="selectedAccion">
+        <option [ngValue]="x" >-- SELECCIONE UNA OPCION --</option>
+        <option *ngFor="let x of accionesBackEnd" [ngValue]="x" >{{x.accion.clave}}</option>
+    </select>
+
+  </div>
+
+  <!--<div *ngIf="expression"></div>-->
+  <button pButton [disabled]="blockedDocument" type="button" icon="fa-floppy-o" label="Exportar  {{conteoTransaccion}}" class="rg-button" (click)="download()"></button>
+  <a style= "cursor: pointer; margin-left:60%;" (click)="showDialog()">ver detalle</a>
+
+
+  <div class="col-md-1" style="padding-top: 10px;display: flex;">
+      <button pButton [disabled]="blockedDocument" type="button" label="Buscar" (click)="onclick()" style="margin-top:30px; float:right;"></button>
+  </div>
+
+ <div id="transactionInfo" class="col-md-7" style="padding-top: 10px;">
+
+  <p-blockUI [target]="pnlResp" [blocked]="blockedDocument">
+      <i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+  </p-blockUI>
+
+
+  <p-panel #pnlResp>
+
+
+     <p-header class="ui-helper-clearfix">
+       <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Ejemplo de XML para la transacción</span>
+       <br/>
+       <label>Cambiar el tipo de cadenas</label>
+       <br/>
+       <p-inputSwitch onLabel="ContratoCorporativo" offLabel="Convencional" (click)="changeRequest()"></p-inputSwitch>
+
+       <!--<button pButton [disabled]="blockedDocument" type="button" icon="fa-floppy-o" label="Exportar" class="ui-button-info rg-button" (click)="download()"></button>-->
+
+
+       <!-- BOTON DE AGREGAR TRANSACCIONES-->
+       <!--<button type="text" style = "margin-right: 1%;" pButton label="Agregar {{conteoTransaccion}}"  (click)="agragarTransaccion()"></button>-->
+       <button type="text" style = "margin-left: 85%;" icon="fa-check-circle" pButton label="Agregar" (click)="agragarTransaccion()"></button>
+
+
+       <!--<button id= "botonPanel" [hidden]="true" style="display:none" pButton label="mostrar" (click)="op1.toggle($event)"></button>-->
+       <!--<button type="text" pButton label="Transacciones" (click)="op1.toggle($event)"></button>-->
+
+       <!--style= "display:none"-->
+
+      <!--<div  id ="op1" style="display: none;">
+        <p *ngFor="let agregada of agregadas">
+          <b>{{agregada}}</b>
+        </p>
+      </div>-->
+
+
+        <!--<table style="width: 30%;">
+          <tr>
+            <th>Transaccion</th>
+            <th> </th>
+            <th>Eliminar</th>
+          </tr>
+          <tr *ngFor="let agregada of agregadas">
+          <td >{{agregada}}</td>
+          <td > <a style="cursor:pointer;color: red;" (click)="eliminarAgregada(agregada)">X</a></td>
+          </tr>
+        </table>-->
+
+        <!--<p *ngFor="let agregada of agregadas">
+          <b>{{agregada}}</b>
+        </p>-->
+
+
+
+    </p-header>
+
+
+    <div class="row">
+       <div class="col-md-6">
+          <p>
+            Transacción:<b> {{selectedTransaccionTxt}} </b>
+          </p>
+       </div>
+      <div class="col-md-6">
+          <p>
+            Fecha Creación:<b> {{selectedFechaCreacion}} </b>
+          </p>
+        </div>
+    </div>
+    <div class="row">
+       <div class="col-md-6">
+          <p>
+            Pantalla:<b> {{selectedPantallaTxt}} </b>
+          </p>
+       </div>
+        <div class="col-md-6">
+          <p>
+            Fecha Ultima Modificación:<b> {{selectedFechaModifiacion}} </b>
+          </p>
+        </div>
+    </div>
+    <div class="row">
+       <div class="col-md-6">
+          <p>
+            Acción:<b> {{selectedAccionTxt}} </b>
+          </p>
+       </div>
+       <div class="col-md-6">
+        <p>
+          Responsable :<b>{{responsableM2k}} </b>
+          <!--Responsable :<b>Área Responsable </b>-->
+        </p>
+     </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+          <p>
+            Descripción:<b> {{descripcionTxt}} </b>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p>
+            Correspondencia:<b> {{correspondencia}} </b>
+          </p>
+        </div>
+    </div>
+
+
+    <p-tabView>
+
+      <p-tabPanel [disabled]="blockedDocument" header="Request" leftIcon="fa fa-file-code-o">
+        <pre *ngIf="contratoEnvChecked">{{contratoRequestXml}}{{requestXml}}{{contratoRequestXmlClose}}</pre>
+        <pre *ngIf="contratorRequestChecked">{{requestXml}}</pre>
+      </p-tabPanel>
+
+      <p-tabPanel [disabled]="blockedDocument" header="Response Exitoso" leftIcon="fa fa-file-code-o">
+          <pre *ngIf="contratoEnvChecked">{{contratoResponseXmlSuccess}}{{responseXmlSuccess}}{{contratoResponseXmlSuccessClose}}</pre>
+          <pre *ngIf="contratorRequestChecked">{{responseXmlSuccess}}</pre>
+      </p-tabPanel>
+
+      <p-tabPanel [disabled]="blockedDocument" header="Response Error M2k" leftIcon="fa-desktop">
+        <pre *ngIf="contratoEnvChecked">{{contratoResponseXmlEM2K}}</pre>
+        <pre *ngIf="contratorRequestChecked">{{responseXmlEM2K}}</pre>
+      </p-tabPanel>
+
+      <p-tabPanel [disabled]="blockedDocument" header="Response Error Mobile" leftIcon="fa-server">
+        <pre  *ngIf="contratoEnvChecked">{{contratoResponseXmlEMob}}{{responseXmlEMob}}{{contratoResponseXmlEMobClose}}</pre>
+        <pre  *ngIf="contratorRequestChecked">{{responseXmlEMob}}</pre>
+      </p-tabPanel>
+
+
+    </p-tabView>
+
+
+  </p-panel>
+
+ </div>
+
+ <p-dialog header="Transacciones" [(visible)]="display" modal="modal" width="300" responsive="true">
+
+      <table style="width: 30%;">
+        <tr>
+          <th>Transaccion</th>
+          <th> </th>
+          <th>Eliminar</th>
+        </tr>
+        <tr *ngFor="let agregada of agregadas">
+        <td >{{agregada}}</td>
+        <td > <a style="cursor:pointer;color: red;" (click)="eliminarAgregada(agregada)">X</a></td>
+        </tr>
+      </table>
+      <p-footer>
+          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+              <button type="button" pButton icon="fa-close" (click)="display=false" label="Cerrar"></button>
+          </div>
+      </p-footer>
+</p-dialog>
+</div>
+
+</div>

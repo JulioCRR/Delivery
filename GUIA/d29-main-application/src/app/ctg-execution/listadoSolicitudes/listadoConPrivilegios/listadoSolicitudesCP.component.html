@@ -1,0 +1,184 @@
+<div class="row" style="padding-bottom: 10px;">
+    <p-dataTable [value]="solicitudes" [(selection)]="seleccion" dataKey="id" [paginator]="true" 
+    [rows]="5" [rowsPerPageOptions]="[5,10,20]">
+        <p-header>
+            <h2>Solicitudes de Ambiente CTG </h2>
+        </p-header>  
+          <div *ngIf="enableButtons === 'true'" class="row">  
+                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+          </div>
+
+          <p-column field="folioGenerado" header="Folio" [sortable]="true"
+                    [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"
+                    [style]="{'width':'180px'}">
+                <ng-template let-col let-sol="rowData" pTemplate="body">
+                   <span><a style="color:blue;text-decoration: underline;cursor:pointer;" (click)="showSolicitud(sol)" pTooltip="Ver detalle del folio" tooltipPosition="top">{{sol[col.field]}}</a></span> 
+              </ng-template>    
+            </p-column>
+
+          <p-column field="estatus" header="Estatus" [sortable]="true">
+              <ng-template let-col let-sol="rowData" pTemplate="body">
+                <div *ngIf="sol[col.field] == 'ACT'" >
+                    <div aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-success"
+                        style="margin:0;">
+                            <span class="ui-message-icon fa fa-info-circle"></span>
+                            <span class="ui-message-text espacioIzq">ACTIVO</span>
+                    </div>
+                </div>
+                <div *ngIf="sol[col.field] == 'INA'" >
+                    <div  aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-info"
+                        style="margin:0;">
+                            <span class="ui-message-icon fa fa-info-circle"></span>
+                            <span class="ui-message-text espacioIzq">INACTIVO</span>
+                    </div>      
+                </div>
+                <div *ngIf="sol[col.field] == 'REC'" >
+                    <div  aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-error"
+                        style="margin:0;">
+                            <span class="ui-message-icon fa fa-ban"></span>
+                            <span class="ui-message-text espacioIzq">RECHAZADO</span>
+                    </div>      
+                </div>
+                <div *ngIf="sol[col.field] == 'CAN'" >
+                    <div  aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-warn"
+                        style="margin:0;">
+                            <span class="ui-message-icon fa fa-trash-o"></span>
+                            <span class="ui-message-text espacioIzq">CANCELADO</span>
+                    </div>      
+                </div>
+                <div *ngIf="sol[col.field] == 'COM'" >
+                    <div  aria-live="polite" class="ui-message ui-widget ui-corner-all custom-messate-black"
+                        style="margin:0;">
+                            <span class="ui-message-icon fa fa-trash-o"></span>
+                            <span class="ui-message-text espacioIzq">COMPLETADO</span>
+                    </div>      
+                </div>
+              </ng-template>
+          </p-column>
+          <p-column field="fecha_solicitud" header="Fecha Solicitud" [sortable]="true">
+              <ng-template let-col let-sol="rowData" pTemplate="body">
+                <span>{{sol[col.field] | date:'dd/MM/yyyy'}}</span>
+              </ng-template>
+          </p-column>
+          <p-column field="hora_inicio" header="Hora Inicio" [sortable]="true">
+              <ng-template let-col let-sol="rowData" pTemplate="body">
+                <span>{{sol[col.field]}}</span>
+              </ng-template>
+          </p-column>
+          <p-column field="hora_fin" header="Hora Fin" [sortable]="true">
+              <ng-template let-col let-sol="rowData" pTemplate="body">
+                <span>{{sol[col.field]}}</span>
+              </ng-template>
+          </p-column>
+          <p-column field="programa" header="Programa" [sortable]="true"
+                    [filter]="true" filterPlaceholder="Search"></p-column>  
+          <p-column field="solicitante" header="Solicitante" [sortable]="true"
+                    [filter]="true" filterPlaceholder="Buscar">
+              <ng-template let-col let-sol="rowData" pTemplate="body">
+                <span>{{sol[col.field].nombre}} {{sol[col.field].apaterno}} {{sol[col.field].amaterno}}</span>
+              </ng-template>
+          </p-column>  
+          <p-footer>
+                <div *ngIf="enableButtons === 'true'" class="row">  
+                    <label>Folios para Autorizar/Rechazar</label>
+                    <button pButton type="button" icon="fa-times" label="RECHAZAR" class="ui-button-danger" style="float:right;" (click)="actualizarSolicitudes('RECHAZAR')"></button>  
+                    <button pButton type="button" icon="fa-check" label="APROBAR" class="ui-button-success" style="float:right;" (click)="actualizarSolicitudes('APROBAR')"></button>
+                
+                    <ul>
+                        <li *ngFor="let sol of seleccion" style="text-align: left">Folio: {{sol.folioGenerado}}</li>
+                    </ul>
+                </div>
+          </p-footer>
+    </p-dataTable>
+</div>
+
+<div *ngIf="enableButtons === 'true'" class="row">
+<p-dialog header="Confirmación de la Acción" [(visible)]="displayFormConfirm" modal="modal" width="300"
+         [responsive]="true" [resizable]="false" [draggable]="false" [closable]="true">
+        
+
+        <div class="row"><label>¿Esta seguro de {{accion}} lo(s) siguiente(s) folio(s)?</label></div>
+        <div class="row">
+           <ul>
+                  <li *ngFor="let sol of seleccion" style="text-align: left">Folio: {{sol.folioGenerado}}</li>
+              </ul>
+        </div>
+        
+        
+        <p-footer>
+            <button style="float:right" type="button" pButton icon="fa-check" (click)="confirmDialog()" label="Confirmar" class="ui-button-success"></button>
+            <button style="float:right" type="button" pButton icon="fa-times" (click)="cancelDialog()" label="Cancelar" class="ui-button-info"></button>
+        </p-footer>
+</p-dialog>
+</div>
+
+<div *ngIf="displaySolicitudModal == true">
+<p-dialog header="Detalle de la Solicitud" [(visible)]="displaySolicitudModal" [responsive]="true" showEffect="fade" [modal]="true" width="350">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>FOLIO</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.folioGenerado}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>FECHA SOLICITUD</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.fecha_solicitud}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>HORA INICIO</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.hora_inicio}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>HORA FIN</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.hora_fin}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>TRANSACCIÓN</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.transaccion}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>PROGRAMA</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.programa}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>No. TRANSACCIONES</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.total_transacciones}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>USUARIO MOBILE</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.usuario}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>ESTATUS</label></div>
+            <div *ngIf="selectedSolicitud.estatus == 'ACT'" >
+                <div class="ui-grid-col-6">ACTIVO</div>    
+            </div>    
+            <div *ngIf="selectedSolicitud.estatus == 'INA'" >
+                <div class="ui-grid-col-6">INACTIVO</div>  
+            </div>
+            <div *ngIf="selectedSolicitud.estatus == 'REC'" >
+                 <div class="ui-grid-col-6">RECHAZADO</div>    
+            </div>
+            <div *ngIf="selectedSolicitud.estatus == 'CAN'" >
+                 <div class="ui-grid-col-6">CANCELADO</div>       
+            </div>
+            <div *ngIf="selectedSolicitud.estatus == 'COM'" >
+                 <div class="ui-grid-col-6">COMPLETADO</div>       
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>RESPONSABLE AUTORIZACIÓN</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.responsableAutorizacion.nombre}} {{selectedSolicitud.responsableAutorizacion.apaterno}} {{selectedSolicitud.responsableAutorizacion.amaterno}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>SOLICITANTE</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.solicitante.nombre}} {{selectedSolicitud.solicitante.apaterno}} {{selectedSolicitud.solicitante.amaterno}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>PROYECTO ASOCIADO</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.proyectoAsociado}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6"><label>COMENTARIO</label></div>
+            <div class="ui-grid-col-6">{{selectedSolicitud.comentarios}}</div>
+        </div>
+</p-dialog>
+</div>

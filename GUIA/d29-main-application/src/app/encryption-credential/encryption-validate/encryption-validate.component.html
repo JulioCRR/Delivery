@@ -1,0 +1,109 @@
+<h2>Validador de credenciales</h2>
+<div class="container theme-showcase" role="main"></div>
+<form [formGroup]="validateForm" class="form-horizontal" (ngSubmit)="validateCredential()">
+    <div class="form-group">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Clave</label>
+                <span class="danger_marker">*</span>
+                <app-encryption-help [ayuda]="ayudaClave"></app-encryption-help>
+                <input pInputText type="text" class="form-control" formControlName="clave"
+                       placeholder="Ingresa la clave del PDF" pTooltip="Ingresa la clave del PDF"/>
+                <div class="ui-message ui-messages-error ui-corner-all"
+                     *ngIf="!validateForm.controls['clave'].valid&&validateForm.controls['clave'].dirty">
+                    <i class="fa fa-close"></i>
+                    Campo obligatorio
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Folio</label>
+                <span class="danger_marker">*</span>
+                <app-encryption-help [ayuda]="ayudaFolio"></app-encryption-help>
+                <input pInputText type="text" class="form-control" formControlName="folio"
+                       placeholder="Ingresa la clave del PDF" pTooltip="Ingresa la clave del PDF"/>
+                <div class="ui-message ui-messages-error ui-corner-all"
+                     *ngIf="!validateForm.controls['folio'].valid&&validateForm.controls['folio'].dirty">
+                    <i class="fa fa-close"></i>
+                    Campo obligatorio
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Signature</label>
+                <span class="danger_marker">*</span>
+                <app-encryption-help [ayuda]="ayudaSignature"></app-encryption-help>
+                <textarea class="form-control" rows="5" pInputTextarea autoResize="autoResize"
+                          (keyup)="removeBreakLine($event)" formControlName="signature"
+                          pTooltip="Ingresa la cadena de la firma digital"></textarea>
+                <div class="ui-message ui-messages-error ui-corner-all"
+                     *ngIf="!validateForm.controls['signature'].valid&&validateForm.controls['signature'].dirty">
+                    <i class="fa fa-close"></i>
+                    Campo obligatorio
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6" [ngClass]="{'has-error':formErrors.usuarioM2k}">
+                <label class="control-label" for="usuarioM2k">Usuario Mobile</label>
+                <span class="danger_marker">*</span>
+                <app-encryption-help [ayuda]="ayudaUsr"></app-encryption-help>
+                <input pInputText type="text" class="form-control" required
+                [ngModel]="usuarioM2k"  formControlName="usuarioM2k"
+                       placeholder="Ingresa el usuario Mobile" pTooltip="Ingresa el usuario Mobile"/>
+                       <!-- Mensaje de Error de Validación-->
+                       <div class="alert alert-danger noPadding" *ngIf="formErrors.usuarioM2k">{{formErrors.usuarioM2k}}</div>
+                <div class="ui-message ui-messages-error ui-corner-all"
+                     *ngIf="!validateForm.controls['usuarioM2k'].valid&&validateForm.controls['usuarioM2k'].dirty">
+                    <i class="fa fa-close"></i>
+                    Campo obligatorio
+                </div>
+              </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6" style="vertical-align:middle right;padding-bottom: 30px;">
+              <label>Seleccione la region de ejecución.</label>
+              <span class="danger_marker">*</span>
+              <app-encryption-help [ayuda]="ayudaRegion"></app-encryption-help>
+              <p-dropdown [options]="regionM2k" [style]="{'width':'530px'}"   formControlName="regionM2k"
+              (onChange)="cambioRegion()"></p-dropdown>
+              <div class="ui-message ui-messages-error ui-corner-all"
+                             *ngIf="!validateForm.controls['regionM2k'].valid&&validateForm.controls['regionM2k'].dirty">
+                            <i class="fa fa-close"></i>
+                        </div>
+            </div>
+           </div>
+
+
+        <div class="row">
+          <div class="col-md-9">
+              <button type="submit" class="btn btn-primary" [disabled]="!validateForm.valid">Validar</button>
+          </div>
+        </div>
+
+
+    </div>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,314 @@
+<div *ngIf="isDataAvailable == true">
+  <div *ngIf="usuarioResponsable">
+      <p-dialog header="Confirmación de Solicitud" [(visible)]="displayConfirmSol" modal="modal" width="400"
+              [responsive]="true" [resizable]="false" [draggable]="false" [closable]="false">
+
+
+              <div  *ngIf="solicitud">
+
+                  <div class="row" style="padding-top:5px;padding-bottom: 15px;">
+                      <div aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-success"
+                              style="font-size: 25px;margin:0;">
+                                  <span class="ui-message-icon fa fa-info-circle"></span>
+                                  <span class="ui-message-text">Folio: {{solicitud.folioGenerado}}</span>
+                      </div>
+              </div>
+
+                  <div class="row">
+                      <label class="middleField">FECHA SOLICITUD AMBIENTE:</label>
+                      {{solicitud.fecha_solicitud |  date:'dd/MM/yyyy'}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">HORA INICIO:</label>
+                      {{solicitud.hora_inicio}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">HORA FIN:</label>
+                      {{solicitud.hora_fin}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">USUARIO MOBILE:</label>
+                      {{solicitud.usuario}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">PROGRAMA:</label>
+                      {{solicitud.programa}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">TRANSACCIÓN:</label>
+                      {{solicitud.transaccion}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">No. TRANSACCIONES:</label>
+                      {{solicitud.total_transacciones}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">RESPONSABLE AUTORIZACIÓN:</label>
+                      <div *ngIf="usuarioResponsable" style="display:inline;">
+                          {{usuarioResponsable.correo}}
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">CORREO NOTIFICACIÓN:</label>
+                      {{solicitud.solicitante.correo}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">PROYECTO ASOCIADO:</label>
+                      {{solicitud.proyectoAsociado}}
+                  </div>
+
+                  <div class="row">
+                      <label class="middleField">COMENTARIOS:</label>
+                      <p>{{solicitud.comentarios}}</p>
+                  </div>
+
+              </div>
+
+              <p-footer>
+                  <button style="float:right" type="button" pButton icon="fa-close" (click)="cancelDialog()" label="Salir" class="ui-button-info"></button>
+              </p-footer>
+      </p-dialog>
+
+      <div class="container theme-showcase" role="main">
+
+      <div class="page-header">
+          <h1>Solicitud de Ambiente Productivo CTG</h1>
+          <p>En esta sección podrá realizar una solicitud de ambiente productivo a CTG, misma que le generará un folio que estará INACTIVO hasta que su jefe/supervisor autoricen dicha solicitud.
+          </p>
+      </div>
+
+      <form [formGroup]="complexForm" id="formSol" class="form-horizontal" (ngSubmit)="generarSolicitud()">
+
+      <p-panel class="col-md-12">
+          <p-header>
+              <div class="ui-helper-clearfix">
+                  <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Formato de Solicitud de Ambiente</span>
+              </div>
+          </p-header>
+          <div class="row">
+              <div class="col-md-12" style="text-align: right;">
+              Campos marcados con <span class="danger_marker">*</span> son obligatorios.
+              </div>
+
+          </div>
+          <div class="row" style="padding-bottom: 10px;">
+              <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.fechaInput}">
+                      <label class="customLabel" for="fechaInput">FECHA<span class="danger_marker">*</span></label>
+                      <p-calendar [showIcon]="true"
+                      [locale]="es" dateFormat="dd/mm/yy" disabledDays="[0,6]"
+                      [minDate]="minDate" [maxDate]="maxDate" readonlyInput="true" showButtonBar="true"
+                      formControlName="fechaInput">
+                      </p-calendar>
+                      <!-- Mensaje de Error de Validación-->
+                      <div class="alert alert-danger noPadding" *ngIf="formErrors.fechaInput">{{formErrors.fechaInput}}</div>
+                  </div>
+              </div>
+
+              <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.horaInicioInput}">
+                      <label class="customLabel" for="horaInicioInput">HORA INICIO
+                          <span class="danger_marker">*</span>
+                          <app-ctg-help [ayuda]="ayudaHoraInicio"></app-ctg-help>
+                      </label>
+                      <p-calendar [timeOnly]="true" [showIcon]="true"
+                      formControlName="horaInicioInput" (onSelect)="actualizarHoraFin()"></p-calendar>
+                      <!-- Mensaje de Error de Validación-->
+                      <div class="alert alert-danger noPadding" *ngIf="formErrors.horaInicioInput">{{formErrors.horaInicioInput}}</div>
+                  </div>
+              </div>
+
+              <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.horaFinOutput}">
+                      <label class="customLabel" for="horaFinOutput">HORA FIN<span class="danger_marker">*</span></label>
+                      <input type="text" class="form-control middleField"
+                              readonly="readonly"
+                          [value]="complexForm.get('horaFinOutput').value |  datex:'HH:mm'" formControlName="horaFinOutput">
+                      <!-- Mensaje de Error de Validación-->
+                      <div class="alert alert-danger noPadding" *ngIf="formErrors.horaFinOutput">{{formErrors.horaFinOutput}}</div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row" style="padding-bottom: 10px;">
+              <div class="col-md-4">
+                      <div class="form-group" [ngClass]="{'has-error':formErrors.usuarioInput}">
+
+                          <label class="control-label" for="usuarioInput">USUARIO MOBILE</label>
+                          <span class="danger_marker">*</span>
+                          <app-ctg-help [ayuda]="ayudaUsr"></app-ctg-help>
+                          <input type="text" class="form-control"
+                          [value]="complexForm.get('usuarioInput').value | upperx" formControlName="usuarioInput" placeholder="Vi...">
+                          <!-- Mensaje de Error de Validación-->
+                          <div class="alert alert-danger noPadding" *ngIf="formErrors.usuarioInput">{{formErrors.usuarioInput}}</div>
+                      </div>
+              </div>
+              <div class="col-md-4">
+                      <div class="form-group" [ngClass]="{'has-error':noTransaccionesInput}">
+                          <label class="customLabel" for="noTransaccionesInput">
+                              No. TRANSACCIONES<span class="danger_marker">*</span>
+                              <app-ctg-help [ayuda]="ayudaNoTrans"></app-ctg-help>
+                          </label>
+                          <p-spinner [maxlength]="3" [min]="0" [max]="100"
+                          formControlName="noTransaccionesInput"></p-spinner>
+                          <!-- Mensaje de Error de Validación-->
+                      <div class="alert alert-danger noPadding" *ngIf="formErrors.noTransaccionesInput">{{formErrors.noTransaccionesInput}}</div>
+                      </div>
+              </div>
+              <div class="col-md-4">
+                  <div>
+                      <label class="customLabel" for="responsableOutput">RESPONSABLE AUTORIZACIÓN</label>
+                      <span class="showFullName">{{usuarioResponsable.getFullName()}}</span>
+                      <input type="text" class="form-control"
+                              readonly="readonly" required
+                          id="responsableOutput" formControlName="responsableOutput">
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="row" style="padding-bottom: 15px;">
+              <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.transaccionInput}">
+                      <label class="control-label" for="transaccionInput">TRANSACCIÓN</label>
+                      <span class="danger_marker">*</span>
+                      <app-ctg-help [ayuda]="ayudaTrans"></app-ctg-help>
+                      <input type="text" class="form-control" required
+                          [value]="complexForm.get('transaccionInput').value | upperx" formControlName="transaccionInput" placeholder="I*..">
+                      <!-- Mensaje de Error de Validación-->
+                          <div class="alert alert-danger noPadding" *ngIf="formErrors.transaccionInput">{{formErrors.transaccionInput}}</div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.programaInput}">
+                      <label class="control-label" for="programaInput">PROGRAMA</label>
+                      <span class="danger_marker">*</span>
+                      <app-ctg-help [ayuda]="ayudaProg"></app-ctg-help>
+                      <input type="text" class="form-control" required
+                      [value]="complexForm.get('programaInput').value| upperx" formControlName="programaInput" placeholder="IGTOC..">
+                      <!-- Mensaje de Error de Validación-->
+                          <div class="alert alert-danger noPadding" *ngIf="formErrors.programaInput">{{formErrors.programaInput}}</div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div>
+                      <label class="control-label" for="correoNotificacionOutput">CORREO NOTIFICACIÓN</label>
+                      <p *ngIf="usuarioSolicitud">
+                      <span class="showFullName">{{usuarioSolicitud.nombre}} {{usuarioSolicitud.apaterno}} {{usuarioSolicitud.amaterno}}</span>
+                          <input type="text" class="form-control"
+                              required readonly="readonly"
+                          formControlName="correoNotificacionOutput">
+                      </p>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row" style="padding-bottom: 10px;">
+              <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.proyAsociadoInput}">
+                      <label class="control-label" for="proyAsociadoInput">PROYECTO ASOCIADO</label>
+                      <input type="text" class="form-control"
+                      [value]="complexForm.get('proyAsociadoInput').value | upperx" formControlName="proyAsociadoInput">
+                      <!-- Mensaje de Error de Validación-->
+                      <div class="alert alert-warning noPadding" *ngIf="formErrors.proyAsociadoInput">{{formErrors.proyAsociadoInput}}</div>
+                  </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="form-group" [ngClass]="{'has-error':formErrors.comentarioInput}">
+                      <label class="customLabel" for="comentarioInput">COMENTARIOS</label>
+                      <textarea pInputTextarea [value]="complexForm.get('comentarioInput').value | upperx" formControlName="comentarioInput"
+                      [rows]="3" class="customLabel" autoResize="autoResize"
+                      ></textarea>
+                      <!-- Mensaje de Error de Validación-->
+                      <div class="alert alert-warning noPadding" *ngIf="formErrors.comentarioInput">{{formErrors.comentarioInput}}</div>
+                  </div>
+              </div>
+          </div>
+  {{complexForm.errors}}
+          <p-footer>
+              <div class="row">
+                  <div class="col-md-12">
+                      <button pButton type="submit" label="Generar Solicitud"
+                          icon="fa-save" style="float:right;" [disabled]="!complexForm.valid"
+                          ></button><!--[disabled]="!complexForm.valid" -->
+                  </div>
+
+              </div>
+          </p-footer>
+      </p-panel>
+      </form>
+
+      </div>
+  </div>
+  <div *ngIf="!usuarioResponsable">
+
+      <div class="container theme-showcase" role="main">
+
+          <div class="page-header">
+              <h1>Solicitud de Ambiente Productivo CTG</h1>
+              <p>En esta sección podrá realizar una solicitud de ambiente productivo a CTG, misma que le generará un folio que estará INACTIVO hasta que su jefe/supervisor autoricen dicha solicitud.
+              </p>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                      <br>
+                      <br>
+                      <div class="form-group">
+                          <button id="asignaResp" [disabled]="loading" class="btn btn-primary" data-toggle="modal" data-target="#agregarModal"><b>ASIGNAR RESPONSABLE</b></button>
+                        </div>
+              </div>
+          </div>
+
+      </div>
+
+  </div>
+
+
+  <!--MODAL DE SOLICITUD-->
+  <div class="modal" id="agregarModal" tabindex="-1" role="dialog" aria-labelledby="agregarModallLabel"
+    data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" id="envioEmail" data-backdrop="static">
+        <form #frm="ngForm" novalidate>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="agregarModalLabel">Registro de solicitud</h4>
+          </div>
+          <div class="modal-body col-md-12">
+            <div class="row">
+              <div class="col-md-10">
+                <label>Enviar email a responsable para que genere una solicitud</label>
+                <select class="form-control" name="responsable" id="resp" [(ngModel)]="responsable.responsable" required>
+                  <option value="">-SELECCIONA A TU RESPONSABLE</option>
+                  <option value="angelina.chavez@telcel.com">Angelina Chavez Hernandez</option>
+                  <option value="elyria.torres@telcel.com">Elyria Torres Flores</option>
+                  <option value="guillermo.garcia@telcel.com">Guillermo Garcia Espinosa</option>
+                  <option value="jesus.luna@telcel.com">Jesus Luna Castro</option>
+                  <option value="veronica.rivera@telcel.com">Veronica Rivera Hernandez</option>
+                  <option value="yolanda.revilla@mail.telcel.com">Yolanda Revilla Aquino</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancel()">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="asignarResp()">Asignar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>

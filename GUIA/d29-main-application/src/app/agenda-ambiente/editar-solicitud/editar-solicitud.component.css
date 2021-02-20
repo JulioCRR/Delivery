@@ -1,0 +1,33 @@
+th {
+    color: red !important;
+}
+
+input:invalid {
+    border: 2px solid red;
+}
+
+input:valid {
+    border: 2px solid black;
+}
+
+.spinFa {
+  position: absolute;
+  z-index: 2;
+  opacity: 0.7;
+  top: 30%;
+  left: 45%;
+
+}
+
+.modalEdit{
+  overflow-y: none !important;
+}
+
+.trEdit{
+  color: black !important;
+  margin-left:3%;
+}
+
+ .ui-multiselect-label-container {
+  max-height: 20px !important;
+}

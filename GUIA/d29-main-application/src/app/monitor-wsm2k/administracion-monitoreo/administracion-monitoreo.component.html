@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col-md-4">
+      <label class="control-label" ><h2>Incidencias a monitorear</h2></label>
+  </div>
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+      
+    <div class="col-md-10">
+        <input type="search" class="form-control"
+               required
+               [(ngModel)]="textSearch" name="textSearch"
+               (ngModelChange)="filterSearch($event)"
+               id="textSearch" placeholder="Buscar..." />
+
+    </div>
+
+      <div class="col-md-2">
+          <button class="btn btn-primary" pTooltip="Agregar incidencia" tooltipPosition="left" style="margin-bottom: 10px; margin-top:10px;"
+                  pButton icon="fa-plus" data-toggle="modal" data-target="#agregarModal1"  (click)="agregar()" ></button>
+      </div>
+  </div>
+</div>
+
+
+  
+
+
+<div class="row">
+  <div class="col-md-12">
+      <p-dataTable [value]="incidencias" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+          <p-column field="mensaje" header="Mensaje"  ></p-column>
+          <p-column field="intervaloTiempo" header="Intervalo de analisis(ms)"></p-column>
+         
+          <p-column field="maximoUmbralErrores" header="Maximo umbral de alerta" ></p-column>
+          <p-column field="tipoBusqueda" header="Tipo de búsqueda"></p-column>
+          <p-column field="destinatariosAlertas" header="Destinatario alertas"></p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px'}">
+            <template let-incident="rowData" pTemplate="body">
+                <button type="button" class="ui-button-warning" pTooltip="Editar"
+                        data-toggle="modal" data-target="#agregarModal1" (click)="selectIncident(incident)" tooltipPosition="left"
+                        pButton icon="fa-pencil" ></button>
+            </template>
+        </p-column>
+
+      </p-dataTable>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="agregarModal1" tabindex="-1" role="dialog" aria-labelledby="agregarModallLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form #form="ngForm" novalidate >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="agregarModalLabel">{{operacionIncidencia}} Incidencia</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Descripción incidencia</label>
+                        <input type="text" class="form-control" name="mensaje" required [(ngModel)]="incidencia.mensaje" placeholder="Ej. DB155    PROBLEMA DB2 LLAME A HELP DES">
+                    </div>
+                </div>
+                 
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Intervalo de analisis(minutos)</label>
+                        <input type="text" class="form-control" name="intervaloTiempo" required [(ngModel)]="incidencia.intervaloTiempo" placeholder="Ej. 1">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Maximo umbral alerta</label>
+                        <input type="text" class="form-control" name="maximoUmbralErrores" required [(ngModel)]="incidencia.maximoUmbralErrores" placeholder="Ej. 100">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Tipo de busqueda:</label>
+                        <table>
+                          <tr>
+                          <td>  
+                          <input type="radio" id="tipoEqual" name="tipoBusqueda" required [(ngModel)]="incidencia.tipoBusqueda" value="equal" >
+                          <label for="contactChoice1">Equal</label>
+                          </td>
+                          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                          <td>
+                          <input type="radio" id="tipoLike" name="tipoBusqueda" required [(ngModel)]="incidencia.tipoBusqueda" value="like" >
+                          <label for="contactChoice2">Like</label>
+                        </td>
+                        </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Destinatarios alertas(separados por comas)</label>
+                        <input type="text" class="form-control" name="destinatariosAlertas" required [(ngModel)]="incidencia.destinatariosAlertas" placeholder="sactweb@mail.telcel.com,jesus.luna@telcel.com">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="procesaIncidencia()" [disabled]="!form.valid">Guardar</button>
+                </div>
+
+            </div>
+            
+
+
+        </form>    
+    </div>
+</div>
+<router-outlet></router-outlet>

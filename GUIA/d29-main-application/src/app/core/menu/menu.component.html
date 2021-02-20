@@ -1,0 +1,82 @@
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <!-- <a routerLink="/admin" class="site_title"><img src="/assets/images/logo_white.png" /></a> -->
+            <a routerLink="/admin" class="site_title"><img src="/assets/images/white_dely.png" /></a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile">
+            <div class="profile_pic">
+                <img src="/assets/images/avatar.png" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+                <span>Bienvenido,</span>
+                <h2>{{userSessionData.user.nombre}}</h2>
+            </div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                    <li *ngFor="let menu of userSessionData.menuTrees; let i = index">
+
+                      <!--Se agregó le validación de nombre!==Monitor M2K APP para evitar que aparezca en el menú principal-->
+                        <a *ngIf="menu.menuTrees.length == 0 && menu.nombre!='Monitor M2K App'"
+                            routerLink="{{menu.url}}" routerLinkActive="active">
+                            <i class="{{menu.icono}}"></i>
+                            <span style="text-overflow: ellipsis; width: 70%;display: inline-block;">{{menu.nombre}}</span>
+                        </a>
+                        <a *ngIf="menu.menuTrees.length > 0" ><i class="{{menu.icono}}"></i> <span style="text-overflow: ellipsis; width: 70%;display: inline-block;">{{menu.nombre}}</span> <span class="fa fa-chevron-down"></span></a>
+                        <ul *ngIf="menu.menuTrees.length > 0" class="nav child_menu">
+                            <li *ngFor="let subMenu of menu.menuTrees; let i = index">
+                                <a routerLink="{{subMenu.url}}" routerLinkActive="active">
+                                    <i class="{{subMenu.icono}}"></i>
+                                    <span style="text-overflow: ellipsis; width: 70%;display: inline-block;">{{subMenu.nombre}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li>
+                        <a routerLink="/admin/monitor-wsm2k" routerLinkActive="active">
+                            <i class="fa fa-desktop"></i> Monitor WS-M2K
+                        </a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        <!-- /sidebar menu -->
+    </div>
+</div>
+
+<!-- top navigation -->
+<div class="top_nav">
+    <div class="nav_menu">
+        <nav>
+            <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="/assets/images/avatar.png" alt="">{{userSessionData.user.nombre}}
+                        <span class=" fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <!-- <li><a href="javascript:;">Profile (Proximamente)</a></li> -->
+                        <li><a [routerLink]="['/login']"><i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- /top navigation -->

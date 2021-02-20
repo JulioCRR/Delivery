@@ -1,0 +1,82 @@
+
+
+<div class="row">
+    <div class="col-md-12">
+        <p-dataTable [value]="infoEstatus" [responsive]="true" [paginator]="true" [rows]="5"selectionMode="multiple"
+        (onRowSelect)="onProcessDetailSelected1($event)">
+            <p-column field="folioFront" header="ID" styleClass="col-id" ></p-column>
+            <p-column field="fechaSolicituFront" header="Fecha de Solicitud" >
+            </p-column>
+            <p-column field="telefonoFront" header="Teléfono,Imei o Cuenta"  ></p-column>
+            <p-column field="fechaCompleta" header="Rangos de Búsqueda" ></p-column>
+            <p-column field="fechaEjecuBack" header="Fecha de Procesamiento" >
+            </p-column>
+                <p-column field="estatusFront" header="Estatus"  >
+                            <ng-template let-col let-process="rowData" pTemplate="body" >
+                                <i *ngIf="process[col.field] == 1" ><img src="assets/images/Icons-Search-Petition/Icon-Enviado.png" style="width: 20px; margin-left:60px;cursor:pointer"  pTooltip="Enviado" tooltipPosition="top"/></i>
+                                <i *ngIf="process[col.field] == 2" ><img src="assets/images/Icons-Search-Petition/Icon-Search.png" style="width: 20px; margin-left:60px;cursor:pointer;"  pTooltip="Procesando" tooltipPosition="top" /></i>
+                                <i *ngIf="process[col.field] == 3" ><img src="assets/images/Icons-Search-Petition/Icon-OK.png" style="width: 20px; margin-left:60px;cursor:pointer;"  pTooltip="Exito" tooltipPosition="top" /></i>
+                                <i *ngIf="process[col.field] == 4" ><img src="assets/images/Icons-Search-Petition/Icon-Empaty.png" style="width: 20px; margin-left:60px;cursor:pointer"  pTooltip="Vacio" tooltipPosition="top"/></i>
+                                <i *ngIf="process[col.field] == 5" ><img src="assets/images/Icons-Search-Petition/Icon-Error.png" style="width: 20px; margin-left:60px;cursor:pointer"  pTooltip="Error" tooltipPosition="top"/></i>
+                            </ng-template>
+                        </p-column>
+        </p-dataTable>
+    </div>
+</div>
+<div>
+
+
+
+
+
+        <div>
+                <p-dialog  [(visible)]="displayDetail" modal="modal" width="400"
+                          [responsive]="true" [resizable]="false" [draggable]="false" [closable]="false" >
+                    <p-header >
+                            Detalle de Consulta
+                    </p-header>
+                    <div class="row">
+                        <h4>Folio: {{detail.folioFront }}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Estatus: {{detail.mensajeStatus}}</h4>
+                    </div>
+                    <div class="row">
+                         <h4 *ngIf="detail.fechaEjecuBack">Fecha de Procesamineto: {{detail.fechaEjecuBack}}</h4>
+                         <h4 *ngIf="!detail.fechaEjecuBack">Fecha de Procesamineto : N/A</h4>
+                    </div>
+                    <div class="row">
+                         <h4>Teléfono, Imei o cuenta: {{detail.telefonoFront}}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Fecha de Solicitud: {{detail.fechaSolicituFront}} </h4>
+                    </div>
+                    <div class="row">
+                        <h4>Ip: {{detail.ipFront}}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Región: {{detail.regionFront}}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Usuario: {{detail.usuarioFront}} </h4>
+                    </div>
+                    <div class="row">
+                        <h4>Transacción: {{detail.transaccionFront}} </h4>
+                    </div>
+                    <div class="row">
+                            <h4>Fecha de Inicio: {{detail.fechaInicioFront}} </h4>
+                    </div>
+                    <div class="row">
+                        <h4>Hora de Inicio: {{detail.horaInicioFront}} </h4>
+                    </div>
+                    <div class="row">
+                            <h4>Hora de Final: {{detail.horaFinalFront}} </h4>
+                    </div>
+                    <p-footer>
+                        <button style="float:right" type="button" pButton icon="fa-close" (click)="cancelDialog()" label="Salir" class="ui-button-info"></button>
+                    </p-footer>
+                </p-dialog>
+        </div>
+
+
+

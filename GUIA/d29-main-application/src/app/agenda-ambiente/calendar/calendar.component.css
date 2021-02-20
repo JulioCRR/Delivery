@@ -1,0 +1,22 @@
+.middleField {
+    width: 43%;
+    padding-top: 8px;
+}
+
+.fc-next-button ui-button ui-state-default ui-corner-right {
+    float: right;
+}
+
+table th {
+    text-align: center;
+}
+
+.spinFa {
+    position: absolute;
+    z-index: 2;
+    opacity: 0.5;
+    bottom: 35px;
+    left: 45%;
+}
+
+.fc-content{white-space:normal}

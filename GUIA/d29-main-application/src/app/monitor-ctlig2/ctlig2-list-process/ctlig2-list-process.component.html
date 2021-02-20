@@ -1,0 +1,55 @@
+<div class="row" style="margin-top:80px;">
+    <div class="col-md-4">
+        <h2>Historial</h2>
+    </div>
+    <div class="col-md-5 col-md-offset-7">
+
+        <div class="pull-left"  *ngIf="showChangeInterval">
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Cambiar intervalo</button>
+        </div>
+
+        <div class="pull-right">
+            <label for="selectRegion">Región</label>
+            <select [ngModel]="regionSelected" (ngModelChange)="updateSelectedValue($event)">
+                <option *ngFor="let region of listRegion" [value]="region" >{{region}}</option>
+            </select>
+
+            <button [disabled]="loading" type="button" class="btn btn-primary" (click)="executeProcess()">Ejecutar</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <app-ctlig2-list #ctglig2List [page]="page" [processList]=processList [processPaginator]="processPaginator" [processSelected]="processSelected" [processDetailList]="processDetailList" [msgs]="msgs" [url]="url"></app-ctlig2-list>
+</div>
+
+<div *ngIf="ctglig2List.processSelected">
+    <app-ctlig2-list-detail [processDetailList]="ctglig2List.processDetailList"></app-ctlig2-list-detail>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ejecución por región</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="selectRegion">Intervalo de ejecución</label>
+                            <select [ngModel]="intervalSelected" (ngModelChange)="updateSelectedIntervalValue($event)">
+                                <option *ngFor="let interval of listInterval" [value]="interval" >{{interval}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="changeAutocleanInterval()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

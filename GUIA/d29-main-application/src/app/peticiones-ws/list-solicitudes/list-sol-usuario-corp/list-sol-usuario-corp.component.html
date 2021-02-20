@@ -1,0 +1,37 @@
+<h5>En esta sección encontrar&aacute;s las solicitudes de permisos sobre Usuarios Corporativos</h5>
+<div *ngIf="isTipoSolicitudEnabled" class="row" style="padding-top: 15px;">
+  <div class="col-md-2 form-group">
+    <label for="tipoSolicitud">Tipo Solicitud</label>
+    <simple-help [ayuda]="ayuda.tipoSolicitud"></simple-help>
+    <div>
+      <p-selectButton id="tipoSolicitud" [options]="dataSelector.tipoSolicitud" [(ngModel)]="selTipoSolicitud" (onChange)="onChangeTipoSolicitud()" [disabled]="!isTipoSolicitudEnabled"></p-selectButton>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="padding-top: 25px;">
+  <p-dataTable id="dtSolUsuCorp" #dtSolUsuCorp [value]="listSolicitudData" [(selection)]="listSelSolicitudData" dataKey="id" emptyMessage="Sin Solicitudes"
+                [paginator]="true" [responsive]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]">
+    <p-header>Solicitudes de Usuario Corporativo</p-header>
+    <p-column *ngIf="isSelectable" [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+    <p-column header="ID" field="id" [style]="{'width':'50px'}" [sortable]="true"></p-column>
+    <p-column header="Fecha Registro" field="fechaRegistro" [sortable]="true"></p-column>
+    <p-column header="Estatus" field="estatus" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+    <p-column *ngIf="!isOwner" header="Solicitante" field="solicitante" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+    <p-column header="Usuario Corporativo" field="usuarioCorp" [sortable]="true" [filter]="true" filterPlaceholder="Buscar" filterMatchMode="contains"></p-column>
+    <p-column header="Justificaci&oacute;n" field="justificacion"></p-column>
+    <p-column header="Comentario del Responsable" field="comentarioResponsable"></p-column>
+    <p-footer *ngIf="isSelectable">
+      <div class="row">
+        <div *ngIf="isOwner">
+          <button type="button" pButton icon="fa fa-times" label="CANCELAR" class="ui-button-danger" style="float:right;" (click)="onClickAccion(CANCELAR)"></button>
+        </div>
+        <div *ngIf="!isOwner">
+          <button type="button" pButton icon="fa fa-ban" label="REVOCAR" class="ui-button-danger" style="float:right;" (click)="onClickAccion(REVOCAR)"></button>
+          <button type="button" pButton icon="fa fa-times" label="RECHAZAR" class="ui-button-warning" style="float:right;" (click)="onClickAccion(RECHAZAR)"></button>
+          <button type="button" pButton icon="fa fa-check" label="AUTORIZAR" class="ui-button-success" style="float:right;" (click)="onClickAccion(AUTORIZAR)"></button>
+        </div>
+      </div>
+    </p-footer>
+  </p-dataTable>
+</div>

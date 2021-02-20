@@ -1,0 +1,53 @@
+.customLabel{
+    width: 100%;
+    padding-top: 8px;
+}
+
+.rightLabel{
+    float: right;
+}
+
+.leftLabel{
+    float: left;
+}
+
+.middleField{
+    width: 43%;
+    padding-top: 8px;
+}
+
+.danger_marker{
+    color:red;
+    font-weight: bold;
+}
+
+.noPadding {
+    padding: 0px;
+}
+
+.nopermision{
+    font-size: large;
+}
+
+.largeFa{
+    font-size: xx-large;
+}
+
+.stop{
+    max-width: 200px;
+    margin-left: auto;
+	margin-right: auto;
+    display: block;
+    padding-bottom: 20px;
+}
+
+.showFullName{
+    color: darkblue;
+    font-weight: bold;
+}
+
+#asignaResp{
+  margin-left: 35%;
+  width: 25%;
+  height: 60px;
+}

@@ -1,0 +1,190 @@
+<p-dialog header="Código Acceso a Producción" [(visible)]="displayConfirmProd" modal="modal" width="300" height="200" [responsive]="true" [resizable]="false" [draggable]="false" [closable]="false">
+        <form class="form-horizontal" (ngSubmit)="validarEnvProd()" style="overflow:hidden;">
+            <div style="padding-bottom: 15px;">
+                <label class="control-label" for="codigoProdInput">Seleccione el Código</label>
+				<p-dropdown id="codigoProdInput" name="codigoProdInput" [options]="foliosCTG" [(ngModel)]="codigoProdInput" placeholder="{{mensajeFolios}}" class="form-control" [autoWidth]="false" required ></p-dropdown>
+            </div>
+
+            <p-footer>
+                <button type="submit" pButton icon="fa-check" label="Acceder" class="ui-button-success"></button>
+                <button type="button" pButton icon="fa-close" (click)="cancelDialog()" label="Cancelar" class="ui-button-info"></button>
+            </p-footer>
+        </form>
+</p-dialog>
+
+<div class="container theme-showcase" role="main">
+
+<div class="page-header">
+  <h1>Pantalla para ejecución de IGTOCS</h1>
+  <p>Para el caso del ambiente de <b>Producción</b> usted deberá realziar una solicitud de ambiente de producción y posteriormente ingresar al modulo con el CODIGO de Producción que le ha sido asignado.
+  </p>
+</div>
+
+<div class="row">
+
+        <div class="row">
+            <div class="col-md-12" style="text-align: right;padding-bottom: 10px;">
+            Campos marcados con <span class="danger_marker">*</span> son obligatorios.
+            </div>
+        </div>
+
+        <div class="col-md-3" style="padding-bottom: 10px;">
+            <div style="padding-bottom: 10px;">
+                <h3>Ambiente de Prueba</h3>
+
+                <div *ngIf="isProdEnvEnabled == true" >
+                    <div aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-success"
+                        style="font-size: 25px;margin:0;">
+                            <span class="ui-message-icon fa fa-info-circle"></span>
+                            <span class="ui-message-text">{{enviromentSelected}}</span>
+                    </div>
+                    <div *ngIf="solicitudValidada">
+                        <h2><label>Folio:  </label>{{solicitudValidada.folioGenerado}}</h2>
+                    </div>
+                    <div *ngIf="solicitudValidada">
+                        <h2><label>Transacciones Solicitadas:  </label>{{solicitudValidada.total_transacciones}}</h2>
+                    </div>
+                    <div *ngIf="solicitudValidada">
+                        <h2><label>Transacciones Ejecutadas:  </label>{{solicitudValidada.countEjecuciones}}</h2>
+                    </div>
+                </div>
+                <div *ngIf="isProdEnvEnabled == false" >
+                    <div  aria-live="polite" class="ui-message ui-widget ui-corner-all ui-messages-info"
+                        style="font-size: 25px;margin:0;">
+                            <span class="ui-message-icon fa fa-info-circle"></span>
+                            <span class="ui-message-text">{{enviromentSelected}}</span>
+                    </div>
+                </div>
+                <div>
+                    <label>Seleccione la region de ejecución.</label><br/>
+                    <p-selectButton [options]="opcionesRegion" [(ngModel)]="selectOption"
+                    (onChange)="cambioRegion()"></p-selectButton>
+                </div>
+            </div>
+
+            <label>Cambiar Ambiente de Ejecución</label>
+            <app-ctg-help [ayuda]="ayudaCambioAmbiente"></app-ctg-help>
+            <br/>
+            <p-inputSwitch onLabel="Producción" offLabel="Desarrollo" [(ngModel)]="prodEnvChecked"
+            (onChange)="handleChange($event)"></p-inputSwitch>
+            <br/>
+            <label>CICS de Ejecución en Desarrollo</label>
+            <app-ctg-help [ayuda]="ayudaCicsDesarrollo"></app-ctg-help>
+            <p-selectButton [options]="opcionesCics" [(ngModel)]="selectCics"
+                    (onChange)="cambioCics()"></p-selectButton>
+            <br/>
+        </div>
+
+        <form [formGroup]="igtocForm" id="formPruebaIgtoc" class="form-horizontal" (ngSubmit)="executeIgtoc()">
+
+                <div class="col-md-6" style="padding-bottom: 10px;">
+                    <p-panel header="Información del Programa">
+                        <div class="form-group" [ngClass]="{'has-error':formErrors.programaInput}">
+                            <label class="control-label" for="programaInput">PROGRAMA</label>
+                            <span class="danger_marker">*</span>
+                            <app-ctg-help [ayuda]="ayudaProg"></app-ctg-help>
+                            <input type="text" class="form-control"
+                            [value]="igtocForm.get('programaInput').value | upperx" id="programaInput" formControlName="programaInput" placeholder="IGTOC.."
+                            [disabled]="prodEnvChecked">
+                            <!-- Mensaje de Error de Validación-->
+                            <div class="alert alert-danger noPadding" *ngIf="formErrors.programaInput">{{formErrors.programaInput}}</div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-error':formErrors.transaccionInput}">
+                            <label class="control-label" for="transaccionInput">TRANSACCIÓN</label>
+                            <span class="danger_marker">*</span>
+                            <app-ctg-help [ayuda]="ayudaTrans"></app-ctg-help>
+                            <input type="text" class="form-control"
+                                required
+                            [value]="igtocForm.get('transaccionInput').value | upperx" id="transaccionInput" formControlName="transaccionInput" placeholder="I*.."
+                            [disabled]="prodEnvChecked">
+                            <!-- Mensaje de Error de Validación-->
+                            <div class="alert alert-danger noPadding" *ngIf="formErrors.transaccionInput">{{formErrors.transaccionInput}}</div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-error':formErrors.cadenaIgtocInput}">
+                            <label class="control-label" for="cadenaIgtocInput">CADENA IGTOC</label>
+                            <span class="danger_marker">*</span>
+                            <app-ctg-help [ayuda]="ayudaCadenaIgtoc"></app-ctg-help>
+                            <!--<input type="text" class="form-control"
+                                required
+                            [(ngModel)]="cadenaIgtocInput" name="cadenaIgtocInput">-->
+                             <textarea pInputTextarea [value]="igtocForm.get('cadenaIgtocInput').value | upperx" formControlName="cadenaIgtocInput"
+                                [rows]="3" class="form-control" autoResize="autoResize"></textarea>
+                            <!-- Mensaje de Error de Validación-->
+                            <div class="alert alert-danger noPadding" *ngIf="formErrors.cadenaIgtocInput">{{formErrors.cadenaIgtocInput}}</div>
+                        </div>
+                    </p-panel>
+                </div>
+
+                <div class="col-md-3" style="padding-bottom: 10px;">
+                    <p-panel header="Información de Seguridad">
+                        <div class="form-group" [ngClass]="{'has-error':formErrors.usuarioInput}">
+                            <label class="control-label" for="usuarioInput">USUARIO MOBILE</label>
+                            <span class="danger_marker">*</span>
+                            <app-ctg-help [ayuda]="ayudaUsr"></app-ctg-help>
+                            <input type="text" class="form-control"
+                                required
+                            [value]="igtocForm.get('usuarioInput').value | upperx" id="usuarioInput" formControlName="usuarioInput" placeholder="Vi..."
+                            [disabled]="prodEnvChecked">
+                            <!-- Mensaje de Error de Validación-->
+                            <div class="alert alert-danger noPadding" *ngIf="formErrors.usuarioInput">{{formErrors.usuarioInput}}</div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-error':formErrors.pwdInput}">
+                            <label class="control-label" for="pwdInput">PASSWORD</label>
+                            <span class="danger_marker">*</span>
+                            <input type="password" class="form-control"
+                                required
+                            formControlName="pwdInput">
+                            <!-- Mensaje de Error de Validación-->
+                            <div class="alert alert-danger noPadding" *ngIf="formErrors.pwdInput">{{formErrors.pwdInput}}</div>
+                        </div>
+                    </p-panel>
+                    <div style="padding-top: 10px;">
+                    <button pButton type="submit" label="Ejecutar" icon="fa-share" style="float:right;" [disabled]="!igtocForm.valid || isExecDisabled"></button>
+                    </div>
+                </div>
+
+        </form>
+
+</div>
+
+<div *ngIf="respCtg" class="row">
+
+    <div class="col-md-12" style="padding-bottom: 10px;">
+        <p-panel>
+
+            <p-header>
+                <div class="ui-helper-clearfix">
+                    <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Información de Respuesta del IGTOC</span>
+
+                    <button pButton type="button" icon="fa-floppy-o" label="Guardar" class="ui-button-success" style="float:right;" (click)="download()"></button>
+                    <button pButton type="button" icon="fa-refresh" label="Limpiar" class="ui-button-info" style="float:right;" (click)="limpiar()"></button>
+                </div>
+            </p-header>
+
+            <div id="infoEnviadaCtg">
+                <label class="control-label" for="infoEnviadaCtgOutput">INFORMACIÓN ENVIADA AL CTG</label>
+                <pre>{{respCtg.cadenaEnviadaCTG}}</pre>
+            </div>
+            <div id="respPrograma">
+                <label class="control-label" for="respProgramaOutput">RESPUESTA DEL PROGRAMA</label>
+                <pre>{{respCtg.respuestaPrograma}}</pre>
+            </div>
+            <div id="respXmlCtg">
+                <label class="control-label" for="respXmlOutput">RESPUESTA XML</label>
+                <pre>{{respCtg.respuestaXML}}</pre>
+            </div>
+            <div id="codigoCtg">
+                <label class="control-label" for="respCtgOutput">CÓDIGO CTG</label>
+				<pre>{{respCtg.respuestaCTG}}</pre>
+            </div>
+			<div id="mensajeValidacion">
+                <label class="control-label" for="mensajeValidacionOutput">MENSAJE VALIDACION</label>
+                <pre>{{respCtg.mensajeValidacion}}</pre>
+            </div>
+
+        </p-panel>
+    </div>
+
+</div>
+
+</div>

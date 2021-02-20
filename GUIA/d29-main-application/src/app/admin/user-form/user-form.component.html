@@ -1,0 +1,94 @@
+<div *ngIf="!user">
+    Cargando...
+</div>
+<div *ngIf="user">
+    <h2>Usuario - {{user.nombre}} {{user.apaterno}} {{user.amaterno}}</h2>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
+            <div class="row">
+                <label class="col-md-4 control-label" >Perfiles del usuario</label>
+                <div class="col-md-1 col-md-offset-7">
+                    <button *ngIf="finishLoadProfiles" class="btn btn-primary" pTooltip="Agregar perfil a este usuario"
+                        pButton icon="fa-plus" data-toggle="modal" data-target="#myModal"></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p-dataTable [value]="paginator.profiles" [responsive]="true" [paginator]="true" [rows]="10" [lazy]="true"
+                        (onLazyLoad)="loadLazyData($event)" [totalRecords]="paginator.totalElements">
+                        <p-column field="id" header="ID" styleClass="col-id" [style]="{'width':'35px'}"></p-column>
+                        <p-column field="nombre" header="Nombre"></p-column>
+                        <p-column styleClass="col-button" [style]="{'width':'35px'}">
+                            <ng-template let-profile="rowData" pTemplate="body">
+                                <button type="button" class="ui-button-danger" pTooltip="Quitar del usuario"
+                                        pButton icon="fa-trash-o" (click)="deleteProfiles(profile['id'])"></button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <label class="col-md-4 control-label" >Menus del usuario</label>
+                <div class="col-md-2 col-md-offset-6">
+                    <button *ngIf="finishLoadProfiles" class="btn btn-primary" pTooltip="Recargar" tooltipPosition="left"
+                        (click)="refreshMenuList()"
+                        pButton icon="fa-refresh" ></button>
+                    <button *ngIf="finishLoadProfiles" class="btn btn-primary" pTooltip="Guardar" tooltipPosition="left"
+                        (click)="saveMenuData()"
+                        pButton icon="fa-floppy-o" ></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p-tree class="col-md-12" [style]="{'width':'auto'}"  [value]="menuTrees" selectionMode="checkbox"
+                            (onNodeSelect)="selectTree($event)"
+                            (onNodeUnselect)="unselectTree($event)"
+                            [(selection)]="selectedTrees">
+                    </p-tree>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div *ngIf="finishLoadProfiles" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Agregar un perfil al usuario {{user.nombre}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <p-dataTable [value]="paginatorPerfil.profiles" [responsive]="true" [paginator]="true" [rows]="10" [lazy]="true"
+                                        (onLazyLoad)="loadLazyDataProfilesToSelected($event)" [totalRecords]="paginatorPerfil.totalElements"
+                                        [(selection)]="selectedProfileToUser">
+                                        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                                        <p-column field="id" header="ID" styleClass="col-id" [style]="{'width':'35px'}"></p-column>
+                                        <p-column field="nombre" header="Nombre">
+                                            <ng-template let-col let-user="rowData" pTemplate="body" style="text-align:center" width="10">
+                                                {{user['nombre']}} {{user['apaterno']}} {{user['amaterno']}}
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="nempleado" header="N. Empleado" [style]="{'width':'150px'}"></p-column>
+                                    </p-dataTable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveProfiles()">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

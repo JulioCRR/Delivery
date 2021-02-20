@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="mx.com.telcel.d29_main_application_PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <!--<jar-file>lib/core-db-1.0.jar</jar-file>-->
+        <!--<jar-file>lib\core-db-1.0.jar</jar-file>-->
+
+        <!--Init core entities-->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Area</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Menu</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Oficina</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Perfil</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.PerfilMenu</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.ModuloUsuario</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Puesto</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Usuario</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.UsuarioMenu</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.UsuarioPerfil</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.UsuarioToken</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.Propiedades</class>
+        <!--End core entities-->
+
+        <!--Init monitorctlig2 entities-->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitorctlig2.db.History</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitorctlig2.db.HistoryDetail</class>
+        <!--End monitorctlig2 entities-->
+
+        <!-- Solicitud CTG -->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg.execution.db.entities.D29SolicitudAmbienteCtg</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg.execution.db.entities.D29CreUsuario</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg.execution.db.entities.D29CreArea</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg.execution.db.entities.D29CreOficina</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg.execution.db.entities.D29CrePuesto</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg.execution.db.entities.D29BitacoraEjecucionesCtg</class>
+        <!-- End Solicitud CTG -->
+
+		<!--Init monitor-wsm2k -->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.entities.IncidenciaEntity</class>
+		<class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.entities.CatInstancia</class>
+		<class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.entities.CatPuerto</class>
+		<class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.entities.CatServidor</class>
+		<class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.entities.CatCluster</class>
+		<class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.entities.CatRegiones</class>
+        
+        <!--end monitor-wsm2k -->
+        
+        <!--Init monitor-omega -->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitor_omega.db.entities.OmegaAlerta</class>
+        <!--end monitor-omega -->
+        
+        <!--search_petition-->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition.db.D29ConPeticionBatch</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition.db.D29EstatusBatch</class>
+ 
+        <!-- End search_petition -->
+
+    <!--agenda_ambienteDesa-->
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.db.entities.AgendaDesarrolloWSM2K</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.db.entities.PermisosDesarrolloWSM2K</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.db.entities.FechasReservadas</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.db.entities.DiasInhabiles</class>
+    <!-- End agenda_ambienteDesa -->
+    
+        <!-- Init PETICIONES WS -->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws.db.entities.Peticion</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws.db.entities.PeticionAutorizador</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws.db.entities.ResponsableUsuarioCorp</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws.db.entities.SolicitudPeticion</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws.db.entities.SolicitudUsuarioCorp</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws.db.entities.AplicativoTelcel</class>
+        <!--END PETICIONES WS -->
+        
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="@db.url@"/>
+            <property name="javax.persistence.jdbc.user" value="@db.username@"/>
+            <property name="javax.persistence.jdbc.password" value="@db.password@"/>
+            <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.jdbc.batch_size" value="30" />
+            <property name="hibernate.order_inserts" value="true" />
+            <property name="hibernate.order_updates" value="true" />
+            <property name="hibernate.jdbc.batch_versioned_data" value="true" />
+            <property name="current_session_context_class" value="thread" />
+            <property name="hibernate.connection.release_mode" value="after_transaction"/>
+
+
+            <!-- Connection Pooling settings -->
+            <property name="hibernate.connection.provider_class"
+                      value="org.hibernate.connection.C3P0ConnectionProvider" />
+
+            <property name="hibernate.c3p0.max_size" value="20" />
+            <property name="hibernate.c3p0.min_size" value="0" />
+            <property name="hibernate.c3p0.acquire_increment" value="1" />
+            <property name="hibernate.c3p0.idle_test_period" value="300" />
+            <property name="hibernate.c3p0.max_statements" value="0" />
+            <property name="hibernate.c3p0.timeout" value="100" />
+        </properties>
+    </persistence-unit>
+
+
+    <persistence-unit name="mx.com.telcel.d29_main_application_search_petition_PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+         <!--Init informix entities-->
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kInfoRegistro</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatAccion2</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatConectors</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatInstancias</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatRegion</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatServidores</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatTipoRespuesta</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatTransacciones</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kCatUsuarios</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kRegistroPeticiones</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core.db.informix.M2kTblPeticiones</class>
+    <!-- Init catalogs entities -->
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs.db.M2kCatTransaccionesFront</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs.db.M2kCatAccion</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs.db.M2kRelAccionTransaccionFront</class>
+        <!-- End catalogs entities -->
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.informix.jdbc.IfxDriver"/>
+            <property name="javax.persistence.jdbc.url" value="@db.informix.url@"/>
+            <property name="javax.persistence.jdbc.user" value="@db.informix.username@"/>
+            <property name="javax.persistence.jdbc.password" value="@db.informix.password@"/>
+<!--            <property name="hibernate.show_sql" value="true"/>-->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.InformixDialect"/>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <property name="hibernate.jdbc.batch_size" value="30"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+        </properties>
+    </persistence-unit>
+	
+	<persistence-unit name="mx.com.telcel.d29_main_application_PU_VPN" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg.db.entites.SolicitudEIEntity</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg.db.entites.DetalleEntity</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg.db.entites.SolicitudProductoEntity</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg.db.entites.DetalleStatusProductosEntity</class>
+        <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg.db.entites.HistoricoMovimientosEntity</class>
+        
+        <properties>
+            <!-- produccion-->
+             
+            <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@192.9.198.36:4341:VPN"/>
+            <property name="javax.persistence.jdbc.user" value="SVVPN01"/>
+            <property name="javax.persistence.jdbc.password" value="pvpn#001"/>
+            
+            <!-- desarrollo -->
+            <!-- 
+            <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@10.191.105.18:1523:VPN"/>
+            <property name="javax.persistence.jdbc.user" value="SVVPN01"/>
+            <property name="javax.persistence.jdbc.password" value="VpnDesa#01"/>
+            -->
+            <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.jdbc.batch_size" value="30" />
+            <property name="hibernate.order_inserts" value="true" />
+            <property name="hibernate.order_updates" value="true" />
+            <property name="hibernate.jdbc.batch_versioned_data" value="true" />
+            <property name="current_session_context_class" value="thread" />
+            <property name="hibernate.connection.release_mode" value="after_transaction"/>
+
+
+            <!-- Connection Pooling settings -->
+            <property name="hibernate.connection.provider_class"
+                      value="org.hibernate.connection.C3P0ConnectionProvider" />
+
+            <property name="hibernate.c3p0.max_size" value="20" />
+            <property name="hibernate.c3p0.min_size" value="0" />
+            <property name="hibernate.c3p0.acquire_increment" value="1" />
+            <property name="hibernate.c3p0.idle_test_period" value="300" />
+            <property name="hibernate.c3p0.max_statements" value="0" />
+            <property name="hibernate.c3p0.timeout" value="100" />
+        </properties>
+    </persistence-unit>
+	
+	
+</persistence>

@@ -1,0 +1,280 @@
+<div class="page-header">
+  <h1>Administraci&oacute;n de Peticiones WS-M2k</h1>
+  <p>Aqu&iacute; podr&aacute; administrar las peticiones WS-M2k registradas</p>
+</div>
+
+<div *ngIf="!isAdmin">
+  <h1>No tienes permisos sobre este m&oacute;dulo</h1>
+</div>
+
+<div *ngIf="isAdmin" class="container theme-showcase" role="main">
+  <ul class="nav nav-tabs" id="tablist-admin" role="tablist">
+    <li class="nav-item active">
+      <a class="nav-link active" id="tablink-search" data-toggle="tab" role="tab" href="#tab-search">B&uacute;squeda de Peticiones</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="tablink-editor" data-toggle="tab" role="tab" href="#tab-editor">Edici&oacute;n de Peticiones</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab-search">
+      <div class="row" style="padding-top: 15px;">
+        <h2>Filtros de B&uacute;squeda</h2>
+      </div>
+
+      <div class="row" style="padding-top: 10px;">
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="ambiente">Ambiente de Ejecuci&oacute;n</label>
+          <simple-help [ayuda]="ayuda.ambiente"></simple-help>
+          <div>
+            <p-dropdown id="ambiente" [(ngModel)]="peticionData.ambiente" [options]="dataSelector.ambiente" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="estatus">Estatus de la Petici&oacute;n</label>
+          <simple-help [ayuda]="ayuda.estatus"></simple-help>
+          <div>
+            <p-dropdown id="estatus" [(ngModel)]="peticionData.estatus" [options]="dataSelector.estatus" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="usuarioCorp">Usuario Corporativo</label>
+          <simple-help [ayuda]="ayuda.usuarioCorp"></simple-help>
+          <p-autoComplete id="usuarioCorp" [(ngModel)]="dataAutoComplete.usuarioCorp" [suggestions]="filterSelector.usuarioCorp" [minLength]="2" field="label" (completeMethod)="onAutoComplete(USUARIO_CORP, $event)" [dropdown]="true" (onDropdownClick)="onAutoCompleteDropdown(USUARIO_CORP)" (onSelect)="onAutoCompleteSelect(USUARIO_CORP, $event)" [placeholder]="NA"></p-autoComplete>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="ip">IP Ejecuci&oacute;n</label>
+          <simple-help [ayuda]="ayuda.ip"></simple-help>
+          <input type="text" id="ip" [(ngModel)]="peticionData.ip" style="width: 100%;" [placeholder]="NA" />
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="region">Regi&oacute;n</label>
+          <simple-help [ayuda]="ayuda.region"></simple-help>
+          <div>
+            <p-dropdown id="region" [(ngModel)]="peticionData.region" [options]="dataSelector.region" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="transaccion">Transacci&oacute;n</label>
+          <simple-help [ayuda]="ayuda.transaccion"></simple-help>
+          <p-autoComplete id="transaccion" [(ngModel)]="dataAutoComplete.transaccion" [suggestions]="filterSelector.transaccion" [minLength]="2" field="label" (completeMethod)="onAutoComplete(TRANSACCION, $event)" [dropdown]="true" (onDropdownClick)="onAutoCompleteDropdown(TRANSACCION)" (onSelect)="onAutoCompleteSelect(TRANSACCION, $event)" [placeholder]="NA"></p-autoComplete>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="ppm">Peticiones Por Minuto</label>
+          <simple-help [ayuda]="ayuda.ppm"></simple-help>
+          <div>
+            <p-spinner id="ppm" [(ngModel)]="peticionData.peticionesPorMinuto" [min]="0" maxlength="10" [formatInput]="false" [placeholder]="NA"></p-spinner>
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="solicitudPeticion">ID Solicitud</label>
+          <simple-help [ayuda]="ayuda.solicitudPeticion"></simple-help>
+          <div>
+            <p-spinner id="solicitudPeticion" [(ngModel)]="peticionData.solicitudPeticion" [min]="0" maxlength="10" [formatInput]="false" [placeholder]="NA"></p-spinner>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 10px;">
+        <div class="col-md-6 form-group">
+          <button type="button" class="btn btn-primary" (click)="onClickFilterSearch()">Filtrar Peticiones</button>
+        </div>
+        <div class="col-md-6 form-group">
+          <div>
+            <button type="button" class="btn btn-warning" (click)="onClickFilterClear()">Borrar Filtros</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 10px;">
+        <p-dataTable id="dtPeticiones" #dtPeticiones [value]="listPeticionData" dataKey="id" emptyMessage="Sin Peticiones"
+                      [responsive]="true" [paginator]="true" [rows]="DEFAULT_PAGE_SIZE" [pageLinks]="5" [immutable]="false"
+                      [lazy]="true" (onLazyLoad)="onLazyLoadData($event)" [totalRecords]="paginator.totalElements">
+          <p-header><b>Total de Peticiones WS-M2k: </b>{{paginator.totalElements}}</p-header>
+          <p-column *ngFor="let col of tableCols" [header]="col.header" [field]="col.field"></p-column>
+          <p-column header="Editando" field="repetida" styleClass="col-button" [style]="{'width':'70px', 'text-align': 'center'}">
+            <ng-template let-col let-row="rowData" pTemplate="body">
+              <p-checkbox [(ngModel)]="row[col.field]" binary="true" [disabled]="true" [ngModelOptions]="{standalone: true}"></p-checkbox>
+            </ng-template>
+          </p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-info" icon="fa fa-pencil" pTooltip="Agregar a Ediciones" tooltipPosition="left" (click)="onClickRowEdit(row)"></button>
+            </ng-template>
+          </p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" pTooltip="Quitar de Ediciones" tooltipPosition="left" (click)="onClickRowDelete(row['id'])"></button>
+            </ng-template>
+          </p-column>
+          <p-footer>
+            <div class="row">
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-info" icon="fa fa-check" label="Autorizar Todas" (click)="onClickAccionGlobal(AUTORIZAR)"></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-warning" icon="fa fa-ban" label="Rechazar Todas" (click)="onClickAccionGlobal(RECHAZAR)"></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" label="Eliminar Todas" (click)="onClickAccionGlobal(ELIMINAR)"></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-success" icon="fa fa-pencil" label="Editar Todas" (click)="onClickAccionGlobal(ACTUALIZAR)"></button>
+              </div>
+            </div>
+          </p-footer>
+        </p-dataTable>
+      </div>
+    </div><!-- /tab-search -->
+    <div class="tab-pane" id="tab-editor">
+      <div class="row" style="padding-top: 15px;">
+        <h2>Campos de Edici&oacute;n</h2>
+      </div>
+
+      <div class="row" style="padding-top: 10px;">
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="ambienteEdit">Ambiente de Ejecuci&oacute;n</label>
+          <simple-help [ayuda]="ayuda.ambiente"></simple-help>
+          <div>
+            <p-dropdown id="ambienteEdit" [(ngModel)]="peticionDataEdit.ambiente" [options]="dataSelector.ambiente" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+            <div class="alert alert-danger noPadding" *ngIf="formErrors.ambiente"><i class="fa fa-close"></i> {{formErrors.ambiente}}</div>
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="estatusEdit">Estatus de la Petici&oacute;n</label>
+          <simple-help [ayuda]="ayuda.estatus"></simple-help>
+          <div>
+            <p-dropdown id="estatusEdit" [(ngModel)]="peticionDataEdit.estatus" [options]="dataSelector.estatus" [filter]="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+            <div class="alert alert-danger noPadding" *ngIf="formErrors.estatus"><i class="fa fa-close"></i> {{formErrors.estatus}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="usuarioCorpEdit">Usuario Corporativo</label>
+          <simple-help [ayuda]="ayuda.usuarioCorp"></simple-help>
+          <p-autoComplete id="usuarioCorpEdit" [(ngModel)]="dataAutoCompleteEdit.usuarioCorp" [suggestions]="filterSelector.usuarioCorp" [minLength]="2" field="label" (completeMethod)="onAutoComplete(USUARIO_CORP, $event)" [dropdown]="true" (onDropdownClick)="onAutoCompleteDropdown(USUARIO_CORP)" (onSelect)="onAutoCompleteSelect(USUARIO_CORP, $event, true)" [placeholder]="NA"></p-autoComplete>
+          <div class="alert alert-danger noPadding" *ngIf="formErrors.usuarioCorp"><i class="fa fa-close"></i> {{formErrors.usuarioCorp}}</div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="ipEdit">IP Ejecuci&oacute;n</label>
+          <simple-help [ayuda]="ayuda.ip"></simple-help>
+          <input type="text" id="ipEdit" [(ngModel)]="peticionDataEdit.ip" style="width: 100%;" [placeholder]="NA" />
+          <div class="alert alert-danger noPadding" *ngIf="formErrors.ip"><i class="fa fa-close"></i> {{formErrors.ip}}</div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="regionEdit">Regi&oacute;n</label>
+          <simple-help [ayuda]="ayuda.region"></simple-help>
+          <div>
+            <p-dropdown id="regionEdit" [(ngModel)]="peticionDataEdit.region" [options]="dataSelector.region" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+            <div class="alert alert-danger noPadding" *ngIf="formErrors.region"><i class="fa fa-close"></i> {{formErrors.region}}</div>
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="transaccionEdit">Transacci&oacute;n</label>
+          <simple-help [ayuda]="ayuda.transaccion"></simple-help>
+          <p-autoComplete id="transaccionEdit" [(ngModel)]="dataAutoCompleteEdit.transaccion" [suggestions]="filterSelector.transaccion" [minLength]="2" field="label" (completeMethod)="onAutoComplete(TRANSACCION, $event)" [dropdown]="true" (onDropdownClick)="onAutoCompleteDropdown(TRANSACCION)" (onSelect)="onAutoCompleteSelect(TRANSACCION, $event, true)" [placeholder]="NA"></p-autoComplete>
+          <div class="alert alert-danger noPadding" *ngIf="formErrors.transaccion"><i class="fa fa-close"></i> {{formErrors.transaccion}}</div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="ppmEdit">Peticiones Por Minuto</label>
+          <simple-help [ayuda]="ayuda.ppm"></simple-help>
+          <div>
+            <p-spinner id="ppmEdit" [(ngModel)]="peticionDataEdit.peticionesPorMinuto" [min]="0" maxlength="10" [formatInput]="false" [placeholder]="NA"></p-spinner>
+            <div class="alert alert-danger noPadding" *ngIf="formErrors.ppm"><i class="fa fa-close"></i> {{formErrors.ppm}}</div>
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label class="control-label" for="solicitudPeticionEdit">ID Solicitud</label>
+          <simple-help [ayuda]="ayuda.solicitudPeticion"></simple-help>
+          <div>
+            <p-spinner id="solicitudPeticionEdit" [(ngModel)]="peticionDataEdit.solicitudPeticion" [min]="-1" maxlength="10" [formatInput]="false" [placeholder]="NA"></p-spinner>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 10px;">
+        <div class="col-md-4 form-group">
+          <button type="button" class="btn btn-primary" (click)="onClickMultiEdit()">Editar Peticiones</button>
+        </div>
+        <div class="col-md-4 form-group">
+          <button type="button" class="btn btn-success" (click)="onClickAddNewPeticion()">Agregar Petici&oacute;n</button>
+        </div>
+        <div class="col-md-4 form-group">
+          <button type="button" class="btn btn-warning" (click)="onClickClearEditFileds()">Borrar Campos</button>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 10px;">
+        <p-dataTable id="dtSelected" #dtSelected [value]="listSelPeticionData" dataKey="id" emptyMessage="Sin Peticiones Para Editar"
+                      [responsive]="true" [paginator]="true" [rows]="DEFAULT_PAGE_SIZE" [pageLinks]="5" [immutable]="false">
+          <p-header>Editando (<b>{{listSelPeticionData.length}}</b>) Peticiones WS-M2k</p-header>
+          <p-column *ngFor="let col of tableCols" [header]="col.header" [field]="col.field"></p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-info" icon="fa fa-copy" pTooltip="Copiar Datos" tooltipPosition="left" (click)="onClickRowCopy(row)"></button>
+            </ng-template>
+          </p-column>
+          <p-column styleClass="col-button" [style]="{'width':'35px', 'text-align': 'center'}">
+            <ng-template let-row="rowData" pTemplate="body">
+              <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" pTooltip="Quitar de Tabla" tooltipPosition="left" (click)="onClickRowDelete(row['id'])"></button>
+            </ng-template>
+          </p-column>
+          <p-footer>
+            <div class="row">
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-info" icon="fa fa-check" label="Autorizar Seleccionadas" (click)="onClickAccion(AUTORIZAR)"></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-warning" icon="fa fa-ban" label="Rechazar Seleccionadas" (click)="onClickAccion(RECHAZAR)"></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-danger" icon="fa fa-trash-o" label="Eliminar Seleccionadas" (click)="onClickAccion(ELIMINAR)"></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" pButton class="ui-button-success" icon="fa fa-pencil" label="Registrar Cambios" (click)="onClickAccion(ACTUALIZAR)"></button>
+              </div>
+            </div>
+          </p-footer>
+        </p-dataTable>
+      </div>
+
+      <div class="row" style="padding-top: 50px;">
+        <div class="col-md-12 form-group">
+          <button type="button" class="btn btn-warning" (click)="onClickClearEdits()">Borrar Tabla Ediciones</button>
+        </div>
+      </div>
+    </div><!-- /tab-editor -->
+  </div><!-- /tab-content -->
+</div><!-- /container -->
+
+<!-- MODAL CONFIRMACION -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalConfirmacionLabel">{{selAccionName}} Peticiones WS-M2k</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <p><b>Marcar la siguiente casilla para registrar los cambios en caliente</b></p>
+          <div class="col-md-12">
+            <div>
+              <p-checkbox id="urgente" [(ngModel)]="isUrgente" label="Enviar a Producci&oacute;n" binary="true"></p-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="onClickDialogCancel()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onClickDialogOK()">Proceder</button>
+      </div>
+    </div>
+  </div>
+</div>

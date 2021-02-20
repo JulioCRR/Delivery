@@ -1,0 +1,23 @@
+.noPadding {
+  padding: 0px;
+}
+
+p-dropdown {
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  width: 100%;
+}
+
+p-spinner {
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  width: fit-content;
+}
+
+p-checkbox {
+  color: red !important;
+}

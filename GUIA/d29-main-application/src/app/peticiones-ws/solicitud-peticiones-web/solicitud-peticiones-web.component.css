@@ -1,0 +1,32 @@
+.noPadding {
+  padding: 0px;
+}
+
+p-dropdown {
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  width: 100%;
+}
+
+p-spinner {
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  width: fit-content;
+}
+
+.danger_marker {
+  color:red;
+  font-weight: bold;
+}
+
+.spinFa {
+  position: absolute;
+  z-index: 2;
+  opacity: 0.5;
+  bottom: 35px;
+  left: 45%;
+}

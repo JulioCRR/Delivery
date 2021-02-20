@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    
+	
+	<bean id="procesadorRegistrosPeticionesM2kImpl" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.ProcesadorRegistrosPeticionesM2kImpl" />
+	
+	<bean id="procesadorRespuestas" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.ProcesadorRespuestasPeticionesM2K" />
+	
+	<bean id="procesadorM2kInfoRegistro" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.ProcesadorM2kInfoRegistro"/>
+	
+	<bean id="responseAnalyzer" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.ResponseAnalyzer">
+		<property name="archivoMensajesErrorSerializados" value="@monitor.file.archivoMensajesErrorSerializados@" />
+				
+	</bean>
+	
+	<bean id="cargadorCatalogoErrores" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.CargadorCatalogoErrores"
+	init-method="procesaCatalogoErroresBD">
+		<property name="archivoCatalogoErrores" value="@monitor.file.archivoCatalogoErrores@" />
+			
+	</bean>
+	
+	<bean id="cargadorCatalogoServicios" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.CargadorCatalogoServicios"
+	init-method="cargaInicialServicios">
+		<property name="archivoCatalogoServicios" value="@monitor.file.archivoCatalogoServicios@" />
+			
+	</bean>
+	
+	<bean id="cargadorCatalogoUsuarios" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.CargadorCatalogoUsuarios"
+	      init-method="cargaInicialRegistroComportamientoUsuarios" >
+		<property name="archivoCatalogoUsuarios" value="@monitor.file.archivoCatalogoUsuarios@" />
+			
+		<property name="archivoCatalogoServicios" value="@monitor.file.archivoCatalogoServicios@" />
+			
+	</bean>
+	
+	
+		
+	<bean id="mapaRegistroTiemposRegion" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.MapaRegistroTiemposRegion"/>
+	
+	<bean id="mapaRegistroConsumoServicios" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.RegistroConsumoServicios"/>
+	
+	<bean id="mapaServiciosAnalisis" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.MapaServiciosAnalisis"/>
+	
+	<bean id="registroAlertas" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.RegistroAlertas"/>
+		
+	<bean id="registroAlertasInstancias" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.RegistroAlertasInstancias"/>
+	
+	<bean id="listaInstancias" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.ListaInstancias"/>
+	
+	<bean id="catalogoRespuestasError" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.CatalogoRespuestasError">
+            <property name="archivoCatalogoErrores" value="" />
+			
+	</bean>
+	
+	<bean id="registroComportamientoUsuarios" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.RegistroComportamientoUsuarios"/>
+	
+	<bean id="registrosComportamientoM2KAsincrono" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.RegistroComportamientoM2KAsincrono"/>
+	
+	<bean id="administradorListaMensajes" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.AdministradorListaMensajes"/>
+	
+        <bean id="batchPersistencia" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.BatchPersistencia"
+        init-method="iniciaBatch"/>
+        
+        
+        
+	<bean id="utilMonitoreo" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.utilities.UtilMonitoreo">
+		<property name="tiempoMaximoParaAlerta">
+			 <value>300000</value> <!-- 5 minutos -->
+		</property>
+		<property name="destinatariosAlertas" value="@monitor.alert.destinatarios@" />
+			
+		<property name="guardaMensajeEnBD">
+			<value>true</value>
+		</property>
+		
+		
+	</bean>
+	
+	
+    <!-- Datos para monitor_omega -->
+        <bean id="letraRegionBean" class="java.util.HashMap" scope="singleton">
+            <constructor-arg>
+                <map>
+                    <entry key="R01" value="B" />
+                    <entry key="R02" value="D" />
+                    <entry key="R03" value="F" />
+                    <entry key="R04" value="O" />
+                    <entry key="R05" value="J" />
+                    <entry key="R06" value="L" />
+                    <entry key="R07" value="T" />
+                    <entry key="R08" value="R" />
+                    <entry key="R09" value="N" />
+                    <entry key="R0I" value="D" />
+                    <entry key="R0D" value="D" />
+                    <entry key="R0T1" value="P" />
+                    <entry key="R0T2" value="P" />
+                    <entry key="R0T3" value="P" />
+                    <entry key="R0T4" value="P" />
+                    <entry key="R0T5" value="P" />
+                    <entry key="R0T6" value="P" />
+                    <entry key="R0T7" value="P" />
+                    <entry key="R0T8" value="P" />
+                    <entry key="R0T9" value="P" />
+                </map>
+            </constructor-arg>
+        </bean>
+        
+        <bean id="propMonitorOmega" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitor_omega.db.model.PropiedadesMonitorOmega">
+            <property name="intervaloRefrescado">
+                <value>3</value>
+            </property>
+            <property name="umbralAlertas">
+                <bean class="java.lang.Double">
+                    <constructor-arg value="5.0" />
+                </bean>
+            </property>
+            <property name="monitorOn">
+                <value>false</value>
+            </property>
+            <property name="correosAlerta" value="@monitor.alert.destinatarios@" />
+            <property name="correosAlertaError" value="@monitor.alert.destinatarios@" />
+        </bean>
+        
+        <bean id="utilMonitorOmega" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitor_omega.business.utils.UtilMonitorOmega">
+            <property name="ultimaActualizacion">
+                <bean class="java.util.Date" />
+            </property>
+            <property name="letraRegion" ref="letraRegionBean" />
+            <property name="propiedadesMonitorOmega" ref="propMonitorOmega" />
+        </bean>
+        
+        <bean id="instanceRejectedHandler" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.model.exception.InstanceRejectedHandler" />
+	
+        <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+            <property name="corePoolSize" value="30" />
+            <property name="maxPoolSize" value="100" />
+            <property name="queueCapacity" value="50" />
+            <property name="keepAliveSeconds" value="20" />
+            <property name="rejectedExecutionHandler" ref="instanceRejectedHandler" />
+        </bean>
+        
+       
+       
+	
+	
+</beans>
+
