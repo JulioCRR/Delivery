@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs_catalogs-db_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs.db.M2kCatTransaccionesFront</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs.db.M2kRelAccionTransaccionFront</class>
+    <class>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs.db.M2kCatAccion</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:informix-sqli://10.119.137.206:41018/servweb:INFORMIXSERVER=online_desa"/>
+      <property name="javax.persistence.jdbc.password" value="asasac01"/>
+      <property name="javax.persistence.jdbc.driver" value="com.informix.jdbc.IfxDriver"/>
+      <property name="javax.persistence.jdbc.user" value="svasa01"/>
+    </properties>
+  </persistence-unit>
+</persistence>

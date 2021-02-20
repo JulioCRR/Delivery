@@ -1,0 +1,3 @@
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\catalogs\business\rest\CatalogosRestService.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\catalogs\business\dao\CatalogosDao.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\catalogs\business\init\CatalogsModuleInit.class
