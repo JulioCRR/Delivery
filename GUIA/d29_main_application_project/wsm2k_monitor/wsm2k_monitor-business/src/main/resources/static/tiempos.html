@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reporte tiempos WS M2K</title>
+    <script src="sockjs-0.3.4.js"></script>
+    <script src="stomp.js"></script>
+    <link rel="stylesheet" type="text/css" href="datatables.min.css">
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="datatables.min.js"></script>
+    <script type="text/javascript">
+    
+    
+        var stompClient = null;
+
+        
+
+        function connect() {
+            var socket = new SockJS('/tiempos');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/reporteTiempos', function(reporteTiempos){
+                	showGreeting(reporteTiempos);
+                });
+            });
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function sendName() {
+            stompClient.send("/app/tiempos", {}, JSON.stringify({ 'message': 'test' }));
+        }
+
+
+        
+        function showGreeting(reporteTiempos) {
+            var response = document.getElementById('response');
+            var p = document.createElement('p');
+            p.style.wordWrap = 'break-word';
+            $("#empTable").dataTable().fnDestroy();
+            $("#ultimaHora").dataTable().fnDestroy();
+            $("#dia").dataTable().fnDestroy();
+            muestraTabla(reporteTiempos);
+        }
+        
+        function muestraTabla(reporteTiempos) {
+            $('#empTable').dataTable({
+            	"paging":   false,
+            	"order": [[ 0, 'asc' ]],
+                "info":     false,
+                "searching":     false,
+                "data": JSON.parse(reporteTiempos.body).registroTiempos ,
+                "columns": [
+                    {"data": "region"},
+                    {"data": "numPeticiones5min"},
+                    {"data": "t_menor_un_segundo_5min"},
+                    {"data": "t_1_a_5_segundos_5min"},
+                    {"data": "t_5_a_10_segundos_5min"},
+                    {"data": "t_10_a_20_segundos_5min"},
+                    {"data": "t_20_a_30_segundos_5min"},
+                    {"data": "t_30_a_40_segundos_5min"},
+                    {"data": "t_40_a_50_segundos_5min"},
+                    {"data": "t_50_a_60_segundos_5min"},
+                    {"data": "t_mayor_un_minuto_5min"}
+                ]
+            });
+            
+            $('#ultimaHora').dataTable({
+            	"paging":   false,
+            	"order": [[ 0, 'asc' ]],
+                "info":     false,
+                "searching":     false,
+                "data": JSON.parse(reporteTiempos.body).registroTiempos ,
+                "columns": [
+                    {"data": "region"},
+                    {"data": "numPeticionesHora"},
+                    {"data": "t_menor_un_segundo_hora"},
+                    {"data": "t_1_a_5_segundos_hora"},
+                    {"data": "t_5_a_10_segundos_hora"},
+                    {"data": "t_10_a_20_segundos_hora"},
+                    {"data": "t_20_a_30_segundos_hora"},
+                    {"data": "t_30_a_40_segundos_hora"},
+                    {"data": "t_40_a_50_segundos_hora"},
+                    {"data": "t_50_a_60_segundos_hora"},
+                    {"data": "t_mayor_un_minuto_hora"}
+                ]
+            });
+            
+            $('#dia').dataTable({
+            	"paging":   false,
+            	"order": [[ 0, 'asc' ]],
+                "info":     false,
+                "searching":     false,
+                "data": JSON.parse(reporteTiempos.body).registroTiempos ,
+                "columns": [
+                    {"data": "region"},
+                    {"data": "numPeticionesDia"},
+                    {"data": "t_menor_un_segundo_dia"},
+                    {"data": "t_1_a_5_segundos_dia"},
+                    {"data": "t_5_a_10_segundos_dia"},
+                    {"data": "t_10_a_20_segundos_dia"},
+                    {"data": "t_20_a_30_segundos_dia"},
+                    {"data": "t_30_a_40_segundos_dia"},
+                    {"data": "t_40_a_50_segundos_dia"},
+                    {"data": "t_50_a_60_segundos_dia"},
+                    {"data": "t_mayor_un_minuto_dia"}
+                ]
+            });
+        }
+        
+        function muestraTabla5minutos(){
+        	$('#peticiones5minutos').show();
+        	$('#peticionesUltimaHora').hide();
+        	$('#peticionesDelDia').hide();
+        }
+        
+		function muestraTablaHora(){
+			$('#peticionesUltimaHora').show();
+        	$('#peticiones5minutos').hide();
+        	$('#peticionesDelDia').hide();
+        }
+		
+		function muestraTablaDia(){
+			$('#peticionesDelDia').show();
+        	$('#peticiones5minutos').hide();
+        	$('#peticionesUltimaHora').hide();
+        }
+        
+        $( document ).ready(function() {
+            console.log( "ready!" );
+            connect();
+            //sendName();
+            
+            
+            /*$(function() {
+              setInterval(function() {
+                
+                sendName();
+              },1000);
+            });*/
+            
+            
+            
+        });
+        
+        
+    </script>
+</head>
+<body onload="disconnect()">
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div>
+   
+    <h2 align="center">Tiempos de respuesta WS-M2K</h2>
+   
+	
+    <h3 align="center" onclick="muestraTabla5minutos()">ultimos 5 minutos</h3>
+    <div id="peticiones5minutos" >
+    <table id="empTable" class="display" width="100%" cellspacing="0">
+        <thead>
+        	
+            <tr>
+                <th>Region</th>
+				<th>numero de peticiones</th>
+				<th> menor a 1 segundo </th>
+				<th> entre 1 y 5 segundos</th>
+				<th> entre 5 y 10 segundos</th>
+				<th> entre 10 y 20 segundos</th>
+				<th> entre 20 y 30 segundos</th>
+				<th> entre 30 y 40 segundos</th>
+				<th> entre 40 y 50 segundos</th>
+				<th> entre 50 y 60 segundos</th>
+				<th> mayor a un minuto</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    
+    <h3 align="center" onclick="muestraTablaHora()">ultima hora</h3>
+    <div id="peticionesUltimaHora" style="display:none">
+    <table id="ultimaHora" class="display" width="100%" cellspacing="0">
+        <thead>
+        	
+            <tr>
+                <th>Region</th>
+				<th>numero de peticiones</th>
+				<th> menor a 1 segundo </th>
+				<th> entre 1 y 5 segundos</th>
+				<th> entre 5 y 10 segundos</th>
+				<th> entre 10 y 20 segundos</th>
+				<th> entre 20 y 30 segundos</th>
+				<th> entre 30 y 40 segundos</th>
+				<th> entre 40 y 50 segundos</th>
+				<th> entre 50 y 60 segundos</th>
+				<th> mayor a un minuto</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    
+    <h3 align="center" onclick="muestraTablaDia()">Concentrado del dia</h3>
+    <div id="peticionesDelDia" style="display:none">  
+    <table id="dia" class="display" width="100%" cellspacing="0">
+        <thead>
+        	
+            <tr>
+                <th>Region</th>
+				<th>numero de peticiones</th>
+				<th> menor a 1 segundo </th>
+				<th> entre 1 y 5 segundos</th>
+				<th> entre 5 y 10 segundos</th>
+				<th> entre 10 y 20 segundos</th>
+				<th> entre 20 y 30 segundos</th>
+				<th> entre 30 y 40 segundos</th>
+				<th> entre 40 y 50 segundos</th>
+				<th> entre 50 y 60 segundos</th>
+				<th> mayor a un minuto</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    
+</div>
+</body>
+</html>

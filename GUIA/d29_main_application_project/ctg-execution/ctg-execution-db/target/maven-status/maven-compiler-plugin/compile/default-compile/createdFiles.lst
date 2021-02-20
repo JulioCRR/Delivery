@@ -1,0 +1,16 @@
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\model\PruebaCtg.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CrePuesto_.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CrePuesto.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29SolicitudAmbienteCtg.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29SolicitudAmbienteCtg_.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CreOficina.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\model\SolicitudCtg.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CreArea.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29BitacoraEjecucionesCtg_.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CreArea_.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CreOficina_.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CreUsuario_.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29CreUsuario.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\model\PermisosCtg.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\entities\D29BitacoraEjecucionesCtg.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\ctg\execution\db\model\ConexionCTG.class

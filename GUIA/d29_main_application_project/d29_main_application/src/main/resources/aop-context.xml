@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+	
+	<bean id="alertadorErrores"  class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.aop.advices.AlertadorErrores">
+		<property name="sender" value="@monitor.alert.mail@"></property>
+		
+	</bean>
+
+	<aop:config>
+		<aop:aspect id="alert" ref="alertadorErrores">
+			<aop:pointcut id="selectAll" 
+				expression="execution(* mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.messaging.ListenerLogger.*(..)) ||
+						    execution(* mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.ProcesadorM2kInfoRegistro.*(..)) ||
+						    execution(* mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.db.dao.RecolectorInformacionEntityDAOImpl2.*(..)) || 
+						    execution(* mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor.business.operation.ResponseAnalyzer.*(..)) "/>
+			
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingIllegalArgument"
+								/>
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingArithmeticException"
+								/>
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingJMSException"
+								/>
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingIOException"
+								/>
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingClassNotFoundException"
+								/>					
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingHibernateException"
+								/>
+			<aop:after-throwing pointcut-ref="selectAll"
+								throwing="ex"
+								method="afterThrowingExternalException"
+								/>	
+																						
+																						
+		</aop:aspect>
+		
+	</aop:config>
+ 
+	
+	
+
+
+</beans>

@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--    <parent>
+        <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application</groupId>
+        <artifactId>d29_main_application_project</artifactId>
+        <version>1.0</version>
+    </parent>-->
+    <artifactId>d29_main_application</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <hibernate.version>5.1.0.Final</hibernate.version>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate5</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j</artifactId>
+            <version>1.3.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            
+        </dependency>
+
+<!--        <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>10.2.0.5</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.hynnet</groupId>
+            <artifactId>oracle-driver-ojdbc6</artifactId>
+            <version>12.1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.informix.jdbc</groupId>
+            <artifactId>com.springsource.com.informix.jdbc</artifactId>
+            <version>3.0.0.JC3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jopendocument</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxrpc-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc</groupId>
+            <artifactId>xmp</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.3-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-support</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+
+
+
+
+        <!--Local dependencies-->
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core</groupId>
+            <artifactId>core-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core</groupId>
+            <artifactId>core-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.core</groupId>
+            <artifactId>core-util</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitorctlig2</groupId>
+            <artifactId>monitorctlig2-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitorctlig2</groupId>
+            <artifactId>monitorctlig2-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition</groupId>
+            <artifactId>search_petition-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.search_petition</groupId>
+            <artifactId>search_petition-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.encryption_credential</groupId>
+            <artifactId>encryption_credential-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.encryption_credential</groupId>
+            <artifactId>encryption_credential-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs</groupId>
+            <artifactId>catalogs-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.catalogs</groupId>
+            <artifactId>catalogs-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg-execution</groupId>
+            <artifactId>ctg-execution-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.ctg-execution</groupId>
+            <artifactId>ctg-execution-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
+		<dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg</groupId>
+            <artifactId>soporte_bg-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.soporte_bg</groupId>
+            <artifactId>soporte_bg-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+		
+		 <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor</groupId>
+            <artifactId>wsm2k_monitor-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.wsm2k_monitor</groupId>
+            <artifactId>wsm2k_monitor-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitor_omega</groupId>
+            <artifactId>monitor_omega-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.monitor_omega</groupId>
+            <artifactId>monitor_omega-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambienteDesa</groupId>
+            <artifactId>agenda_ambienteDesa-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambienteDesa</groupId>
+            <artifactId>agenda_ambienteDesa-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws</groupId>
+            <artifactId>peticiones_ws-business</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.telcel.di.sds.gsac.dsc.ws.main_application.peticiones_ws</groupId>
+            <artifactId>peticiones_ws-db</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+
+    <!-- *************************** profiles ******************************  -->
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <enviroment>dev</enviroment>
+                <server.port>8084</server.port>
+                <!--CONNECTION PROPERTIES -->
+                <db.url>jdbc:oracle:thin:@localhost:1521:XE</db.url>
+                <db.username>SYSTEM</db.username>
+                <db.password>OracleNvo</db.password>
+                
+                <!-- BD INFORMIX DESARROLLO -->           
+                <db.informix.url>jdbc:informix-sqli://10.119.137.206:41018/servweb:INFORMIXSERVER=online_desa</db.informix.url>
+                <db.informix.username>svasa01</db.informix.username>
+                <db.informix.password>asasac01</db.informix.password>
+                
+                <!-- BD INFORMIX PRODUCCION -->
+                <!-- <db.informix.url>jdbc:informix-sqli://10.191.143.124:40767/servweb:INFORMIXSERVER=online_segu</db.informix.url>
+                <db.informix.username>vi92ead</db.informix.username>
+                <db.informix.password>asasac01</db.informix.password> -->
+
+                <!--CONNECTION PROPERTIES-->
+                <!-- SERVICE CONNECTION -->
+<!--                <wsdl.url>http://10.188.85.66:9080/telcel-ws-web-1.0.0-Telcel-01/services/ControlWebService</wsdl.url>-->
+<!--                <wsdl.i1h.user>VI9M2KW</wsdl.i1h.user>
+                <wsdl.i1g.user>VI9M2KW</wsdl.i1g.user>-->
+                <wsdl.url>http://191.9.3.120:9088/telcel-ws-web-1.0.0-Telcel-01/services/ControlWebService</wsdl.url>
+                <wsdl.i1h.user>VI9M2KW</wsdl.i1h.user>
+                <wsdl.i1g.user>VI9M2KW</wsdl.i1g.user>
+                <wsdl.ilw.user>VI9M2KW</wsdl.ilw.user>
+                <wsdl.i1g.cics.user>VI9M2KW</wsdl.i1g.cics.user>
+                <!-- SERVICE CONNECTION -->
+                <!-- XMP VALUES -->
+                <xmp.isproducion>false</xmp.isproducion>
+                <xmp.usuario>VI9M2KW</xmp.usuario>
+                <xmp.idservice>IGTOC1H_D</xmp.idservice>
+                <!-- EMAIL -->
+                <mail.smtp.server>smtp.telcel.com</mail.smtp.server>
+                <mail.smpt.port>25</mail.smpt.port>
+                <mail.sender.user>wsm2k.tools@mail.telcel.com</mail.sender.user>
+                <mail.sender.pwd></mail.sender.pwd>
+                <mail.template.respuesta.url>http://10.119.219.208:19720/wsm2ktools/resources/mail_notificacion_respuesta.html</mail.template.respuesta.url>
+                <mail.template.solicitud.url>http://10.119.219.208:19720/wsm2ktools/resources/mail_notificacion_solicitud.html</mail.template.solicitud.url>
+                <mail.telcel.logo.url>http://10.119.219.208:19720/wsm2ktools/resources/images/Telcel_logo.png</mail.telcel.logo.url>
+                <mail.background.url>http://10.119.219.208:19720/wsm2ktools/resources/images/Museo_Soumaya_exterior_panels.jpg</mail.background.url>
+                <mail.portal.servicios.url>http://192.168.0.6:4200/#/login</mail.portal.servicios.url>
+                
+               <!--  monitor WSM2K  -->
+                
+                <monitor.alert.mail>wsm2k.tools_alert_dev@mail.telcel.com</monitor.alert.mail>
+                <monitor.alert.destinatarios>clemente.reyes@mail.telcel.com</monitor.alert.destinatarios>
+                <monitor.jms.hostName>10.191.241.63</monitor.jms.hostName>
+                <monitor.jms.port>1414</monitor.jms.port>
+                <monitor.jms.queueManager>QMPORTA</monitor.jms.queueManager>
+                <monitor.jms.transportType>1</monitor.jms.transportType>
+                <monitor.jms.channel>CANAL</monitor.jms.channel>
+                <monitor.jms.queue.logger>QL.D29.WS.M2K.LOG.BD.IN</monitor.jms.queue.logger>
+                <monitor.jms.queue.analyzer>SERV_WEB_M2K_CARGALOGS_R0X</monitor.jms.queue.analyzer>
+                <peticiones.jms.topic.publisher>Peticiones_Topic_Prueba</peticiones.jms.topic.publisher>
+                <!--<monitor.file.archivoMensajesErrorSerializados>/home/ctgm2k/microservices/mensajesErrorSerializados.txt</monitor.file.archivoMensajesErrorSerializados>  -->
+                <monitor.file.archivoMensajesErrorSerializados>D:\CatalogosTools\mensajesErrorSerializados.txt</monitor.file.archivoMensajesErrorSerializados>
+                <monitor.file.archivoCatalogoErrores>D:\CatalogosTools\catalogoErroresWSM2K.csv</monitor.file.archivoCatalogoErrores>
+                <monitor.file.archivoCatalogoServicios>D:\CatalogosTools\archivoCatalogoServicios.csv</monitor.file.archivoCatalogoServicios>
+                <monitor.file.archivoCatalogoUsuarios>D:\CatalogosTools\archivoCatalogoUsuarios.csv</monitor.file.archivoCatalogoUsuarios>
+                <monitor.file.archivoCatalogoServicios>D:\CatalogosTools\archivoCatalogoServicios.csv</monitor.file.archivoCatalogoServicios>
+                <!--  validacide instancias en desarrollo  -->
+                <monitor.validacion.instancias>false</monitor.validacion.instancias>
+                   <!-- agenda WSM2K   -->
+                <agenda.file.archivoPermisoDesa>C:\Catalogos\permisosDesaWSM2K.csv</agenda.file.archivoPermisoDesa>
+                <agenda.host.ftp>191.9.6.231</agenda.host.ftp>
+                <agenda.user.ftp>ws</agenda.user.ftp>
+                <agenda.pass.ftp>ws</agenda.pass.ftp>                                                    
+            </properties>
+
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <enviroment>prod</enviroment>
+                <server.port>8088</server.port>
+               <!--CONNECTION PROPERTIES-->
+                <db.url>jdbc:oracle:thin:@10.191.105.18:1541:SERVCORP</db.url>
+                <db.username>SVSCD01</db.username>
+                <db.password>DscSoa#01</db.password>
+                
+                <!-- BD INFORMIX -->
+                <db.informix.url>jdbc:informix-sqli://10.191.143.124:40767/servweb:INFORMIXSERVER=online_segu</db.informix.url>
+                <db.informix.username>vi92ead</db.informix.username>
+                <db.informix.password>asasac01</db.informix.password>
+                
+                <!--CONNECTION PROPERTIES-->
+                <!-- SERVICE CONNECTION -->
+                <wsdl.url>http://serviciosm2k.telcel.com/telcel-ws-web/services/ControlWebService</wsdl.url>
+                <wsdl.i1h.user>SVPOS4E</wsdl.i1h.user>
+                <wsdl.i1g.user>SVPOS4E</wsdl.i1g.user>
+                <wsdl.ilw.user>SVPOS4E</wsdl.ilw.user>
+                <wsdl.i1g.cics.user>SVPOS4E</wsdl.i1g.cics.user>
+                <!-- SERVICE CONNECTION -->
+                <!-- XMP VALUES -->
+                <xmp.isproducion>true</xmp.isproducion>
+                <xmp.usuario>SVPOS4E</xmp.usuario>
+                <xmp.idservice>IGTOC1U_PROD</xmp.idservice>
+                <!-- EMAIL -->
+                <mail.smtp.server>smtp.telcel.com</mail.smtp.server>
+                <mail.smpt.port>25</mail.smpt.port>
+                <mail.sender.user>wsm2k.tools@mail.telcel.com</mail.sender.user>
+                <mail.sender.pwd></mail.sender.pwd>
+                <mail.template.respuesta.url>http://10.119.219.208:19720/wsm2ktools/resources/mail_notificacion_respuesta.html</mail.template.respuesta.url>
+                <mail.template.solicitud.url>http://10.119.219.208:19720/wsm2ktools/resources/mail_notificacion_solicitud.html</mail.template.solicitud.url>
+                <mail.telcel.logo.url>http://10.119.219.208:19720/wsm2ktools/resources/images/Telcel_logo.png</mail.telcel.logo.url>
+                <mail.background.url>http://10.119.219.208:19720/wsm2ktools/resources/images/Museo_Soumaya_exterior_panels.jpg</mail.background.url>
+                <mail.portal.servicios.url>http://10.191.104.244:8088/#/login</mail.portal.servicios.url>
+                
+                <!--  monitor WSM2K  -->
+                
+                <monitor.alert.mail>wsm2k.tools_alert@mail.telcel.com</monitor.alert.mail>
+                <monitor.alert.destinatarios>sactweb@mail.telcel.com</monitor.alert.destinatarios>
+<!--                <monitor.alert.destinatarios>edgar.gonzalezh@mail.telcel.com</monitor.alert.destinatarios>-->
+                <monitor.jms.hostName>10.191.133.210</monitor.jms.hostName>
+                <monitor.jms.port>1418</monitor.jms.port>
+                <monitor.jms.queueManager>MQ_M2K</monitor.jms.queueManager>
+                <monitor.jms.transportType>1</monitor.jms.transportType>
+                <monitor.jms.channel>CANAL_M2K</monitor.jms.channel>
+                <monitor.jms.queue.logger>QL.D29.WS.M2K.LOG.BD.IN</monitor.jms.queue.logger>
+                <monitor.jms.queue.analyzer>QL.D29.WS.M2K.LOG.MONITOR.IN</monitor.jms.queue.analyzer>
+                <!--  <monitor.file.archivoMensajesErrorSerializados>/home/ctgm2k/microservices/mensajesErrorSerializados.txt</monitor.file.archivoMensajesErrorSerializados>  -->
+                <monitor.file.archivoMensajesErrorSerializados>/home/ctgm2k/microservices/mensajesErrorSerializados.txt</monitor.file.archivoMensajesErrorSerializados>
+                <monitor.file.archivoCatalogoErrores>/home/ctgm2k/microservices/catalogoErroresWSM2K.csv</monitor.file.archivoCatalogoErrores>
+                <monitor.file.archivoCatalogoServicios>/home/ctgm2k/microservices/archivoCatalogoServicios.csv</monitor.file.archivoCatalogoServicios>
+                <monitor.file.archivoCatalogoUsuarios>/home/ctgm2k/microservices/archivoCatalogoUsuarios.csv</monitor.file.archivoCatalogoUsuarios>
+                <monitor.file.archivoCatalogoServicios>/home/ctgm2k/microservices/archivoCatalogoServicios.csv</monitor.file.archivoCatalogoServicios>
+                <peticiones.jms.topic.publisher>Peticiones_Topic</peticiones.jms.topic.publisher>
+                  <!--  validacide instancias  productivas  -->
+                <monitor.validacion.instancias>true</monitor.validacion.instancias>
+                <!-- agenda WSM2K  -->
+                <agenda.file.archivoPermisoDesa>/home/ctgm2k/microservices/permisosDesaWSM2K.csv</agenda.file.archivoPermisoDesa>     
+                <agenda.host.ftp>191.9.3.120</agenda.host.ftp>
+                <agenda.user.ftp>toolws</agenda.user.ftp>
+                <agenda.pass.ftp>toolws</agenda.pass.ftp> 
+            </properties>
+        </profile>
+    </profiles>
+
+
+    <build>
+
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.2.6.RELEASE</version>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <resources>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <filtering>true</filtering>
+                            <excludes>
+                                <exclude>**/static/*</exclude>
+                                <exclude>**/static/assets/pdf/*</exclude>
+                            </excludes>
+                        </resource>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <filtering>false</filtering>
+                            <includes>
+                                <include>**/static/*</include>
+                                <include>**/static/assets/pdf/*</include>
+                            </includes>
+                        </resource>
+                    </resources>
+
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+
+</project>

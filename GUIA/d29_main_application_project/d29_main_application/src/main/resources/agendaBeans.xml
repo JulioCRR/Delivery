@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    
+	
+	<bean id="cargadorCatalogoPermisos" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.business.operation.CargadorPermisosWSM2K"
+        init-method="cargaInicialPermisos">
+		<property name="archivoPermisoDesa" value="@agenda.file.archivoPermisoDesa@" />
+			
+	</bean>
+        
+        <bean id="configuracionFTP" class="mx.com.telcel.di.sds.gsac.dsc.ws.main_application.agenda_ambientedesa.business.operation.SessionFactoryFtp">
+		<property name="hostDesa" value="@agenda.host.ftp@" />
+                <property name="userFtpDesa" value="@agenda.user.ftp@" />
+                <property name="portFtp" value="21" />
+                <property name="passwordFtp" value="@agenda.pass.ftp@" />	
+	</bean>	
+</beans>
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/data/jpa
+                           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+    <!-- OpenJPA -->
+    <tx:jta-transaction-manager/>
+
+    <bean id="entityManagerFactory"
+          primary="true"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
+        <property name="jpaProperties">
+            <props>
+                <prop key="openjpa.ReadLockLevel">none</prop>
+                <prop key="openjpa.Log" >DefaultLevel=INFO, Runtime=TRACE, Tool=INFO, SQL=TRACE</prop>
+            </props>
+        </property>
+        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
+        <property name="persistenceUnitName" value="mx.com.telcel.d29_main_application_PU"/>
+    </bean>
+
+    <bean id="entityManagerFactoryInformix" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
+        <property name="jpaProperties">
+            <props>
+                <prop key="openjpa.ReadLockLevel">none</prop>
+                <prop key="openjpa.Log" >DefaultLevel=INFO, Runtime=TRACE, Tool=INFO, SQL=TRACE</prop>
+            </props>
+        </property>
+        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
+        <property name="persistenceUnitName" value="mx.com.telcel.d29_main_application_search_petition_PU"/>
+    </bean>
+    
+    
+    <bean id="entityManagerFactoryVPN" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
+        <property name="jpaProperties">
+            <props>
+                <prop key="openjpa.ReadLockLevel">none</prop>
+                <prop key="openjpa.Log" >DefaultLevel=INFO, Runtime=TRACE, Tool=INFO, SQL=TRACE</prop>
+            </props>
+        </property>
+        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
+        <property name="persistenceUnitName" value="mx.com.telcel.d29_main_application_PU_VPN"/>
+    </bean>
+    
+
+    <bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath:META-INF/persistence.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+   
+</beans>
+
