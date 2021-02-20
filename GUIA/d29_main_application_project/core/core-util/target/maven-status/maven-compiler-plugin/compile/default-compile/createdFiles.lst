@@ -1,0 +1,13 @@
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\CoreFunctions.class
+com\telcel\crm\scrapy\ManagedConnectionImpl.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\ws\ControlWebServiceServiceLocator.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\ScrapyConector.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\MailManager.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\ws\ControlWebService.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\CredentialCrypt.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\ws\ControlWebServiceService.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\ws\ControlWebServiceSoapBindingStub.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\SignatureFile.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\common\CoreUtilConstants.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\ws\RunService.class
+mx\com\telcel\di\sds\gsac\dsc\ws\main_application\core\util\AES.class

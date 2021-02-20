@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://serviciosidentidad.telcel.com:9083/ldapWeb/services/ldap?wsdl" uri="wsdl/serviciosidentidad.telcel.com_9083/ldapWeb/services/ldap/wsdl/ldap.wsdl"/>
+</catalog>
