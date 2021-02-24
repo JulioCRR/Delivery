@@ -67,11 +67,18 @@ public class LoginDao {
             usuario = em.createQuery("SELECT u FROM Usuario u WHERE u.nEmpleado = :nEmpleado", Usuario.class)
                     .setParameter("nEmpleado", nEmpleado)
                     .getSingleResult();
+            LOG.info("Password(" + password+")");
+            LOG.info("Password Encritado("+(new BasicPasswordEncryptor().encryptPassword(password))+")");
+            LOG.info("usuario.getPassword()(" + usuario.getPassword()+")");
+            if (new BasicPasswordEncryptor().checkPassword(password, usuario.getPassword())) {
+                configMenuForUser(usuario);
+                return true;
+            }
 
-            configMenuForUser(usuario);
+            //configMenuForUser(usuario);
             
 
-            return true;
+            return false;
         } catch (NoResultException e) {
             
             throw new BadCredentialsException("El usuario no tiene permisos para esta aplicación");
